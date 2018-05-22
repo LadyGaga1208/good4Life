@@ -1,0 +1,37 @@
+{
+	"name": "good4Life",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"axios": "^0.18.0",
+		"prop-types": "^15.6.1",
+		"react": "16.0.0-beta.5",
+		"react-native": "0.49.0",
+		"react-native-swiper": "^1.5.13",
+		"react-navigation": "^1.5.12",
+		"react-navigation-redux-helpers": "^1.0.5",
+		"react-redux": "^5.0.7",
+		"redux": "^4.0.0",
+		"redux-logger": "^3.0.6",
+		"redux-saga": "^0.16.0"
+	},
+	"devDependencies": {
+		"babel-jest": "22.4.3",
+		"babel-preset-react-native": "4.0.0",
+		"eslint-config-rallycoding": "^3.2.0",
+		"jest": "22.4.3",
+		"react-test-renderer": "16.0.0-beta.5"
+	},
+	"rnpm": {
+		"assets": [
+			"./fonts"
+		]
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
