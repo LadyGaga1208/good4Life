@@ -9,15 +9,19 @@ import {
     Image,
     TextInput
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { primaryColor, screenHeight, screenWidth } from '../../styles/variables';
 import ProductDetailDumb from '../../components/ProductDetailDumb';
 import { getDataProductInfo } from '../../redux/action/getDataProductInfo';
+import { showModalBuy, hideModalBuy } from '../../redux/action/modalBuyProduct';
 import ItemFood from '../../components/ItemFood';
 import ImageSwiper from '../../components/ImageSwiper';
 import ItemProductSuggest from '../../components/ItemProductSuggest';
 import Comment from '../../components/Comment';
+import BuyProduct from '../../components/BuyProduct';
+import ModalBuyProduct from '../../components/ModalBuyProduct';
 import { url } from '../../api/Url';
 
 class ProductDetail extends PureComponent {
@@ -40,6 +44,22 @@ class ProductDetail extends PureComponent {
     componentDidMount() {
         const { data } = this.props.navigation.state.params;
         this.props.getDataProductInfo(data.productId);
+    }
+
+    goToProductDetail(item) {
+        const navigateProductDetail = NavigationActions.navigate({
+            routeName: 'ProductDetail',
+            params: { data: item }
+        });
+        this.props.navigation.dispatch(navigateProductDetail);
+    }
+
+    goToStore(data) {
+        const navigateProductDetail = NavigationActions.navigate({
+            routeName: 'TabStoreDetail',
+            params: { data }
+        });
+        this.props.navigation.dispatch(navigateProductDetail);
     }
 
     renderItemFood({ item }) {
@@ -68,6 +88,7 @@ class ProductDetail extends PureComponent {
                 nameStore={item.storeName}
                 love={item.likeCount}
                 rate={item.ratingCount}
+                onPress={this.goToProductDetail.bind(this, item)}
             />
         );
     }
@@ -75,80 +96,103 @@ class ProductDetail extends PureComponent {
     render() {
         const { wrapHeaderComment, wrapImgProfile, imgProfile, textInputStyle } = styles;
         const { isLoading } = this.props;
-        const { delicousFoods, imageProductList, productInfoList, commentList } = this.props.dataProductInfo;
+        const {
+            delicousFoods,
+            imageProductList,
+            productInfoList,
+            commentList
+        } = this.props.dataProductInfo;
         const { data } = this.props.navigation.state.params;
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.wrapImageProduct}>
-                    {
-                        isLoading ? <ActivityIndicator size='large' animating /> : (
-                            <ImageSwiper
-                                source1={`${url}/product/${imageProductList[0].imageId}/${imageProductList[0].imagePath}.png`}
-                                source2={`${url}/product/${imageProductList[1].imageId}/${imageProductList[1].imagePath}.png`}
-                                source3={`${url}/product/${imageProductList[2].imageId}/${imageProductList[2].imagePath}.png`}
-                                source4={`${url}/product/${imageProductList[3].imageId}/${imageProductList[3].imagePath}.png`}
+            <View style={{ flex: 1 }}>
+                <ScrollView
+                    style={styles.container}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.wrapImageProduct}>
+                        {
+                            isLoading ? <ActivityIndicator size='large' animating /> : (
+                                <ImageSwiper
+                                    source1={`${url}/product/${data.productId}/${imageProductList[0].imagePath}.png`}
+                                    source2={`${url}/product/${data.productId}/${imageProductList[1].imagePath}.png`}
+                                    source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
+                                    source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
+                                />
+                            )
+                        }
+                    </View>
+                    <ProductDetailDumb
+                        nameProduct={data.productName}
+                        price={data.unitPrice}
+                        unit={data.unit}
+                        rate={data.ratingScore}
+                        rateCount={data.ratingCount}
+                        like={data.likeCount}
+                        start={data.startDate}
+                        end={data.endDate}
+                        total={data.total}
+                        store={data.storeName}
+                        catalogues={data.itemSubject}
+                        textDescription={data.description}
+                        goToStore={this.goToStore.bind(this, data)}
+                    />
+                    <View>
+                        {
+                            isLoading ? <ActivityIndicator size='large' animating /> : (
+                                <FlatList
+                                    data={delicousFoods}
+                                    keyExtractor={(item) => item.itemId.toString()}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={this.renderItemFood.bind(this)}
+                                />
+                            )
+                        }
+                    </View>
+                    <View style={styles.wrap}>
+                        <Text style={styles.textSuggest}>Có thể bạn muốn mua</Text>
+                        <View style={styles.wrapProductSuggest}>
+                            <FlatList
+                                data={productInfoList}
+                                horizontal
+                                keyExtractor={(item) => item.productId.toString()}
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={this.renderProductSuggestItems.bind(this)}
                             />
-                        )
-                    }
-                </View>
-                <ProductDetailDumb
-                    nameProduct={data.productName}
+                        </View>
+                    </View>
+                    <View style={styles.wrap}>
+                        <Text style={styles.textSuggest}>Bình luận</Text>
+                        <View style={wrapHeaderComment}>
+                            <View style={wrapImgProfile}>
+                                <Image source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/19554954_830684580418444_953522966191010168_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGg5YVHBStoai9L7gO4WCc4OdHel9-mohN3vKQJ8LPG7jGCKK5OFBDqzVh85pR_GUB6_0zEzvkorA-mVncSaieBvt6OGUGHQa13t1eabRS1RQ&oh=f2f753355217450bd77f7285c92fb0d1&oe=5B6C0071' }} style={imgProfile} />
+                            </View>
+                            <TextInput
+                                underlineColorAndroid='#ddd'
+                                placeholder='Viết bình luận...'
+                                placeholderTextColor='#ddd'
+                                style={textInputStyle}
+                            />
+                        </View>
+                        <FlatList
+                            data={commentList}
+                            keyExtractor={(item) => item.commentId.toString()}
+                            renderItem={this.renderItemComment.bind(this)}
+                        />
+                    </View>
+                    <View style={{ height: 0.075 * screenHeight }} />
+                </ScrollView>
+                <ModalBuyProduct
+                    modalVisible={this.props.modalVisible}
+                    hideModal={() => this.props.hideModalBuy()}
+                    img={`${url}/product/${data.productId}/${data.imagePath}.png`}
                     price={data.unitPrice}
                     unit={data.unit}
-                    rate={data.ratingScore}
-                    rateCount={data.ratingCount}
-                    like={data.likeCount}
-                    start={data.startDate}
-                    end={data.endDate}
                     total={data.total}
-                    store={data.storeName}
-                    catalogues={data.itemSubject}
-                    textDescription={data.description}
                 />
-                <View>
-                    {
-                        isLoading ? <ActivityIndicator size='large' animating /> : (
-                            <FlatList
-                                data={delicousFoods}
-                                keyExtractor={(item) => item.itemId.toString()}
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={this.renderItemFood.bind(this)}
-                            />
-                        )
-                    }
-                </View>
-                <View style={styles.wrap}>
-                    <Text style={styles.textSuggest}>Có thể bạn muốn mua</Text>
-                    <View style={styles.wrapProductSuggest}>
-                        <FlatList
-                            data={productInfoList}
-                            horizontal
-                            keyExtractor={(item) => item.productId.toString()}
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={this.renderProductSuggestItems.bind(this)}
-                        />
-                    </View>
-                </View>
-                <View style={styles.wrap}>
-                    <Text style={styles.textSuggest}>Bình luận</Text>
-                    <View style={wrapHeaderComment}>
-                        <View style={wrapImgProfile}>
-                            <Image source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/19554954_830684580418444_953522966191010168_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGg5YVHBStoai9L7gO4WCc4OdHel9-mohN3vKQJ8LPG7jGCKK5OFBDqzVh85pR_GUB6_0zEzvkorA-mVncSaieBvt6OGUGHQa13t1eabRS1RQ&oh=f2f753355217450bd77f7285c92fb0d1&oe=5B6C0071' }} style={imgProfile} />
-                        </View>
-                        <TextInput
-                            underlineColorAndroid='#ddd'
-                            placeholder='Viết bình luận...'
-                            placeholderTextColor='#ddd'
-                            style={textInputStyle}
-                        />
-                    </View>
-                    <FlatList
-                        data={commentList}
-                        keyExtractor={(item) => item.commentId.toString()}
-                        renderItem={this.renderItemComment.bind(this)}
-                    />
-                </View>
-            </ScrollView>
+                <BuyProduct
+                    buyNow={() => this.props.showModalBuy()}
+                />
+            </View >
         );
     }
 }
@@ -195,13 +239,20 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     dataProductInfo: state.dataProductInfo.dataProductInfo,
-    isLoading: state.dataProductInfo.loading
+    isLoading: state.dataProductInfo.loading,
+    modalVisible: state.modalBuy.modalVisible
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getDataProductInfo: (productID) => {
         dispatch(getDataProductInfo(productID));
     },
+    showModalBuy: () => {
+        dispatch(showModalBuy());
+    },
+    hideModalBuy: () => {
+        dispatch(hideModalBuy());
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

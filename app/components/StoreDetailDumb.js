@@ -4,6 +4,7 @@ import {
     Text,
     Image
 } from 'react-native';
+import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -28,13 +29,21 @@ class ProductDetail extends Component {
                     <View>
                         <Text style={styleName} numberOfLines={2}>{this.props.nameStore}</Text>
                         <View style={wrapRate}>
-                            <View style={wrapIcon}>
+                            {/* <View style={wrapIcon}>
                                 <Image source={iconStar} style={icon} />
                                 <Image source={iconStar} style={icon} />
                                 <Image source={iconStar} style={icon} />
                                 <Image source={iconStar} style={icon} />
                                 <Image source={iconStar} style={icon} />
-                            </View>
+                            </View> */}
+                            <Rating
+                                type='star'
+                                fractions={1}
+                                startingValue={this.props.rate}
+                                readonly
+                                imageSize={17}
+                                style={{ paddingVertical: 1 }}
+                            />
                             <Text style={rate}>({this.props.rate}/5)</Text>
                         </View>
                         <View style={wrapFollow}>

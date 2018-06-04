@@ -6,6 +6,7 @@ import {
     TouchableWithoutFeedback,
     Image
 } from 'react-native';
+import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -36,11 +37,14 @@ export default class ItemStore extends PureComponent {
                             <Text style={styleTextFollow}>{this.props.follow}</Text>
                         </View>
                         <View style={wrap}>
-                            <Image source={iconStar} style={styleIconStar} />
-                            <Image source={iconStar} style={styleIconStar} />
-                            <Image source={iconStar} style={styleIconStar} />
-                            <Image source={iconStar} style={styleIconStar} />
-                            <Image source={iconStar} style={styleIconStar} />
+                            <Rating
+                                type="star"
+                                fractions={1}
+                                startingValue={this.props.ratingScore}
+                                readonly
+                                imageSize={12}
+                                style={{ paddingVertical: 1, marginTop: 2 }}
+                            />
                             <Text style={styleTextFollow}>({this.props.rate})</Text>
                         </View>
                     </View>
@@ -97,7 +101,8 @@ const styles = StyleSheet.create({
         width: 0.53 * screenWidth
     },
     styleTextFollow: {
-        fontSize: 12
+        fontSize: 12,
+        marginTop: 2
     }
 });
 

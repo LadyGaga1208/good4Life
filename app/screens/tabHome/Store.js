@@ -26,6 +26,14 @@ class Store extends PureComponent {
         this.props.navigation.dispatch(navigateTabCatalogues);
     }
 
+    goToStoreSuggest() {
+        const navigateStoreSuggest = NavigationActions.navigate({
+            routeName: 'Store',
+            action: NavigationActions.navigate({ routeName: 'Gợi ý' })
+        });
+        this.props.navigation.dispatch(navigateStoreSuggest);
+    }
+
     renderItemStore({ item }) {
         const { wrapItem, img } = styles;
         return (
@@ -40,7 +48,7 @@ class Store extends PureComponent {
     renderListFooterComponent() {
         const { loadMore } = styles;
         return (
-            <LoadMore style={loadMore} />
+            <LoadMore style={loadMore} onPress={this.goToStoreSuggest.bind(this)} />
         );
     }
 

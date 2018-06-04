@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
     },
     time: {
         color: '#ffffff',
-        fontFamily: 'Neon'
+        fontFamily: 'Neon',
+        fontSize: 17
     },
     wrapNamePr: {
         justifyContent: 'center',
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     },
     wrapStore: {
         flexDirection: 'row',
-        marginTop: 3
+        marginTop: 6
     },
     store: {
         fontSize: 13,

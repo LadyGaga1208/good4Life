@@ -7,6 +7,13 @@ import dataProductSuggest from './ProductSuggestReducer';
 import dataNewProduct from './NewProductReducer';
 import dataProductInfo from './ProductInfoReducer';
 import dataStoreInfo from './StoreInfoReducer';
+import modalBuy from './ModalBuyReducer';
+import dataSellingProduct from './SellingProductReducer';
+import dataFavoriteProduct from './FavoriteProductReducer';
+import dataPrepareProduct from './PrepareProductReducer';
+import dataProductStore from './ProductStoreReducer';
+import dataStoreFollow from './StoreFollowReducer';
+import dataStoreSuggest from './StoreSuggest';
 
 export default combineReducers({
     nav: navReducer,
@@ -15,5 +22,12 @@ export default combineReducers({
     dataProductSuggest,
     dataNewProduct,
     dataProductInfo,
-    dataStoreInfo
+    dataStoreInfo,
+    modalBuy,
+    dataSellingProduct,
+    dataFavoriteProduct,
+    dataPrepareProduct,
+    dataProductStore,
+    dataStoreSuggest,
+    dataStoreFollow
 });

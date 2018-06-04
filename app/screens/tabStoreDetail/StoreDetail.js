@@ -55,15 +55,18 @@ class StoreDetail extends PureComponent {
         const { isLoading } = this.props;
         const { data } = this.props.navigation.state.params;
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView
+                style={styles.container}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.wrapImageStore}>
                     {
                         isLoading ? <ActivityIndicator size='large' animating /> : (
                             <ImageSwiper
-                                source1={`${url}/store/${imageStoreList[0].imageId}/${imageStoreList[0].imagePath}.png`}
-                                source2={`${url}/product/${imageStoreList[1].imageId}/${imageStoreList[1].imagePath}.png`}
-                                source3={`${url}/product/${imageStoreList[2].imageId}/${imageStoreList[2].imagePath}.png`}
-                                source4={`${url}/product/${imageStoreList[3].imageId}/${imageStoreList[3].imagePath}.png`}
+                                source1={`${url}/store/${data.storeId}/${imageStoreList[0].imagePath}.png`}
+                                source2={`${url}/store/${data.storeId}/${imageStoreList[1].imagePath}.png`}
+                                source3={`${url}/store/${data.storeId}/${imageStoreList[2].imagePath}.png`}
+                                source4={`${url}/store/${data.storeId}/${imageStoreList[3].imagePath}.png`}
                             />
                         )
                     }

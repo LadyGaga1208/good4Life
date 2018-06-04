@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { Image } from 'react-native';
+import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 import StackHome from './StackHome';
 import Cart from '../screens/Cart';
 import Notifications from '../screens/Notification';
 import Profile from '../screens/Profile';
+import SplashScreen from '../screens/SplashScreen';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
 import TabStore from './TabStore';
 
@@ -21,37 +22,55 @@ const iconNotificationInAct = require('../images/icons/notificationInAct.png');
 const iconProfileInAct = require('../images/icons/profileInAct.png');
 
 
-const Root = TabNavigator(
+const App = TabNavigator(
     {
         Home: {
             screen: StackHome,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    const iconName = focused ? iconHomeAct : iconHomeInAct;
+                    return <Image source={iconName} />;
+                }
+            }
         },
         Store: {
             screen: TabStore,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    const iconName = focused ? iconStoreAct : iconStoreInAct;
+                    return <Image source={iconName} />;
+                }
+            }
         },
-        Cart: { screen: Cart },
-        Notification: { screen: Notifications },
-        Profile: { screen: Profile }
+        Cart: {
+            screen: Cart,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    const iconName = focused ? iconCartAct : iconCartInAct;
+                    return <Image source={iconName} />;
+                }
+            }
+        },
+        Notification: {
+            screen: Notifications,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    const iconName = focused ? iconNotificationAct : iconNotificationInAct;
+                    return <Image source={iconName} />;
+                }
+            }
+        },
+        Profile: {
+            screen: Profile,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => {
+                    const iconName = focused ? iconProfileAct : iconProfileInAct;
+                    return <Image source={iconName} />;
+                }
+            }
+        }
     },
     {
-        navigationOptions: ({ navigation }) => ({
-            tabBarIcon: ({ focused }) => {
-                const { routerName } = navigation.state;
-                let iconName;
-                if (routerName === 'Home') {
-                    iconName = (focused ? iconHomeAct : iconHomeInAct);
-                } else if (routerName === 'Store') {
-                    iconName = focused ? iconStoreAct : iconStoreInAct;
-                } else if (routerName === 'Cart') {
-                    iconName = focused ? iconCartAct : iconCartInAct;
-                } else if (routerName === 'Notification') {
-                    iconName = focused ? iconNotificationAct : iconNotificationInAct;
-                } else if (routerName === 'Profile') {
-                    iconName = focused ? iconProfileAct : iconProfileInAct;
-                }
-                return <Image source={iconName} style={styles.icon} />;
-            }
-        }),
         tabBarComponent: TabBarBottom,
         tabBarPosition: 'bottom',
         tabBarOptions: {
@@ -66,12 +85,17 @@ const Root = TabNavigator(
     }
 );
 
-const styles = StyleSheet.create({
-    icon: {
-        width: 15,
-        height: 15,
-        resizeMode: 'stretch'
+const Root = StackNavigator(
+    {
+        App: { screen: App },
+        SplashScreen: { screen: SplashScreen }
+    },
+    {
+        navigationOptions: {
+            header: null
+        },
+        initialRouteName: 'SplashScreen'
     }
-});
+);
 
 export default Root;

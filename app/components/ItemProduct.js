@@ -6,6 +6,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
+import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth, backgroundColorWhite, primaryColor } from '../styles/variables';
 
@@ -36,14 +37,25 @@ class ItemProduct extends PureComponent {
                     <View style={wrapRate}>
                         <View style={wrapLike}>
                             <Image source={iconLove} style={styleIconLove} />
-                            <Text>{this.props.love}</Text>
+                            <Text style={{ marginTop: 2 }}>{this.props.love}</Text>
                         </View>
+                        {/* <View style={wrapStar}>
+                            <Image source={iconStar} style={iconStarStyle} />
+                            <Image source={iconStar} style={iconStarStyle} />
+                            <Image source={iconStar} style={iconStarStyle} />
+                            <Image source={iconStar} style={iconStarStyle} />
+                            <Image source={iconStar} style={iconStarStyle} />
+                            <Text>({this.props.rate})</Text>
+                        </View> */}
                         <View style={wrapStar}>
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
+                            <Rating
+                                type="star"
+                                fractions={1}
+                                startingValue={this.props.ratingScore}
+                                readonly
+                                imageSize={11}
+                                style={{ paddingVertical: 1, marginTop: 2 }}
+                            />
                             <Text>({this.props.rate})</Text>
                         </View>
                     </View>
@@ -131,7 +143,7 @@ const styles = StyleSheet.create({
     },
     wrapStar: {
         flexDirection: 'row',
-        marginTop: 5,
+        marginTop: 8,
         marginRight: 5
     },
     iconStarStyle: {

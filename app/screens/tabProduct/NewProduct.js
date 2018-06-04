@@ -3,12 +3,15 @@ import {
     View,
     StyleSheet,
     FlatList,
-    ActivityIndicator
+    ActivityIndicator,
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
-import { getDataNewProduct } from '../../redux/action/getDataNewProduct';
+import { getDataNewProduct } from '../../redux/action/getDataTabProduct';
 import ItemProduct from '../../components/ItemProduct';
+import Fillter from '../../components/Fillter';
+
 import { url } from '../../api/Url';
 
 class NewProduct extends PureComponent {
@@ -24,15 +27,24 @@ class NewProduct extends PureComponent {
         this.props.getDataNewProduct(this.state.value);
     }
 
-
     handleEnd() {
         this.setState((previousState) => ({
             value: previousState.value + 1
         }), () => this.props.getDataNewProduct(this.state.value));
     }
-    goToProductDetail() {
+
+    goToProductDetail(item) {
+        const navigateProductDetail = NavigationActions.navigate({
+            routeName: 'ProductDetail',
+            params: { data: item }
+        });
+        this.props.navigation.dispatch(navigateProductDetail);
+    }
+
+    showPopUp() {
 
     }
+
     renderItemNewProduct({ item }) {
         return (
             <ItemProduct
@@ -50,26 +62,34 @@ class NewProduct extends PureComponent {
     render() {
         const { isLoading, dataNewProduct } = this.props;
         return (
-            <View style={styles.container}>
-                {
-                    isLoading ? <ActivityIndicator size='large' color='#008296' animating /> : (
-                        <FlatList
-                            data={dataNewProduct}
-                            keyExtractor={(item) => item.productId.toString()}
-                            showsHorizontalScrollIndicator={false}
-                            numColumns={2}
-                            renderItem={this.renderItemNewProduct.bind(this)}
-                            onEndReached={() => this.handleEnd()}
-                            onEndReachedThreshold={0.2}
-                        />
-                    )
-                }
+            <View style={styles.wrap}>
+                <Fillter
+                    show={this.showPopUp.bind(this)}
+                />
+                <View style={styles.container}>
+                    {
+                        isLoading ? <ActivityIndicator size='large' color='#008296' animating /> : (
+                            <FlatList
+                                data={dataNewProduct}
+                                keyExtractor={(item) => item.productId.toString()}
+                                showsVerticalScrollIndicator={false}
+                                numColumns={2}
+                                renderItem={this.renderItemNewProduct.bind(this)}
+                                onEndReached={() => this.handleEnd()}
+                                onEndReachedThreshold={0.2}
+                            />
+                        )
+                    }
+                </View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    wrap: {
+        flex: 1
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

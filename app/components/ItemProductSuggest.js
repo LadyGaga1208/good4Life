@@ -6,6 +6,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
+import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth, backgroundColorWhite, primaryColor } from '../styles/variables';
 
@@ -39,11 +40,14 @@ class ItemProductSuggest extends PureComponent {
                             <Text style={textRate}>{this.props.love}</Text>
                         </View>
                         <View style={wrapStar}>
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
-                            <Image source={iconStar} style={iconStarStyle} />
+                            <Rating
+                                type="star"
+                                fractions={1}
+                                startingValue={this.props.ratingScore}
+                                readonly
+                                imageSize={9}
+                                style={{ paddingVertical: 1, marginTop: 2 }}
+                            />
                             <Text style={textRate}>({this.props.rate})</Text>
                         </View>
                     </View>
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     },
     wrapLike: {
         flexDirection: 'row',
-        marginTop: 2
+        marginTop: 4
     },
     styleIconLove: {
         marginLeft: 3,
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
     },
     wrapStar: {
         flexDirection: 'row',
-        marginTop: 2,
+        marginTop: 4,
         marginRight: 2
     },
     iconStarStyle: {
@@ -145,7 +149,8 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     textRate: {
-        fontSize: 10
+        fontSize: 10,
+        marginTop: 1
     }
 });
 export default ItemProductSuggest;

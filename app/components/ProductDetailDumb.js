@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
+import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -37,13 +38,14 @@ export default class ProductDetailDumb extends PureComponent {
                             </View>
                             <View>
                                 <View style={wrapRate}>
-                                    <View style={wrapStar}>
-                                        <Image source={iconStar} style={iconStyle} />
-                                        <Image source={iconStar} style={iconStyle} />
-                                        <Image source={iconStar} style={iconStyle} />
-                                        <Image source={iconStar} style={iconStyle} />
-                                        <Image source={iconStar} style={iconStyle} />
-                                    </View>
+                                    <Rating
+                                        type="star"
+                                        fractions={1}
+                                        startingValue={this.props.rate}
+                                        readonly
+                                        imageSize={15}
+                                        style={{ paddingVertical: 1, marginTop: 3 }}
+                                    />
                                     <Text style={rate}>
                                         ({this.props.rate}/5)({this.props.rateCount})
                                     </Text>
@@ -98,7 +100,7 @@ export default class ProductDetailDumb extends PureComponent {
                             </View>
                             <View style={wrapTextInfStore}>
                                 <Text>{this.props.store}</Text>
-                                <TouchableOpacity style={wrapTextViewStore}>
+                                <TouchableOpacity style={wrapTextViewStore} onPress={this.props.goToStore}>
                                     <Text style={textViewStore}>Xem</Text>
                                 </TouchableOpacity>
                             </View>
@@ -118,7 +120,6 @@ export default class ProductDetailDumb extends PureComponent {
                         <Text style={titleEating}>Món ngon chế biến từ sản phẩm</Text>
                     </View>
                 </View>
-
             </View>
         );
     }

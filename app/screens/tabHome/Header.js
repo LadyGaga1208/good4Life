@@ -44,7 +44,9 @@ export default class Header extends PureComponent {
 const styles = {
     container: {
         backgroundColor: variables.primaryColor,
-        height: (0.95 / 6) * variables.screenHeight,
+        height: (0.92 / 6) * variables.screenHeight,
+        // position: 'absolute',
+        // top: 0
     },
     nav: {
         flexDirection: 'row',

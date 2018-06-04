@@ -57,6 +57,7 @@ class ProductSuggest extends PureComponent {
                 love={item.likeCount}
                 rate={item.ratingCount}
                 onPress={this.goToProductDetail.bind(this, item)}
+                ratingScore={item.ratingScore}
             />
         );
     }

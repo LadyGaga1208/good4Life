@@ -4,6 +4,7 @@ import ProductStore from '../screens/tabStoreDetail/ProductStore';
 import StoreDetail from '../screens/tabStoreDetail/StoreDetail';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
 
+
 const TabStoreDetail = TabNavigator(
     {
         'Thông tin': {

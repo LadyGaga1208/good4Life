@@ -45,6 +45,7 @@ class Store extends Component {
                 follow={item.followCount}
                 rate={item.ratingCount}
                 onPress={this.goToStoreDetail.bind(this, item)}
+                ratingScore={item.ratingScore}
             />
         );
     }
@@ -58,7 +59,7 @@ class Store extends Component {
                         <FlatList
                             data={dataStore}
                             keyExtractor={(item) => item.storeId}
-                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
                             renderItem={this.renderItemStore.bind(this)}
                             onEndReached={() => this.handleEnd()}
                             onEndReachedThreshold={0.2}

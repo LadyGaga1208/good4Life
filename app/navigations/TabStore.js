@@ -3,7 +3,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 
 import Store from '../screens/tabStore/Store';
 import StoreFollow from '../screens/tabStore/StoreFollow';
-import StoreSuggest from '../screens/tabStore/StoreSugegest';
+import StoreSuggest from '../screens/tabStore/StoreSuggest';
 import TabBarStore from '../screens/tabHome/TabBarStore';
 import TabStoreDetail from './TabStoreDetail';
 import { backgroundColorWhite, primaryColor } from '../styles/variables';
