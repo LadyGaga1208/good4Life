@@ -42,10 +42,11 @@ class NewProduct extends PureComponent {
     }
 
     renderItemNewProduct({ item }) {
+        const till = new Date('6/18/2018 19:56:00');
         return (
             <View>
                 <ItemNewProduct
-                    // time={item.timeStamp}
+                    till={till}
                     name={item.productName}
                     price={item.unitPrice}
                     store={item.storeName}

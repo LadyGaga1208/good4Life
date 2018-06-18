@@ -16,7 +16,7 @@ class BuyProduct extends PureComponent {
         const { wrap, buyNow, textBuy, icon, wrapIconChat,
             styleIconCart, wrapAddCart, textAddCart } = styles;
         return (
-            <View style={wrap}>
+            <View style={[wrap, { opacity: this.props.opacity }]}>
                 <TouchableOpacity style={wrapIconChat} onPress={this.props.chat}>
                     <Image source={iconChat} style={icon} />
                 </TouchableOpacity>

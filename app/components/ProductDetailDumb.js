@@ -10,14 +10,13 @@ import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
-const iconStar = require('../images/icons/star.png');
 const iconLove = require('../images/icons/heart.png');
 const iconNew1 = require('../images/icons/new1.png');
 
 export default class ProductDetailDumb extends PureComponent {
     render() {
         const { container, wrapper, nameProduct, wrapPrice,
-            textPrice, numberPrice, kg, wrapStar, iconStyle, wrapRate, rate, iconStyleLove,
+            textPrice, numberPrice, kg, wrapRate, rate, iconStyleLove,
             wrapLove, numberLike, iconNew, wrapContent, wrapIconNew, viewInfor, wrapInf,
             wrapTextInf, wrapTextInf1, textTitle, wrapTextInfStore, textViewStore,
             wrapTextViewStore, wrapTextInf2, wrapDescription, titleDescription,

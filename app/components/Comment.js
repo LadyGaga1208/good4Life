@@ -19,7 +19,7 @@ export default class Comment extends Component {
                 <View style={line} />
                 <View style={wrapHeaderComment}>
                     <View style={wrapImgProfile}>
-                        <Image source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/32595190_203015527167803_6157025275981856768_n.jpg?_nc_cat=0&oh=70e35a3cd0bca1d3645e116da6f776d9&oe=5B8280B3' }} style={imgProfile} />
+                        <Image source={{ uri: `${this.props.imgComment}` }} style={imgProfile} />
                     </View>
                     <View style={wraprate1}>
                         <Text style={nameUser}>リトルドラゴン</Text>

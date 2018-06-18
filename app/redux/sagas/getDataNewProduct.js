@@ -6,9 +6,10 @@ import {
     GET_FAILED_NEW_PRODUCT,
     GET_REQUEST_NEW_PRODUCT
 } from '../action/types';
+import { url } from '../../api/Url';
 
 function getApi(value) {
-    return axios.get(`http://202.191.56.103:5588/local-server/ProductInfo?functionName=GetNewProduct&accountId=1&accountType=1&index=${value}&productType=0`);
+    return axios.get(`${url}/ProductInfo?functionName=GetNewProduct&accountId=1&accountType=1&index=${value}&productType=0`);
 }
 
 function* getDataNewProduct(action) {

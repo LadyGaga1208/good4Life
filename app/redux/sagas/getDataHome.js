@@ -2,9 +2,10 @@ import { put, call, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 import { GET_FAILED, GET_SUCCEEDED, GET_REQUEST } from '../action/types';
+import { url } from '../../api/Url';
 
 function getApi() {
-    return axios.get('http://202.191.56.103:5588/local-server/HomeScreenInfo?functionName=GetHomeInfo&accountId=1&accountType=1');
+    return axios.get(`${url}/HomeScreenInfo?functionName=GetHomeInfo&accountId=1&accountType=1`);
 }
 
 export function* getDataHome() {

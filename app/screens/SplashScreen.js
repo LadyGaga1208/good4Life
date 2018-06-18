@@ -13,7 +13,7 @@ export default class SplashScreen extends PureComponent {
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'App' })],
         });
-        setTimeout(() => this.props.navigation.dispatch(resetAction), 4000);
+        setTimeout(() => this.props.navigation.dispatch(resetAction), 1000);
     }
 
     render() {

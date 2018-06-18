@@ -7,7 +7,8 @@ import {
     FlatList,
     ActivityIndicator,
     Image,
-    TextInput
+    TextInput,
+    Keyboard
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -23,6 +24,8 @@ import Comment from '../../components/Comment';
 import BuyProduct from '../../components/BuyProduct';
 import ModalBuyProduct from '../../components/ModalBuyProduct';
 import { url } from '../../api/Url';
+
+const imageComment = 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/32595190_203015527167803_6157025275981856768_n.jpg?_nc_cat=0&oh=70e35a3cd0bca1d3645e116da6f776d9&oe=5B8280B3';
 
 class ProductDetail extends PureComponent {
 
@@ -41,9 +44,60 @@ class ProductDetail extends PureComponent {
         };
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            opacityBuy: 1,
+            comment: '',
+            dataComment: []
+        };
+    }
+
     componentDidMount() {
         const { data } = this.props.navigation.state.params;
         this.props.getDataProductInfo(data.productId);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    keyboardDidShow() {
+        this.setState({
+            opacityBuy: 0,
+        });
+    }
+
+    keyboardDidHide() {
+        const { commentList } = this.props.dataProductInfo;
+        const newComment = {
+            content: this.state.comment,
+            accountId: 1,
+            accountType: 1,
+            time: '4/16/2018 11:00:00',
+            commentId: commentList.length + 1
+        };
+        if (this.state.comment !== '') {
+            if (this.state.dataComment.length === 0) {
+                this.setState({
+                    opacityBuy: 1,
+                    dataComment: [newComment, ...commentList],
+                    comment: ''
+                });
+            } else {
+                this.setState((previousState) =>
+                    ({
+                        opacityBuy: 1,
+                        dataComment: [newComment, ...previousState.dataComment],
+                        comment: ''
+                    })
+                );
+            }
+        }
+        this.textInput.clear();
     }
 
     goToProductDetail(item) {
@@ -73,6 +127,7 @@ class ProductDetail extends PureComponent {
     renderItemComment({ item }) {
         return (
             <Comment
+                imgComment={imageComment}
                 comment={item.content}
                 timeComment={item.time}
             />
@@ -167,14 +222,19 @@ class ProductDetail extends PureComponent {
                                 <Image source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/19554954_830684580418444_953522966191010168_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGg5YVHBStoai9L7gO4WCc4OdHel9-mohN3vKQJ8LPG7jGCKK5OFBDqzVh85pR_GUB6_0zEzvkorA-mVncSaieBvt6OGUGHQa13t1eabRS1RQ&oh=f2f753355217450bd77f7285c92fb0d1&oe=5B6C0071' }} style={imgProfile} />
                             </View>
                             <TextInput
+                                ref={(component) => (this.textInput = component)}
                                 underlineColorAndroid='#ddd'
                                 placeholder='Viết bình luận...'
                                 placeholderTextColor='#ddd'
                                 style={textInputStyle}
+                                onChangeText={(text) => (this.setState({
+                                    comment: text
+                                }))}
+                                value={this.state.comment}
                             />
                         </View>
                         <FlatList
-                            data={commentList}
+                            data={this.state.dataComment.length === 0 ? commentList : this.state.dataComment}
                             keyExtractor={(item) => item.commentId.toString()}
                             renderItem={this.renderItemComment.bind(this)}
                         />
@@ -191,6 +251,7 @@ class ProductDetail extends PureComponent {
                 />
                 <BuyProduct
                     buyNow={() => this.props.showModalBuy()}
+                    opacity={this.state.opacityBuy}
                 />
             </View >
         );

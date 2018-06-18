@@ -6,9 +6,11 @@ import {
     GET_SUCCEEDED_PRODUCT_INFO,
     GET_REQUEST_PRODUCT_INFO
 } from '../action/types';
+import { url } from '../../api/Url';
+
 
 function getApi(productId) {
-    return axios.get(`http://202.191.56.103:5588/local-server/ProductInfo?functionName=GetProductInfo&accountId=1&accountType=1&productId=${productId}`);
+    return axios.get(`${url}/ProductInfo?functionName=GetProductInfo&accountId=1&accountType=1&productId=${productId}`);
 }
 
 function* getDataProductInfo(action) {

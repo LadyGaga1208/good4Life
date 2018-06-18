@@ -13,6 +13,8 @@ import HeaderPart from '../../components/HeaderPart';
 import Loading from '../../components/Loading';
 import LoadMore from '../../components/LoadMore';
 import { screenHeight, screenWidth, backgroundColorItem } from '../../styles/variables';
+import { url } from '../../api/Url';
+
 
 const iconStore = require('../../images/icons/storeFollow.png');
 
@@ -39,7 +41,7 @@ class Store extends PureComponent {
         return (
             <TouchableWithoutFeedback onPress={this.goToStoreDetail.bind(this, item)}>
                 <View style={wrapItem} >
-                    <Image style={img} source={{ uri: `http://202.191.56.103:5588/local-server/store/${item.storeId}/icon.png` }} />
+                    <Image style={img} source={{ uri: `${url}/store/${item.storeId}/icon.png` }} />
                 </View>
             </TouchableWithoutFeedback>
         );

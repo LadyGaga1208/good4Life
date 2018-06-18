@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    TouchableWithoutFeedback
 } from 'react-native';
 import { Rating } from 'react-native-elements';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
-const iconStar = require('../images/icons/star.png');
+const iconCheck = require('../images/icons/check.png');
 const iconFollow = require('../images/icons/follower.png');
 const iconFollowme = require('../images/icons/followme.png');
 
 
-class ProductDetail extends Component {
+class StoreDetailDumb extends PureComponent {
     render() {
         const { wrapNameStore,
-            wrapLogo, logo, styleName, icon, wrapIcon, rate, wrapRate, iconFollowStyle,
+            wrapLogo, logo, styleName, rate, wrapRate, iconFollowStyle,
             iconFollowmeStyle, wrapFollow, wrapIconFollow, wrapIconFollowme,
             numberFollow, textFollow, slogan, wrapTextInf, wrapTextInf1, wrapInf, viewInfor,
             textTitle, wrapDescription, titleDescription, textDescription } = styles;
@@ -29,13 +30,6 @@ class ProductDetail extends Component {
                     <View>
                         <Text style={styleName} numberOfLines={2}>{this.props.nameStore}</Text>
                         <View style={wrapRate}>
-                            {/* <View style={wrapIcon}>
-                                <Image source={iconStar} style={icon} />
-                                <Image source={iconStar} style={icon} />
-                                <Image source={iconStar} style={icon} />
-                                <Image source={iconStar} style={icon} />
-                                <Image source={iconStar} style={icon} />
-                            </View> */}
                             <Rating
                                 type='star'
                                 fractions={1}
@@ -51,10 +45,23 @@ class ProductDetail extends Component {
                                 <Image source={iconFollow} style={iconFollowStyle} />
                                 <Text style={numberFollow}>({this.props.follow})</Text>
                             </View>
-                            <View style={wrapIconFollowme}>
-                                <Image source={iconFollowme} style={iconFollowmeStyle} />
-                                <Text style={textFollow}>follow</Text>
-                            </View>
+                            {
+                                this.props.followed ? (
+                                    <TouchableWithoutFeedback onPress={this.props.unFollow}>
+                                        <View style={wrapIconFollowme}>
+                                            <Image source={iconCheck} style={styles.iconCheck} />
+                                            <Text style={textFollow}>follow</Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                ) : (
+                                        <TouchableWithoutFeedback onPress={this.props.Follow}>
+                                            <View style={wrapIconFollowme}>
+                                                <Image source={iconFollowme} style={iconFollowmeStyle} />
+                                                <Text style={textFollow}>follow</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    )
+                            }
                         </View>
                     </View>
                 </View>
@@ -300,7 +307,14 @@ const styles = {
     },
     wrapIconStar: {
         flexDirection: 'row'
+    },
+    iconCheck: {
+        width: 14,
+        height: 14,
+        resizeMode: 'stretch',
+        marginRight: 2,
+        marginTop: 1
     }
 };
 
-export default ProductDetail;
+export default StoreDetailDumb;

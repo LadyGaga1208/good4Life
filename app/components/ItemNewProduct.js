@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import {
     Text,
     StyleSheet,
@@ -8,20 +8,35 @@ import {
 } from 'react-native';
 
 import { screenHeight, screenWidth } from '../styles/variables';
+import CountdownTimer from './CountdownTimer';
 
 const iconPrice = require('../images/icons/price.png');
 const iconStore = require('../images/icons/storeInNewPr.png');
 
 export default class ItemNewProduct extends PureComponent {
+
+    onTick() {
+        console.log('onTick');
+    }
+
+    onFinish() {
+        console.log('onFinish');
+    }
+
     render() {
-        const { container, img, wrapTime, time, wrapNamePr,
+        const { container, img, wrapTime, wrapNamePr,
             namePr, wrapPrice, icon, price, unit, wrapStore, store } = styles;
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
                     <Image source={{ uri: `${this.props.uri}` }} style={img}>
                         <View style={wrapTime}>
-                            <Text style={time}>08:12:00</Text>
+                            <CountdownTimer
+                                till={this.props.till}
+                                renderTick={(data) => <TimeLabel {...data} />}
+                                onTick={this.onTick.bind(this)}
+                                onFinish={this.onFinish.bind(this)}
+                            />
                         </View>
                     </Image>
                     <View style={wrapNamePr}>
@@ -39,6 +54,18 @@ export default class ItemNewProduct extends PureComponent {
                 </View>
             </TouchableWithoutFeedback>
         );
+    }
+}
+
+class TimeLabel extends Component {
+    render() {
+        return (
+            <View>
+                <Text style={styles.time}>
+                    {this.props.hours}:{this.props.minutes}:{this.props.seconds}
+                </Text>
+            </View>
+        )
     }
 }
 

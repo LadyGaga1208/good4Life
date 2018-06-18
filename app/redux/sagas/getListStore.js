@@ -6,9 +6,11 @@ import {
     GET_SUCCEEDED_STORE,
     GET_REQUEST_STORE
 } from '../action/types';
+import { url } from '../../api/Url';
+
 
 function getApi(value) {
-    return axios.get(`http://202.191.56.103:5588/local-server/StoreInfo?functionName=GetStoreList&accountId=1&accountType=1&index=${value}`);
+    return axios.get(`${url}/StoreInfo?functionName=GetStoreList&accountId=1&accountType=1&index=${value}`);
 }
 
 function* getListStore(action) {
