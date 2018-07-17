@@ -31,7 +31,7 @@ class ProductDetail extends PureComponent {
 
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
-        console.log(params);
+        // console.log(params);
         return {
             title: `${params.data.productName}`,
             headerStyle: {
@@ -170,8 +170,8 @@ class ProductDetail extends PureComponent {
                                 <ImageSwiper
                                     source1={`${url}/product/${data.productId}/${imageProductList[0].imagePath}.png`}
                                     source2={`${url}/product/${data.productId}/${imageProductList[1].imagePath}.png`}
-                                    source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
-                                    source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
+                                // source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
+                                // source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
                                 />
                             )
                         }
@@ -260,7 +260,8 @@ class ProductDetail extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#ffffff'
     },
     wrapImageProduct: {
         height: 0.42 * screenHeight,

@@ -8,7 +8,6 @@ import {
 } from '../action/types';
 import { url } from '../../api/Url';
 
-
 function getApi(productId) {
     return axios.get(`${url}/ProductInfo?functionName=GetProductInfo&accountId=1&accountType=1&productId=${productId}`);
 }

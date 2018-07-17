@@ -62,7 +62,8 @@ const styles = {
     texInputStyle: {
         height: (0.4 / 6) * variables.screenHeight,
         backgroundColor: '#ffffff',
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        borderRadius: 5
     },
     iconSaladStyle: {
         width: 26,

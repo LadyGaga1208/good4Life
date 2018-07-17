@@ -40,7 +40,7 @@ class Home extends PureComponent {
     }
 
     handleScroll(event) {
-        console.log(event.nativeEvent.contentOffset.y);
+        // console.log(event.nativeEvent.contentOffset.y);
         if (event.nativeEvent.contentOffset.y > 850) {
             this.setState({
                 show: true

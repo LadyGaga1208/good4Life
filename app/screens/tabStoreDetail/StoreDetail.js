@@ -65,28 +65,30 @@ class StoreDetail extends PureComponent {
     keyboardDidHide() {
         const { commentList } = this.props.dataStoreInfo;
         const timeComment = moment().format('l HH:mm:ss');
-        const newComment = {
-            content: this.state.comment,
-            accountId: 1,
-            accountType: 1,
-            time: timeComment,
-            commentId: commentList.length + 1
-        };
-        if (this.state.comment !== '') {
-            if (this.state.dataComment.length === 0) {
-                this.setState({
-                    opacityBuy: 1,
-                    dataComment: [newComment, ...commentList],
-                    comment: ''
-                });
-            } else {
-                this.setState((previousState) =>
-                    ({
+        if (commentList.length) {
+            const newComment = {
+                content: this.state.comment,
+                accountId: 1,
+                accountType: 1,
+                time: timeComment,
+                commentId: commentList.length + 1
+            };
+            if (this.state.comment !== '') {
+                if (this.state.dataComment.length === 0) {
+                    this.setState({
                         opacityBuy: 1,
-                        dataComment: [newComment, ...previousState.dataComment],
+                        dataComment: [newComment, ...commentList],
                         comment: ''
-                    })
-                );
+                    });
+                } else {
+                    this.setState((previousState) =>
+                        ({
+                            opacityBuy: 1,
+                            dataComment: [newComment, ...previousState.dataComment],
+                            comment: ''
+                        })
+                    );
+                }
             }
         }
         this.textInput.clear();
@@ -130,8 +132,8 @@ class StoreDetail extends PureComponent {
                             <ImageSwiper
                                 source1={`${url}/store/${data.storeId}/${imageStoreList[0].imagePath}.png`}
                                 source2={`${url}/store/${data.storeId}/${imageStoreList[1].imagePath}.png`}
-                                source3={`${url}/store/${data.storeId}/${imageStoreList[2].imagePath}.png`}
-                                source4={`${url}/store/${data.storeId}/${imageStoreList[3].imagePath}.png`}
+                            // source3={`${url}/store/${data.storeId}/${imageStoreList[2].imagePath}.png`}
+                            // source4={`${url}/store/${data.storeId}/${imageStoreList[3].imagePath}.png`}
                             />
                         )
                     }
@@ -180,7 +182,8 @@ class StoreDetail extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#ffffff'
     },
     wrapImageStore: {
         height: 0.42 * screenHeight,

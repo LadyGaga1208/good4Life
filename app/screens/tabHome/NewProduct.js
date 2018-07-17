@@ -27,7 +27,7 @@ class NewProduct extends PureComponent {
     }
 
     goToProductDetail(item) {
-        console.log(item);
+        // console.log(item);
         const navigateProductDetail = NavigationActions.navigate({
             routeName: 'ProductDetail',
             params: { data: item }
@@ -42,7 +42,7 @@ class NewProduct extends PureComponent {
     }
 
     renderItemNewProduct({ item }) {
-        const till = new Date('6/18/2018 19:56:00');
+        const till = new Date('6/18/2018 20:56:00');
         return (
             <View>
                 <ItemNewProduct
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     laodMore: {
-        width: (1 / 5) * screenWidth,
-        height: (1 / 3) * screenHeight,
+        width: (0.9 / 5) * screenWidth,
+        height: (1.01 / 3) * screenHeight,
     }
 });
 

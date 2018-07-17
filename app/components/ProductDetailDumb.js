@@ -126,6 +126,7 @@ export default class ProductDetailDumb extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: '#ffffff'
     },
 
     // Title Product
@@ -135,9 +136,10 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     nameProduct: {
-        fontSize: 27,
+        fontSize: 25,
         color: '#111',
-        fontWeight: '300'
+        fontWeight: '300',
+        fontFamily: 'Roboto-Thin',
     },
     wrapPrice: {
         flexDirection: 'row',
@@ -192,15 +194,16 @@ const styles = StyleSheet.create({
         color: '#111',
     },
     iconNew: {
-        width: 70,
-        height: 70,
+        width: 55,
+        height: 55,
         resizeMode: 'stretch'
     },
     wrapContent: {
         flexDirection: 'row'
     },
     wrapIconNew: {
-        paddingLeft: 60
+        marginTop: 10,
+        paddingLeft: 90
     },
 
     //Text Detail
@@ -277,7 +280,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         fontSize: 15,
         fontFamily: 'Roboto-Thin',
-        color: '#111'
+        color: '#111',
+        marginTop: 5
     },
     titleEating: {
         color: '#111',

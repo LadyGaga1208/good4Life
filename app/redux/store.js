@@ -4,7 +4,7 @@ import {
     createReduxBoundAddListener
 } from 'react-navigation-redux-helpers';
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 
 
 import reducer from './reducers/index';
@@ -20,7 +20,7 @@ export const addListener = createReduxBoundAddListener('root');
 
 const store = createStore(
     reducer,
-    applyMiddleware(sagaMiddleware, navMiddleware, logger)
+    applyMiddleware(sagaMiddleware, navMiddleware)
 );
 
 sagaMiddleware.run(rootSaga);

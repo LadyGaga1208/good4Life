@@ -4,9 +4,19 @@ import {
     StyleSheet,
     FlatList,
     ActivityIndicator,
+    Text
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+import {
+    MenuContext,
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+
+import { BasicExampleComponent } from '../Notification';
 
 import { getDataNewProduct } from '../../redux/action/getDataTabProduct';
 import ItemProduct from '../../components/ItemProduct';

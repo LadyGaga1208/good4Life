@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 import StackHome from './StackHome';
-import Cart from '../screens/Cart';
+import Cart from '../screens/cart/Cart';
 import Notifications from '../screens/Notification';
 import Profile from '../screens/Profile';
 import SplashScreen from '../screens/SplashScreen';
@@ -94,7 +94,7 @@ const Root = StackNavigator(
         navigationOptions: {
             header: null
         },
-        initialRouteName: 'SplashScreen'
+        initialRouteName: 'App'
     }
 );
 

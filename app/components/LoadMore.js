@@ -9,7 +9,7 @@ import { backgroundColorItem } from '../styles/variables';
 
 export default class LoadMore extends Component {
     render() {
-        console.log('render LoadMore');
+        // console.log('render LoadMore');
         const { container, text, text1 } = styles;
         return (
             <TouchableOpacity

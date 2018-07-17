@@ -16,11 +16,11 @@ const iconStore = require('../images/icons/storeInNewPr.png');
 export default class ItemNewProduct extends PureComponent {
 
     onTick() {
-        console.log('onTick');
+        // console.log('onTick');
     }
 
     onFinish() {
-        console.log('onFinish');
+        // console.log('onFinish');
     }
 
     render() {
@@ -40,7 +40,7 @@ export default class ItemNewProduct extends PureComponent {
                         </View>
                     </Image>
                     <View style={wrapNamePr}>
-                        <Text style={namePr}>{this.props.name}</Text>
+                        <Text style={namePr} numberOfLines={2}>{this.props.name}</Text>
                     </View>
                     <View style={wrapPrice}>
                         <Image source={iconPrice} style={icon} />
@@ -65,13 +65,13 @@ class TimeLabel extends Component {
                     {this.props.hours}:{this.props.minutes}:{this.props.seconds}
                 </Text>
             </View>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: (1 / 3) * screenHeight,
+        height: (1.01 / 3) * screenHeight,
         width: (2 / 5) * screenWidth,
         margin: 5,
         backgroundColor: '#f8f8f8',
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     wrapTime: {
         height: 0.13 * ((1 / 3) * screenHeight),
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -103,14 +103,15 @@ const styles = StyleSheet.create({
         fontSize: 17
     },
     wrapNamePr: {
-        justifyContent: 'center',
-        alignItems: 'center'
+        height: '14%',
+        paddingHorizontal: 2
     },
     namePr: {
-        color: '#008296',
-        fontSize: 15,
-        padding: 3,
-        fontFamily: 'Comfortaa-Regular',
+        // color: '#008296',
+        color: '#111',
+        fontSize: 13,
+        padding: 2,
+        fontFamily: 'Roboto-Thin',
     },
     wrapPrice: {
         flexDirection: 'row',
@@ -123,11 +124,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     price: {
-        color: '#879596'
+        color: '#111',
+        fontSize: 13,
     },
     unit: {
         textDecorationLine: 'underline',
-        color: '#879596',
+        color: '#111',
         paddingLeft: 2
     },
     wrapStore: {
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     },
     store: {
         fontSize: 13,
-        color: '#879596',
-        width: '80%'
+        color: '#111',
+        width: '80%',
     }
 });

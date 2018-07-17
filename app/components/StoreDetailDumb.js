@@ -18,9 +18,9 @@ class StoreDetailDumb extends PureComponent {
     render() {
         const { wrapNameStore,
             wrapLogo, logo, styleName, rate, wrapRate, iconFollowStyle,
-            iconFollowmeStyle, wrapFollow, wrapIconFollow, wrapIconFollowme,
+            iconFollowmeStyle, wrapIconFollow, wrapIconFollowme,
             numberFollow, textFollow, slogan, wrapTextInf, wrapTextInf1, wrapInf, viewInfor,
-            textTitle, wrapDescription, titleDescription, textDescription } = styles;
+            textTitle, wrapDescription, titleDescription, textDescription, wrapStore } = styles;
         return (
             <View>
                 <View style={wrapNameStore}>
@@ -28,45 +28,51 @@ class StoreDetailDumb extends PureComponent {
                         <Image source={{ uri: `${this.props.logo}` }} style={logo} />
                     </View>
                     <View>
-                        <Text style={styleName} numberOfLines={2}>{this.props.nameStore}</Text>
-                        <View style={wrapRate}>
-                            <Rating
-                                type='star'
-                                fractions={1}
-                                startingValue={this.props.rate}
-                                readonly
-                                imageSize={17}
-                                style={{ paddingVertical: 1 }}
-                            />
-                            <Text style={rate}>({this.props.rate}/5)</Text>
+                        <View style={wrapStore}>
+                            <Text style={styleName} numberOfLines={2}>{this.props.nameStore}</Text>
                         </View>
-                        <View style={wrapFollow}>
-                            <View style={wrapIconFollow}>
-                                <Image source={iconFollow} style={iconFollowStyle} />
-                                <Text style={numberFollow}>({this.props.follow})</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View>
+                                <View style={wrapRate}>
+                                    <Rating
+                                        type='star'
+                                        fractions={1}
+                                        startingValue={this.props.rate}
+                                        readonly
+                                        imageSize={17}
+                                        style={{ paddingVertical: 1 }}
+                                    />
+                                    <Text style={rate}>({this.props.rate}/5)</Text>
+                                </View>
+                                <View style={wrapIconFollow}>
+                                    <Image source={iconFollow} style={iconFollowStyle} />
+                                    <Text style={numberFollow}>({this.props.follow})</Text>
+                                </View>
                             </View>
-                            {
-                                this.props.followed ? (
-                                    <TouchableWithoutFeedback onPress={this.props.unFollow}>
-                                        <View style={wrapIconFollowme}>
-                                            <Image source={iconCheck} style={styles.iconCheck} />
-                                            <Text style={textFollow}>follow</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                ) : (
-                                        <TouchableWithoutFeedback onPress={this.props.Follow}>
+                            <View>
+                                {
+                                    this.props.followed ? (
+                                        <TouchableWithoutFeedback onPress={this.props.unFollow}>
                                             <View style={wrapIconFollowme}>
-                                                <Image source={iconFollowme} style={iconFollowmeStyle} />
+                                                <Image source={iconCheck} style={styles.iconCheck} />
                                                 <Text style={textFollow}>follow</Text>
                                             </View>
                                         </TouchableWithoutFeedback>
-                                    )
-                            }
+                                    ) : (
+                                            <TouchableWithoutFeedback onPress={this.props.Follow}>
+                                                <View style={wrapIconFollowme}>
+                                                    <Image source={iconFollowme} style={iconFollowmeStyle} />
+                                                    <Text style={textFollow}>follow</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        )
+                                }
+                            </View>
                         </View>
                     </View>
                 </View>
                 <View>
-                    <Text style={slogan}>{this.props.slogan}</Text>
+                    <Text style={slogan}>“Stay hungry. Stay foolish”</Text>
                 </View>
                 <View style={viewInfor}>
                     <View style={wrapInf}>
@@ -118,14 +124,17 @@ const styles = {
         width: 0.27 * screenWidth,
         height: 0.15 * screenHeight,
     },
+    wrapStore: {
+        width: 0.71 * screenWidth,
+    },
     logo: {
         width: 0.25 * screenWidth,
         height: 0.14 * screenHeight,
         resizeMode: 'stretch',
     },
     styleName: {
-        // fontFamily: 'coolvetica rg',
-        fontSize: 19,
+        fontFamily: 'Roboto-Thin',
+        fontSize: 20,
         color: '#111',
         width: '100%'
     },
@@ -171,13 +180,18 @@ const styles = {
         flexDirection: 'row',
     },
     wrapIconFollowme: {
-        marginLeft: 0.28 * screenWidth,
+        marginTop: 5,
+        marginLeft: 40,
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: '#111',
+        borderColor: '#ddd',
         padding: 3,
         borderRadius: 5,
-        elevation: 2
+        elevation: 1.5,
+        // backgroundColor: 'yellow',
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     numberFollow: {
         fontSize: 15,
@@ -187,11 +201,11 @@ const styles = {
         color: '#111'
     },
     slogan: {
+        fontFamily: 'Roboto-Thin',
         marginTop: 15,
-        fontFamily: 'ItalianBreakfast-Regular',
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
-        color: '#9900cc'
+        color: '#111'
     },
     wrapInf: {
         flexDirection: 'row'

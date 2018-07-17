@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
-        fontSize: 16,
-        fontFamily: 'Unicorn Scribbles',
+        fontSize: 12,
+        fontFamily: 'Roboto-Thin',
         color: '#111111'
     },
     line: {

@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 import { Rating } from 'react-native-elements';
 
-import { screenHeight, screenWidth, backgroundColorWhite, primaryColor } from '../styles/variables';
+import { screenHeight, screenWidth, backgroundColorWhite } from '../styles/variables';
 
 const iconLove = require('../images/icons/heart.png');
-const iconStar = require('../images/icons/star.png');
 const iconStore = require('../images/icons/storeInNewPr.png');
 
 
@@ -19,7 +18,7 @@ class ItemProduct extends PureComponent {
     render() {
         const { container, imgProduct, wrapPrice, price, nameProduct,
             iconStoreStyle, wrapStore, wrapRate, wrapLike, styleIconLove,
-            wrapStar, iconStarStyle, unit } = styles;
+            wrapStar, wrapName, unit } = styles;
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container} >
@@ -29,15 +28,17 @@ class ItemProduct extends PureComponent {
                             <Text style={unit}>đ</Text>
                         </View>
                     </Image>
-                    <Text style={nameProduct}>{this.props.nameProduct}</Text>
+                    <View style={wrapName}>
+                        <Text style={nameProduct} numberOfLines={2}>{this.props.nameProduct}</Text>
+                    </View>
                     <View style={wrapStore}>
                         <Image source={iconStore} style={iconStoreStyle} />
-                        <Text>{this.props.nameStore}</Text>
+                        <Text style={{ color: '#111' }}>{this.props.nameStore}</Text>
                     </View>
                     <View style={wrapRate}>
                         <View style={wrapLike}>
                             <Image source={iconLove} style={styleIconLove} />
-                            <Text style={{ marginTop: 2 }}>{this.props.love}</Text>
+                            <Text style={{ marginTop: 2, color: '#111' }}>{this.props.love}</Text>
                         </View>
                         {/* <View style={wrapStar}>
                             <Image source={iconStar} style={iconStarStyle} />
@@ -56,7 +57,7 @@ class ItemProduct extends PureComponent {
                                 imageSize={11}
                                 style={{ paddingVertical: 1, marginTop: 2 }}
                             />
-                            <Text>({this.props.rate})</Text>
+                            <Text style={{ color: '#111' }}>({this.props.rate})</Text>
                         </View>
                     </View>
                 </View>
@@ -67,7 +68,7 @@ class ItemProduct extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        height: (1.25 / 3) * screenHeight,
+        height: (1.3 / 3) * screenHeight,
         width: 0.47 * screenWidth,
         marginLeft: 7,
         backgroundColor: backgroundColorWhite,
@@ -89,29 +90,33 @@ const styles = StyleSheet.create({
     },
     wrapPrice: {
         height: (0.16 / 3) * screenHeight,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        // backgroundColor: 'rgba(0, 0, 0, 0.3)',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
     },
     price: {
         fontSize: 18,
-        color: '#ffffff',
+        color: 'orange',
         fontWeight: '400',
         fontFamily: 'Neon'
     },
+    wrapName: {
+        height: '13%',
+        paddingHorizontal: 3
+    },
     nameProduct: {
-        textAlign: 'center',
+        //textAlign: 'center',
         paddingVertical: 1,
         fontSize: 15,
-        fontFamily: 'Comfortaa-Bold',
-        color: primaryColor,
-        paddingTop: 3
+        fontFamily: 'Roboto-Thin',
+        color: '#111',
+        paddingTop: 2
     },
     unit: {
         textDecorationLine: 'underline',
         fontSize: 17,
-        color: '#ffffff',
+        color: 'orange',
         fontWeight: '400',
         fontFamily: 'Neon',
         paddingLeft: 4

@@ -15,7 +15,7 @@ function getApi(storeId) {
 function* getDataStoreInfo(action) {
     try {
         const response = yield call(getApi, action.storeId);
-        console.log(response.data.imageStoreList);
+        // console.log(response.data.imageStoreList);
         if (response.data.imageStoreList[0] === undefined) {
             throw Error('haha');
         } else {

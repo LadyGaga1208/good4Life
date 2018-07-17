@@ -21,13 +21,14 @@ class ItemFood extends PureComponent {
 const styles = StyleSheet.create({
     wrapTextEating: {
         flexDirection: 'row',
-        marginTop: 7
+        marginTop: 7,
+        backgroundColor: '#ffffff'
     },
     headLine: {
-        backgroundColor: '#111',
-        borderRadius: 3,
-        width: 6,
-        height: 6,
+        backgroundColor: 'gray',
+        borderRadius: 2,
+        width: 4,
+        height: 4,
         marginHorizontal: 5,
         marginTop: 10
     },

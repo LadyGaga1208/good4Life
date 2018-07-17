@@ -7,7 +7,7 @@ import {
 
 class Loading extends PureComponent {
     render() {
-        console.log('render Loading');
+        // console.log('render Loading');
         return (
             <View style={[styles.container, this.props.style]}>
                 <ActivityIndicator size='large' color='#008296' animating />

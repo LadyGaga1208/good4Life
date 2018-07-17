@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
     },
     loadmore: {
         backgroundColor: primaryColor,
-        height: 0.06 * screenHeight,
-        width: 0.4 * screenWidth,
+        height: 0.08 * screenHeight,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 0.3 * screenWidth,
+        marginHorizontal: 5,
         marginTop: 5,
+        borderColor: '#ddd',
         borderRadius: 5
     },
     textLoad: {

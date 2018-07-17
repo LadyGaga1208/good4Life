@@ -11,7 +11,6 @@ import { Rating } from 'react-native-elements';
 import { screenHeight, screenWidth, backgroundColorWhite, primaryColor } from '../styles/variables';
 
 const iconLove = require('../images/icons/heart.png');
-const iconStar = require('../images/icons/star.png');
 const iconStore = require('../images/icons/storeInNewPr.png');
 
 
@@ -19,7 +18,7 @@ class ItemProductSuggest extends PureComponent {
     render() {
         const { container, imgProduct, wrapPrice, price, nameProduct,
             iconStoreStyle, wrapStore, wrapRate, wrapLike, styleIconLove,
-            wrapStar, iconStarStyle, unit, nameStore, textRate } = styles;
+            wrapStar, wrapName, unit, nameStore, textRate } = styles;
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
@@ -29,7 +28,9 @@ class ItemProductSuggest extends PureComponent {
                             <Text style={unit}>đ</Text>
                         </View>
                     </Image>
-                    <Text style={nameProduct}>{this.props.nameProduct}</Text>
+                    <View style={wrapName}>
+                        <Text style={nameProduct}>{this.props.nameProduct}</Text>
+                    </View>
                     <View style={wrapStore}>
                         <Image source={iconStore} style={iconStoreStyle} />
                         <Text style={nameStore}>{this.props.nameStore}</Text>
@@ -59,8 +60,8 @@ class ItemProductSuggest extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        height: (1 / 3) * screenHeight,
-        width: (2 / 5) * screenWidth,
+        height: (1.03 / 3) * screenHeight,
+        width: (1.8 / 5) * screenWidth,
         marginLeft: 7,
         backgroundColor: backgroundColorWhite,
         borderWidth: 1,
@@ -81,29 +82,33 @@ const styles = StyleSheet.create({
     },
     wrapPrice: {
         height: (0.14 / 3) * screenHeight,
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        //backgroundColor: 'rgba(0, 0, 0, 0.3)',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
     },
     price: {
         fontSize: 15,
-        color: '#ffffff',
+        color: 'orange',
         fontWeight: '400',
         fontFamily: 'Neon'
     },
+    wrapName: {
+        height: '15%',
+        paddingHorizontal: 2
+    },
     nameProduct: {
-        textAlign: 'center',
+        //textAlign: 'center',
         paddingVertical: 1,
-        fontSize: 14,
-        fontFamily: 'Comfortaa-Bold',
-        color: primaryColor,
+        fontSize: 12,
+        fontFamily: 'Roboto-Thin',
+        color: '#111',
         paddingTop: 2
     },
     unit: {
         textDecorationLine: 'underline',
         fontSize: 14,
-        color: '#ffffff',
+        color: 'orange',
         fontWeight: '400',
         fontFamily: 'Neon',
         paddingLeft: 4
@@ -146,11 +151,13 @@ const styles = StyleSheet.create({
     },
     nameStore: {
         width: '80%',
-        fontSize: 12
+        fontSize: 12,
+        color: '#111'
     },
     textRate: {
         fontSize: 10,
-        marginTop: 1
+        marginTop: 1,
+        color: '#111'
     }
 });
 export default ItemProductSuggest;
