@@ -11,7 +11,7 @@ import HeaderPart from '../../components/HeaderPart';
 import ItemNewProduct from '../../components/ItemNewProduct';
 import Loading from '../../components/Loading';
 import LoadMore from '../../components/LoadMore';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { screenHeight, screenWidth } from '../../styles/variables';
 
 const iconNewPr = require('../../images/icons/new.png');

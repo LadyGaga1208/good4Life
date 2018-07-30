@@ -1,21 +1,22 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import StoreApi from '../../api/StoreApi';
 
 import {
     GET_FAILED_STORE,
     GET_SUCCEEDED_STORE,
     GET_REQUEST_STORE
 } from '../action/types';
-import { url } from '../../api/Url';
+// import { url } from '../../api/Url';
 
 
-function getApi(value) {
-    return axios.get(`${url}/StoreInfo?functionName=GetStoreList&accountId=1&accountType=1&index=${value}`);
-}
+// function getApi(value) {
+//     return axios.get(`${url}/StoreInfo?functionName=GetStoreList&accountId=1&accountType=1&index=${value}`);
+// }
 
 function* getListStore(action) {
     try {
-        const response = yield call(getApi, action.value);
+        const response = yield call(StoreApi.getStoreList, 1, 1, action.value);
         yield put({
             type: GET_SUCCEEDED_STORE,
             payload: response.data.storeInfoList

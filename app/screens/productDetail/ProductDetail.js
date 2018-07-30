@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+import Toast, { DURATION } from 'react-native-easy-toast';
 
 import { primaryColor, screenHeight, screenWidth } from '../../styles/variables';
 import ProductDetailDumb from '../../components/ProductDetailDumb';
@@ -23,7 +24,8 @@ import ItemProductSuggest from '../../components/ItemProductSuggest';
 import Comment from '../../components/Comment';
 import BuyProduct from '../../components/BuyProduct';
 import ModalBuyProduct from '../../components/ModalBuyProduct';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
+import { addToCart } from '../../redux/action/cart';
 
 const imageComment = 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/32595190_203015527167803_6157025275981856768_n.jpg?_nc_cat=0&oh=70e35a3cd0bca1d3645e116da6f776d9&oe=5B8280B3';
 
@@ -58,11 +60,25 @@ class ProductDetail extends PureComponent {
         this.props.getDataProductInfo(data.productId);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
+        if (this.props.error) {
+            this.refs.toast.show('ggggggggggggg world!', DURATION.LENGTH_LONG);
+        }
     }
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.cart !== nextProps.cart) {
+            this.refs.toast.show('Thêm vào giỏ hàng thành công', DURATION.LENGTH_LONG);
+        }
+        if (nextProps.error) {
+            this.refs.toast.show('Sản phẩm đã có trong giỏ hàng', DURATION.LENGTH_LONG);
+        }
+        // console.log(this.props, 'hahahaha');
+        // console.log(nextProps.cart);
     }
 
     keyboardDidShow() {
@@ -116,6 +132,20 @@ class ProductDetail extends PureComponent {
         this.props.navigation.dispatch(navigateProductDetail);
     }
 
+    addToCart() {
+        const product = this.props.navigation.state.params.data;
+        const store = {
+            storeId: product.storeId,
+            storeName: product.storeName
+        };
+        const itemsStore = {
+            store,
+            marked: true
+        };
+        const itemsProduct = { product, quantity: 1, marked: true };
+        this.props.addCart(itemsStore, itemsProduct);
+    }
+
     renderItemFood({ item }) {
         return (
             <ItemFood
@@ -158,6 +188,7 @@ class ProductDetail extends PureComponent {
             commentList
         } = this.props.dataProductInfo;
         const { data } = this.props.navigation.state.params;
+        // console.log(data);
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView
@@ -250,8 +281,19 @@ class ProductDetail extends PureComponent {
                     total={data.total}
                 />
                 <BuyProduct
+                    addToCart={this.addToCart.bind(this)}
                     buyNow={() => this.props.showModalBuy()}
                     opacity={this.state.opacityBuy}
+                />
+                <Toast
+                    ref="toast"
+                    style={{ backgroundColor: '#111', borderRadius: 20 }}
+                    position='bottom'
+                    positionValue={200}
+                    fadeInDuration={750}
+                    fadeOutDuration={1000}
+                    // opacity={0.8}
+                    textStyle={{ color: '#ffffff' }}
                 />
             </View >
         );
@@ -302,7 +344,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     dataProductInfo: state.dataProductInfo.dataProductInfo,
     isLoading: state.dataProductInfo.loading,
-    modalVisible: state.modalBuy.modalVisible
+    modalVisible: state.modalBuy.modalVisible,
+    cart: state.cartReducer.cart,
+    error: state.cartReducer.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -314,6 +358,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     hideModalBuy: () => {
         dispatch(hideModalBuy());
+    },
+    addCart: (product, quantity, marked) => {
+        dispatch(addToCart(product, quantity, marked));
     }
 });
 

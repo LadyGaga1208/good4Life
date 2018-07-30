@@ -12,6 +12,7 @@ import getFavoriteProduct from './getDataFavoriteProduct';
 import getProductStore from './getDataProductStore';
 import getDataStoreFollow from './getDataStoreFollow';
 import getDtaStoreSuggest from './getDataStoreSuggest';
+import cartSaga from './cart';
 
 export default function* rootSaga() {
     yield fork(getDataHoneInfo);
@@ -26,4 +27,6 @@ export default function* rootSaga() {
     yield fork(getProductStore);
     yield fork(getDataStoreFollow);
     yield fork(getDtaStoreSuggest);
+    yield fork(cartSaga.watchAddToCart);
+    yield fork(cartSaga.watchGetCart);
 } 

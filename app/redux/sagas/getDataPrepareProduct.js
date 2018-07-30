@@ -1,16 +1,18 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { TabProduct } from '../action/types';
-import { url } from '../../api/Url';
+import ProductApi from '../../api/ProductApi';
 
-function getApi(value) {
-    return axios.get(`${url}/ProductInfo?functionName=GetPreparingProduct&accountId=1&accountType=1&index=${value}&productType=0`);
-}
+import { TabProduct } from '../action/types';
+// import { url } from '../../api/Url';
+
+// function getApi(value) {
+//     return axios.get(`${url}/ProductInfo?functionName=GetPreparingProduct&accountId=1&accountType=1&index=${value}&productType=0`);
+// }
 
 function* getDataPrepareProduct(action) {
     try {
-        const response = yield call(getApi, action.value);
+        const response = yield call(ProductApi.getPreparingProduct, 1, 1, action.value, 0);
         yield put({
             type: TabProduct.GET_SUCCEEDED_PREPARE_SELLING_PRODUCT,
             payload: response.data.productInfoList

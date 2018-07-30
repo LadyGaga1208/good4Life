@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import HeaderPart from '../../components/HeaderPart';
 import Loading from '../../components/Loading';
 import ItemProduct from '../../components/ItemProduct';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { screenHeight, primaryColor, screenWidth } from '../../styles/variables';
 import { getDataProductSuggest } from '../../redux/action/getSuggestProduct';
 

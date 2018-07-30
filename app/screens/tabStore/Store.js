@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import { getListStore } from '../../redux/action/getListStore';
 import ItemStore from '../../components/ItemStore';
 import Loading from '../../components/Loading';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { backgroundColorWhite } from '../../styles/variables';
 
 class Store extends Component {

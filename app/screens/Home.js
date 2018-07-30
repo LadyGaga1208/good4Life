@@ -52,15 +52,15 @@ class Home extends PureComponent {
         }
 
         this.a.push(event.nativeEvent.contentOffset.y);
-        if ((this.a[this.a.length - 1] - this.a[this.a.length - 2]) > 0) {
-            this.props.navigation.setParams({ tabBarVisible: false });
-        } else {
-            this.props.navigation.setParams({ tabBarVisible: true });
-        }
+        // if ((this.a[this.a.length - 1] - this.a[this.a.length - 2]) > 0) {
+        //     this.props.navigation.setParams({ tabBarVisible: false });
+        // } else {
+        //     this.props.navigation.setParams({ tabBarVisible: true });
+        // }
     }
 
     handleScrollEnd() {
-        this.a = [this.a[this.a.length - 1]];
+        // this.a = [this.a[this.a.length - 1]];
     }
 
 

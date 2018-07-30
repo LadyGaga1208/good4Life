@@ -12,7 +12,7 @@ import { getDataSellingProduct } from '../../redux/action/getDataTabProduct';
 import ItemProduct from '../../components/ItemProduct';
 import Fillter from '../../components/Fillter';
 
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 
 class SellingProduct extends PureComponent {
 

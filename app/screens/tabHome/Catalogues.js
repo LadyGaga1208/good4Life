@@ -12,7 +12,7 @@ import { NavigationActions } from 'react-navigation';
 
 import HeaderPart from '../../components/HeaderPart';
 import Loading from '../../components/Loading';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { backgroundColorWhite, screenHeight, screenWidth } from '../../styles/variables';
 
 const iconCatalogues = require('../../images/icons/catalogues.png');

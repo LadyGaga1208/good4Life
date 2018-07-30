@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import ItemProduct from '../../components/ItemProduct';
 import Fillter from '../../components/Fillter';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { getProductStore } from '../../redux/action/getProductStore';
 import { primaryColor } from '../../styles/variables';
 

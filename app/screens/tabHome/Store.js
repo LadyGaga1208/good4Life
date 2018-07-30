@@ -13,7 +13,7 @@ import HeaderPart from '../../components/HeaderPart';
 import Loading from '../../components/Loading';
 import LoadMore from '../../components/LoadMore';
 import { screenHeight, screenWidth, backgroundColorItem } from '../../styles/variables';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 
 
 const iconStore = require('../../images/icons/storeFollow.png');

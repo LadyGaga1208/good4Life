@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import { getDataStoreSuggest } from '../../redux/action/getDataTabStore';
 import ItemStore from '../../components/ItemStore';
 import Loading from '../../components/Loading';
-import { url } from '../../api/Url';
+import { url } from '../../api/ApiService';
 import { backgroundColorWhite } from '../../styles/variables';
 
 class StoreSuggest extends PureComponent {
