@@ -23,7 +23,7 @@ export default class Header extends PureComponent {
                         <TouchableOpacity>
                             <Image source={iconSalad} style={iconSaladStyle} />
                         </TouchableOpacity>
-                        <Text style={nameApp}>Good for Life</Text>
+                        <Text style={nameApp}>Organic</Text>
                     </View>
                     <TouchableOpacity onPress={this.props.onPress}>
                         <Image source={iconChat} style={iconChatStyle} />
@@ -72,9 +72,9 @@ const styles = {
         marginLeft: 5
     },
     nameApp: {
-        fontSize: 20,
-        fontFamily: 'Great CIties Personal Use',
-        marginLeft: 10,
+        fontSize: 26,
+        fontFamily: 'FondyScript_PERSONAL_USE_ONLY',
+        marginLeft: 5,
         color: '#ffffff'
     },
     iconChatStyle: {

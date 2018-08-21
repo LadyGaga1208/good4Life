@@ -13,6 +13,8 @@ import getProductStore from './getDataProductStore';
 import getDataStoreFollow from './getDataStoreFollow';
 import getDtaStoreSuggest from './getDataStoreSuggest';
 import cartSaga from './cart';
+import watchGetStoreFromProduct from './getDataStoreFromProduct';
+import watchGetDataProductOfItem from './getDataProductOfItem';
 
 export default function* rootSaga() {
     yield fork(getDataHoneInfo);
@@ -29,4 +31,14 @@ export default function* rootSaga() {
     yield fork(getDtaStoreSuggest);
     yield fork(cartSaga.watchAddToCart);
     yield fork(cartSaga.watchGetCart);
+    yield fork(cartSaga.watchChangeMarkedStore);
+    yield fork(cartSaga.watchChangeMarkedProduct);
+    yield fork(cartSaga.watchRemoveProduct);
+    yield fork(cartSaga.watchRemoveStore);
+    yield fork(cartSaga.watchIncreQuantity);
+    yield fork(cartSaga.watchDecreQuantity);
+    yield fork(cartSaga.watchInputQuantity);
+    yield fork(cartSaga.watchAddToCartFromBuyNow);
+    yield fork(watchGetStoreFromProduct);
+    yield fork(watchGetDataProductOfItem);
 } 

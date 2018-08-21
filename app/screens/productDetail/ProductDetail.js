@@ -13,6 +13,7 @@ import {
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Toast, { DURATION } from 'react-native-easy-toast';
+import moment from 'moment';
 
 import { primaryColor, screenHeight, screenWidth } from '../../styles/variables';
 import ProductDetailDumb from '../../components/ProductDetailDumb';
@@ -25,7 +26,11 @@ import Comment from '../../components/Comment';
 import BuyProduct from '../../components/BuyProduct';
 import ModalBuyProduct from '../../components/ModalBuyProduct';
 import { url } from '../../api/ApiService';
-import { addToCart } from '../../redux/action/cart';
+import { getStoreFromProduct } from '../../redux/action/getStoreFromProduct';
+import { addToCart, getCart, addToCartFromBuyNow } from '../../redux/action/cart';
+import HeaderRight from './HeaderRight';
+
+const iconCartAct = require('../../images/icons/cartAct.png');
 
 const imageComment = 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/32595190_203015527167803_6157025275981856768_n.jpg?_nc_cat=0&oh=70e35a3cd0bca1d3645e116da6f776d9&oe=5B8280B3';
 
@@ -33,12 +38,14 @@ class ProductDetail extends PureComponent {
 
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
-        // console.log(params);
         return {
             title: `${params.data.productName}`,
             headerStyle: {
                 backgroundColor: primaryColor,
             },
+            headerRight: (
+                <HeaderRight source={iconCartAct} tintColor='#fff' onPress={navigation.getParam('goToCart')} />
+            ),
             headerTintColor: '#fff',
             headerTitleStyle: {
                 fontWeight: 'bold',
@@ -51,18 +58,19 @@ class ProductDetail extends PureComponent {
         this.state = {
             opacityBuy: 1,
             comment: '',
-            dataComment: []
+            dataComment: [],
+            number: 1
         };
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({ goToCart: this.goToCart.bind(this) });
         const { data } = this.props.navigation.state.params;
+        this.props.getCart();
         this.props.getDataProductInfo(data.productId);
+        this.props.getStoreFromProduct(data.storeId);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
-        if (this.props.error) {
-            this.refs.toast.show('ggggggggggggg world!', DURATION.LENGTH_LONG);
-        }
     }
 
     componentWillUnmount() {
@@ -70,15 +78,23 @@ class ProductDetail extends PureComponent {
         this.keyboardDidHideListener.remove();
     }
 
-    componentWillUpdate(nextProps) {
-        if (this.props.cart !== nextProps.cart) {
-            this.refs.toast.show('Thêm vào giỏ hàng thành công', DURATION.LENGTH_LONG);
+    componentWillReceiveProps(nextProps) {
+        if (this.props.cart.length > 0) {
+            const { cart } = this.props;
+            const product = this.props.navigation.state.params.data;
+            const indexStore = cart.findIndex(item => item.itemsStore.store.storeId === product.storeId);
+            const existsProduct = cart[indexStore].itemsProduct.some(e => e.product.productId === product.productId);
+            const newCart = nextProps.cart;
+            if (nextProps.cart.length > 0) {
+                const indexStoreNew = newCart.findIndex(item => item.itemsStore.store.storeId === product.storeId);
+                const existsProductNew = newCart[indexStoreNew].itemsProduct.some(e => e.product.productId === product.productId);
+                if (existsProduct === false) {
+                    if (existsProductNew) {
+                        this.refs.toast.show('Thêm vào giỏ hàng thành công', DURATION.LENGTH_SHORT);
+                    }
+                }
+            }
         }
-        if (nextProps.error) {
-            this.refs.toast.show('Sản phẩm đã có trong giỏ hàng', DURATION.LENGTH_LONG);
-        }
-        // console.log(this.props, 'hahahaha');
-        // console.log(nextProps.cart);
     }
 
     keyboardDidShow() {
@@ -89,11 +105,12 @@ class ProductDetail extends PureComponent {
 
     keyboardDidHide() {
         const { commentList } = this.props.dataProductInfo;
+        const timeComment = moment().format('l HH:mm:ss');
         const newComment = {
             content: this.state.comment,
             accountId: 1,
             accountType: 1,
-            time: '4/16/2018 11:00:00',
+            time: timeComment,
             commentId: commentList.length + 1
         };
         if (this.state.comment !== '') {
@@ -116,6 +133,79 @@ class ProductDetail extends PureComponent {
         this.textInput.clear();
     }
 
+    increQuantity() {
+        const product = this.props.navigation.state.params.data;
+        if (this.state.number < product.total) {
+            this.setState((prevState) => ({
+                number: prevState.number + 1
+            }));
+        }
+    }
+
+    decreQuantity() {
+        if (this.state.number > 1) {
+            this.setState((prevState) => ({
+                number: prevState.number - 1
+            }));
+        }
+    }
+
+    onSubmitEditing(data) {
+        console.log(this.state.number, '1111111111111111111111111111111');
+        if (this.state.number >= 1 && this.state.number <= data.total) {
+            this.setState((prevState) => ({
+                number: prevState.number
+            }), () => console.log(this.state.number, '22222222222222222222222222222'));
+        } else {
+            this.setState({
+                number: 1
+            }, () => console.log('kokokokokokok'));
+        }
+        if (isNaN(this.state.number)) {
+            this.setState({
+                number: 1
+            }, console.log('hghghghghghghghg'));
+        }
+    }
+
+    buyNow() {
+        const { cart } = this.props;
+        if (cart.length > 0) {
+            const product = this.props.navigation.state.params.data;
+            const indexStore = cart.findIndex(item => item.itemsStore.store.storeId === product.storeId);
+            const existsProduct = cart[indexStore].itemsProduct.some(e => e.product.productId === product.productId);
+            if (existsProduct) {
+                const navigateStackCart = NavigationActions.navigate({
+                    routeName: 'StackCart',
+                });
+                this.props.navigation.dispatch(navigateStackCart);
+            } else {
+                this.props.showModalBuy();
+            }
+        } else {
+            this.props.showModalBuy();
+        }
+    }
+
+    buyNowFromModal() {
+        const product = this.props.navigation.state.params.data;
+        const store = this.props.dataStore;
+        const itemsStore = {
+            store,
+            marked: true
+        };
+        const itemsProduct = { product, quantity: this.state.number, marked: true };
+        this.props.addToCartFromBuyNow(itemsStore, itemsProduct);
+        this.props.hideModalBuy();
+    }
+
+    goToCart() {
+        const navigateProductDetail = NavigationActions.navigate({
+            routeName: 'StackCart',
+        });
+        this.props.navigation.dispatch(navigateProductDetail);
+    }
+
     goToProductDetail(item) {
         const navigateProductDetail = NavigationActions.navigate({
             routeName: 'ProductDetail',
@@ -124,7 +214,8 @@ class ProductDetail extends PureComponent {
         this.props.navigation.dispatch(navigateProductDetail);
     }
 
-    goToStore(data) {
+    goToStore() {
+        const data = this.props.dataStore;
         const navigateProductDetail = NavigationActions.navigate({
             routeName: 'TabStoreDetail',
             params: { data }
@@ -134,16 +225,25 @@ class ProductDetail extends PureComponent {
 
     addToCart() {
         const product = this.props.navigation.state.params.data;
-        const store = {
-            storeId: product.storeId,
-            storeName: product.storeName
-        };
+        const store = this.props.dataStore;
         const itemsStore = {
             store,
             marked: true
         };
         const itemsProduct = { product, quantity: 1, marked: true };
-        this.props.addCart(itemsStore, itemsProduct);
+        if (this.props.cart.length > 0) {
+            const { cart } = this.props;
+            const indexStore = cart.findIndex(item => item.itemsStore.store.storeId === product.storeId);
+            const existsProduct = cart[indexStore].itemsProduct.some(e => e.product.productId === product.productId);
+            if (existsProduct) {
+                this.refs.toast.show('Sản phẩm đã có trong giỏ hàng', DURATION.LENGTH_SHORT);
+            } else {
+                this.props.addCart(itemsStore, itemsProduct);
+            }
+        } else {
+            this.props.addCart(itemsStore, itemsProduct);
+            this.refs.toast.show('Thêm vào giỏ hàng thành công', DURATION.LENGTH_SHORT);
+        }
     }
 
     renderItemFood({ item }) {
@@ -188,7 +288,7 @@ class ProductDetail extends PureComponent {
             commentList
         } = this.props.dataProductInfo;
         const { data } = this.props.navigation.state.params;
-        // console.log(data);
+
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView
@@ -220,7 +320,7 @@ class ProductDetail extends PureComponent {
                         store={data.storeName}
                         catalogues={data.itemSubject}
                         textDescription={data.description}
-                        goToStore={this.goToStore.bind(this, data)}
+                        goToStore={this.goToStore.bind(this)}
                     />
                     <View>
                         {
@@ -279,10 +379,23 @@ class ProductDetail extends PureComponent {
                     price={data.unitPrice}
                     unit={data.unit}
                     total={data.total}
+                    onPress={this.buyNowFromModal.bind(this)}
+                    increQuantity={this.increQuantity.bind(this)}
+                    decreQuantity={this.decreQuantity.bind(this)}
+                    onSubmitEditing={this.onSubmitEditing.bind(this, data)}
+                    defaultValue={this.state.number}
+                    onChangeText={(text) => {
+                        return this.setState({
+                            number: parseInt(text)
+                        });
+
+                    }
+                    }
+                    totalPrice={this.state.number ? this.state.number * parseInt(data.unitPrice) : data.unitPrice}
                 />
                 <BuyProduct
                     addToCart={this.addToCart.bind(this)}
-                    buyNow={() => this.props.showModalBuy()}
+                    buyNow={this.buyNow.bind(this)}
                     opacity={this.state.opacityBuy}
                 />
                 <Toast
@@ -290,9 +403,8 @@ class ProductDetail extends PureComponent {
                     style={{ backgroundColor: '#111', borderRadius: 20 }}
                     position='bottom'
                     positionValue={200}
-                    fadeInDuration={750}
-                    fadeOutDuration={1000}
-                    // opacity={0.8}
+                    fadeInDuration={150}
+                    fadeOutDuration={150}
                     textStyle={{ color: '#ffffff' }}
                 />
             </View >
@@ -314,6 +426,7 @@ const styles = StyleSheet.create({
     },
     wrap: {
         marginTop: 15,
+        marginHorizontal: 5
     },
     textSuggest: {
         fontSize: 18,
@@ -346,7 +459,8 @@ const mapStateToProps = (state) => ({
     isLoading: state.dataProductInfo.loading,
     modalVisible: state.modalBuy.modalVisible,
     cart: state.cartReducer.cart,
-    error: state.cartReducer.error
+    error: state.cartReducer.error,
+    dataStore: state.dataStoreFromProduct.dataStoreFromProduct
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -359,8 +473,17 @@ const mapDispatchToProps = (dispatch) => ({
     hideModalBuy: () => {
         dispatch(hideModalBuy());
     },
-    addCart: (product, quantity, marked) => {
-        dispatch(addToCart(product, quantity, marked));
+    getCart: () => {
+        dispatch(getCart());
+    },
+    addCart: (itemsStore, itemProduct) => {
+        dispatch(addToCart(itemsStore, itemProduct));
+    },
+    addToCartFromBuyNow: (itemsStore, itemProduct) => {
+        dispatch(addToCartFromBuyNow(itemsStore, itemProduct));
+    },
+    getStoreFromProduct: (storeId) => {
+        dispatch(getStoreFromProduct(storeId));
     }
 });
 

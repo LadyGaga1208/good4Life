@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 15,
-        color: 'orange',
+        color: '#111',
         fontWeight: '400',
         fontFamily: 'Neon'
     },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     unit: {
         textDecorationLine: 'underline',
         fontSize: 14,
-        color: 'orange',
+        color: '#111',
         fontWeight: '400',
         fontFamily: 'Neon',
         paddingLeft: 4

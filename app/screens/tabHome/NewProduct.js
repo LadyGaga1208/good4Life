@@ -27,10 +27,9 @@ class NewProduct extends PureComponent {
     }
 
     goToProductDetail(item) {
-        // console.log(item);
         const navigateProductDetail = NavigationActions.navigate({
             routeName: 'ProductDetail',
-            params: { data: item }
+            params: { data: item },
         });
         this.props.navigation.dispatch(navigateProductDetail);
     }

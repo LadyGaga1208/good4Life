@@ -5,6 +5,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -24,8 +26,10 @@ class BuyProduct extends PureComponent {
                     <Text style={textAddCart}>Thêm vào giỏ</Text>
                     <Image source={iconCart} style={styleIconCart} />
                 </TouchableOpacity>
-                <TouchableOpacity style={buyNow} onPress={this.props.buyNow}>
-                    <Text style={textBuy}>Mua ngay</Text>
+                <TouchableOpacity onPress={this.props.buyNow}>
+                    <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={buyNow}>
+                        <Text style={textBuy}>Mua ngay</Text>
+                    </LinearGradient>
                 </TouchableOpacity>
             </View>
         );
@@ -46,16 +50,17 @@ const styles = {
         elevation: 2
     },
     buyNow: {
-        backgroundColor: '#FF084A',
+        flex: 1,
         width: 0.4 * screenWidth,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: '#ddd',
-        borderLeftWidth: 1,
-        elevation: 2,
+        borderColor: '#111',
+        borderLeftWidth: 0.5,
+        borderTopWidth: 0.5,
+        elevation: 0.5,
     },
     textBuy: {
-        color: '#fff',
+        color: '#111',
         fontSize: 17
     },
     icon: {

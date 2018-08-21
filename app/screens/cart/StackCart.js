@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import {
-    Text,
-    View,
-    FlatList,
-    StyleSheet,
-    Image,
-    ActivityIndicator,
-    TouchableOpacity
-} from 'react-native';
+import { Text, View, FlatList, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { screenHeight, screenWidth, primaryColor } from '../../styles/variables';
+import { screenHeight, primaryColor, screenWidth } from '../../styles/variables';
 import { getCart, changeMarkedStore, changeMarkedProduct, removeProduct, removeStore, increQuantity, decreQuantity, inputQuantity } from '../../redux/action/cart';
 import ItemCart from '../../components/ItemCart';
 import { url } from '../../api/ApiService';
-import Header from '../tabHome/Header';
 
 const check = require('../../images/icons/circle.png');
 const checked = require('../../images/icons/checked.png');
 const cancel = require('../../images/icons/cancel.png');
 
-class Cart extends Component {
+class StackCart extends Component {
+
+    static navigationOptions = {
+        title: 'Giỏ hàng của bạn',
+        headerStyle: {
+            backgroundColor: primaryColor,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    };
 
     constructor(props) {
         super(props);
@@ -109,7 +111,7 @@ class Cart extends Component {
     renderItems({ item }) {
         return (
             <View>
-                <View style={styles.wrapItemStore}>
+                <View style={styles.wrapItemStore} >
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                         <TouchableOpacity onPress={() => this.props.changeMarkedStore(item.itemsStore.store.storeId)}>
                             <Image
@@ -140,7 +142,6 @@ class Cart extends Component {
     }
     render() {
         const { cart } = this.props;
-        console.log(cart, 'hjjhjhj');
         if (cart.length > 0) {
             let total = 0;
             for (let i = 0; i < cart.length; i++) {
@@ -153,7 +154,6 @@ class Cart extends Component {
             }
             return (
                 <View style={styles.container}>
-                    <Header />
                     <View style={styles.content}>
                         {this.props.isLoading ? <ActivityIndicator size='large' animating /> : (
                             <View style={{ flex: 1 }}>
@@ -184,7 +184,6 @@ class Cart extends Component {
         }
         return (
             <View style={styles.container} >
-                <Header />
                 <View style={styles.content}>
                     {this.props.isLoading ? <ActivityIndicator size='large' animating /> : (
                         <View style={styles.content}>
@@ -320,4 +319,5 @@ const mapDispatchToProps = (dispath) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(StackCart);
+

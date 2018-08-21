@@ -6,7 +6,7 @@ class Chat extends PureComponent {
     static navigationOptions = {
         tabBarVisible: false
     }
-    
+
     render() {
         return (
             <View>

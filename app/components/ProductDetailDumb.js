@@ -57,9 +57,9 @@ export default class ProductDetailDumb extends PureComponent {
                                 </View>
                             </View>
                         </View>
-                        <View style={wrapIconNew}>
+                        {/* <View style={wrapIconNew}>
                             <Image source={iconNew1} style={iconNew} />
-                        </View>
+                        </View> */}
                     </View>
                 </View>
                 {/* 
@@ -151,14 +151,16 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingTop: 1,
         paddingHorizontal: 3,
-        color: '#e60000',
+        // color: '#e60000',
+        color: '#111',
         fontWeight: '400',
         fontFamily: 'Neon'
     },
     numberPrice: {
         fontSize: 30,
         fontWeight: '400',
-        color: '#e60000',
+        // color: '#e60000',
+        color: '#111',
         fontFamily: 'Neon'
     },
     kg: {
@@ -248,14 +250,16 @@ const styles = StyleSheet.create({
     },
     textViewStore: {
         color: '#111',
-        borderWidth: 1,
-        padding: 7,
-        borderRadius: 5,
-        elevation: 2,
-        fontSize: 15
+        fontSize: 13,
+        padding: 5
     },
     wrapTextViewStore: {
-        marginLeft: 35
+        marginLeft: 35,
+        borderColor: '#ddd',
+        borderWidth: 1,
+        borderRadius: 5,
+        elevation: 1.5,
+        backgroundColor: '#fff'
     },
     wrapTextInf2: {
         backgroundColor: '#ffffff',

@@ -7,8 +7,10 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    alert
+    alert,
+    KeyboardAvoidingView
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -19,7 +21,7 @@ const iconCancel = require('../images/icons/cancel.png');
 export default class ModalBuyProduct extends PureComponent {
     render() {
         const { container, wrap, wraphead, wrapImg, img, wrapPrice,
-            price, unit, total, wraptext, wrapOrder, text1, icon,
+            price, unit, total, wraptext, wrapOrder, text1, icon, textInput,
             wrapTextInput, wrapTotal, text2, totalPrice, iconX, wrapBuyNow, text3 } = styles;
         return (
             <Modal
@@ -28,9 +30,9 @@ export default class ModalBuyProduct extends PureComponent {
                 visible={this.props.modalVisible}
                 onRequestClose={() => { alert('Modal has been closed.'); }}
             >
-                <View style={container}>
+                <KeyboardAvoidingView behavior="position" enabled style={container}>
                     <View style={wrap}>
-                        <View>
+                        <View style={{ width: 0.78 * screenWidth }}>
                             <View style={wraphead}>
                                 <View style={wrapImg}>
                                     <Image style={img} source={{ uri: `${this.props.img}` }} />
@@ -45,37 +47,44 @@ export default class ModalBuyProduct extends PureComponent {
                             </View>
                             <View style={wrapOrder}>
                                 <Text style={text1}>Số lượng</Text>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={this.props.decreQuantity}>
                                     <Image source={iconMinus} style={icon} />
                                 </TouchableOpacity>
                                 <View style={wrapTextInput}>
                                     <TextInput
-                                        placeholder='1'
                                         placeholderTextColor='#111'
                                         underlineColorAndroid='transparent'
-                                        style={{ fontSize: 33 }}
+                                        style={textInput}
+                                        onChangeText={this.props.onChangeText}
+                                        defaultValue={`${this.props.defaultValue}`}
+                                        keyboardType='numeric'
+                                        onSubmitEditing={this.props.onSubmitEditing}
+                                        maxLength={3}
+                                        value={this.props.value}
                                     />
                                 </View>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={this.props.increQuantity}>
                                     <Image source={iconPlus} style={icon} />
                                 </TouchableOpacity>
                             </View>
                             <View style={wrapTotal}>
                                 <Text style={text2}>Tổng số tiền: </Text>
-                                <Text style={totalPrice}>50.000 đ</Text>
+                                <Text style={totalPrice}>{this.props.totalPrice}.000đ</Text>
                             </View>
                         </View>
-                        <View>
+                        <View style={{ width: 0.22 * screenWidth, alignItems: 'flex-end' }}>
                             <TouchableOpacity onPress={this.props.hideModal}>
                                 <Image source={iconCancel} style={iconX} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={wrapBuyNow}>
-                                <Text style={text3}>Mua</Text>
-                                <Text style={text3}>ngay</Text>
+                            <TouchableOpacity onPress={this.props.onPress}>
+                                <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapBuyNow} >
+                                    <Text style={text3}>Mua</Text>
+                                    <Text style={text3}>ngay</Text>
+                                </LinearGradient>
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </Modal >
         );
     }
@@ -100,11 +109,10 @@ const styles = StyleSheet.create({
     },
     wrapImg: {
         flexDirection: 'row',
-
     },
     img: {
         backgroundColor: 'yellow',
-        width: 0.33 * screenWidth,
+        width: 0.28 * screenWidth,
         height: 0.2 * screenHeight,
         resizeMode: 'stretch',
         marginLeft: 10
@@ -142,12 +150,12 @@ const styles = StyleSheet.create({
         width: 27,
         height: 27,
         resizeMode: 'stretch',
-        marginHorizontal: 25,
-        marginTop: 17
+        marginHorizontal: 15,
+        marginTop: 17,
     },
     wrapTotal: {
         flexDirection: 'row',
-        marginTop: 10
+        marginTop: 30,
     },
     text2: {
         fontSize: 22,
@@ -162,23 +170,34 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         resizeMode: 'stretch',
-        marginLeft: 55,
-        marginTop: 5
+        // marginLeft: 55,
+        marginTop: 5,
+        marginRight: 5,
     },
     wrapBuyNow: {
-        marginLeft: 20,
         marginTop: 20,
-        backgroundColor: '#008296',
         height: 0.3 * screenHeight,
         width: 0.1 * screenHeight,
-        borderRadius: 10,
-        elevation: 2,
+        borderRadius: 5,
+        elevation: 1,
+        borderWidth: 0.5,
+        borderColor: '#111',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginRight: 5
     },
     text3: {
-        fontSize: 22,
-        color: '#fff',
+        fontSize: 19,
+        color: '#111',
         marginVertical: 10
+    },
+    textInput: {
+        padding: 0,
+        marginTop: 8,
+        textAlign: 'center',
+        fontSize: 30,
+        width: 50
+    },
+    wrapTextInput: {
     }
 });

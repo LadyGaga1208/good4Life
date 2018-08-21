@@ -2,15 +2,10 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import ProductApi from '../../api/ProductApi';
 import { TabProduct } from '../action/types';
-// import { url } from '../../api/Url';
-
-// function getApi(value) {
-//     return axios.get(`${url}/ProductInfo?functionName=GetFavoriteProduct&accountId=1&accountType=1&index=${value}&productType=0`);
-// }
 
 function* getDataFavoriteProduct(action) {
     try {
-        const response = yield call(ProductApi.getFavoriteProduct, 1, 1, action.value, 0);
+        const response = yield call(ProductApi.getFavoriteProduct, 1, 1, action.value, action.productType);
         yield put({
             type: TabProduct.GET_SUCCEEDED_FAVORITE_PRODUCT,
             payload: response.data.productInfoList

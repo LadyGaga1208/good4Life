@@ -76,14 +76,12 @@ class StoreDetail extends PureComponent {
             if (this.state.comment !== '') {
                 if (this.state.dataComment.length === 0) {
                     this.setState({
-                        opacityBuy: 1,
                         dataComment: [newComment, ...commentList],
                         comment: ''
                     });
                 } else {
                     this.setState((previousState) =>
                         ({
-                            opacityBuy: 1,
                             dataComment: [newComment, ...previousState.dataComment],
                             comment: ''
                         })
@@ -201,7 +199,7 @@ const styles = StyleSheet.create({
     },
     wrap: {
         marginTop: 15,
-        marginLeft: 5,
+        marginHorizontal: 5,
     },
     textSuggest: {
         fontSize: 16,

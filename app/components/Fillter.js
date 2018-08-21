@@ -8,19 +8,18 @@ const iconFilter = require('../images/icons/filter.png');
 class Fillter extends PureComponent {
     render() {
         const { wrapper, wrapTotal, wrapFilter, icon,
-            text, textSpace, buttomFilter, text1 } = styles;
+            text, textSpace, text1 } = styles;
         return (
             <View style={wrapper}>
                 <View style={wrapTotal}>
                     <Text style={text}>Tổng số</Text>
                     <Text style={textSpace}>:</Text>
-                    <Text style={text}>45</Text>
+                    <Text style={text}>{this.props.totalProduct}</Text>
                 </View>
                 <View style={wrapFilter}>
-                    <Text style={text1}>Sản phẩm mới</Text>
-                    <TouchableOpacity style={buttomFilter} onPress={this.props.show}>
+                    <Text style={text1}>{`Danh mục ${this.props.nameItem}`}</Text>
+                    <TouchableOpacity onPress={this.props.show}>
                         <Image source={iconFilter} style={icon} />
-                        <Text style={text}>Lọc</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -30,12 +29,14 @@ class Fillter extends PureComponent {
 
 const styles = {
     wrapper: {
-        height: 0.075 * screenHeight,
+        height: 0.07 * screenHeight,
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
-        backgroundColor: 'yellow',
+        borderBottomWidth: 1,
+        borderColor: '#ddd',
+        elevation: 0.5,
+        backgroundColor: '#fff',
         // position: 'absolute',
         // top: 0,
         width: screenWidth
@@ -44,7 +45,8 @@ const styles = {
         height: 24,
         width: 24,
         resizeMode: 'stretch',
-        marginLeft: 7
+        marginLeft: 2,
+        marginTop: 4
     },
     wrapFilter: {
         flexDirection: 'row',

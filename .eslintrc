@@ -1,3 +1,13 @@
 {
-    "extends": "rallycoding"
+    "extends": "rallycoding",
+    "rules": {
+        "max-len": [
+            2,
+            200,
+            4,
+            {
+                "ignoreUrls": true
+            }
+        ]
+    }
 }

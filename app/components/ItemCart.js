@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { screenHeight, screenWidth } from '../styles/variables';
+import { screenHeight, screenWidth, primaryColor } from '../styles/variables';
 
 const check = require('../images/icons/circle.png');
 const checked = require('../images/icons/checked.png');
@@ -16,38 +16,50 @@ export default class ItemCart extends Component {
             iconNus, iconDeleteStyle, wrapImage, unit } = styles;
         return (
             <View style={container}>
-                <View style={wrapCheckbox}>
+                <TouchableOpacity style={wrapCheckbox} onPress={this.props.changeMarkedProduct}>
                     <Image
-                        tintColor={this.props.checked ? '#FFA500' : '#111'}
+                        tintColor={this.props.checked ? '#e77600' : '#111'}
                         source={this.props.checked ? checked : check}
                         style={iconCheckStyle}
                     />
-                </View>
-                <View style={wrapImage}>
-                    <Image
-                        style={image}
-                        source={{ uri: `${this.props.imgProduct}` }}
-                    />
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                    <View style={{ width: '70%' }}>
-                        <Text numberOfLines={1} style={name}>{this.props.nameProduct}</Text>
+                </TouchableOpacity>
+                <TouchableWithoutFeedback onPress={this.props.onPress}>
+                    <View style={wrapImage}>
+                        <Image
+                            style={image}
+                            source={{ uri: `${this.props.imgProduct}` }}
+                        />
                     </View>
+                </TouchableWithoutFeedback>
+                <View style={{ marginLeft: 10 }}>
+                    <TouchableWithoutFeedback onPress={this.props.onPress}>
+                        <View style={{ width: '70%' }}>
+                            <Text numberOfLines={1} style={name}>{this.props.nameProduct}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                     <View style={wrapPrice}>
                         <Text style={price}>{this.props.price}</Text>
                         <Text style={unit}>đ</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 3 }}>
-                        <View style={iconStyle}>
+                        <TouchableOpacity style={iconStyle} onPress={this.props.decreQuantity}>
                             <Image source={iconMinus} style={iconNus} tintColor='#111' />
-                        </View>
-                        <TextInput style={texInputStyle} onChangeText={this.props.onChangeText} defaultValue={`${this.props.defaultValue}`} />
-                        <View style={iconStyle}>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={texInputStyle}
+                            onChangeText={this.props.onChangeText}
+                            defaultValue={`${this.props.defaultValue}`}
+                            keyboardType='numeric'
+                            onSubmitEditing={this.props.onSubmitEditing}
+                            maxLength={3}
+                            onEndEditing={this.props.onEndEditing}
+                        />
+                        <TouchableOpacity style={iconStyle} onPress={this.props.increQuantity}>
                             <Image source={iconPlus} style={iconNus} tintColor='#111' />
-                        </View>
-                        <View style={iconDeleteStyle}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={iconDeleteStyle} onPress={this.props.removeProduct}>
                             <Image source={iconDelete} style={iconCheckStyle} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View >
@@ -89,6 +101,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 14,
+        color: '#111',
         fontFamily: 'Roboto-Thin',
     },
     wrapPrice: {
@@ -97,7 +110,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 17,
-        color: 'orange',
+        color: '#111',
         fontFamily: 'Neon'
     },
     iconNus: {
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 0.5,
-        borderColor: '#ddd'
+        borderColor: '#ddd',
     },
     texInputStyle: {
         width: 40,
@@ -127,11 +140,11 @@ const styles = StyleSheet.create({
         marginLeft: '40%',
         width: 40,
         height: 0.04 * screenHeight,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     unit: {
-        fontSize: 16,
-        color: 'orange',
+        fontSize: 17,
+        color: '#111',
         fontFamily: 'Neon',
         // textDecorationLine: 'underline'
     }

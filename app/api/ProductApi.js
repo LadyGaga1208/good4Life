@@ -28,6 +28,14 @@ const getSellingProduct = (accountId, accountType, index, productType) => {
     return ApiService.get(`ProductInfo?functionName=GetSellingProduct&accountId=${accountId}&accountType=${accountType}&index=${index}&productType=${productType}`);
 };
 
+const getStoreOfProduct = (storeId) => {
+    return ApiService.get(`ProductInfo?functionName=GetStoreOfProduct&storeId=${storeId}`);
+};
+
+const getProductOfItem = (accountId, accountType, index, productItem, type) => {
+    return ApiService.get(`ProductInfo?functionName=GetProductOfItem&accountId=${accountId}&accountType=${accountType}&index=${index}&productItem=${productItem}&type=${type}`);
+};
+
 export default {
     getFavoriteProduct,
     getNewProduct,
@@ -35,6 +43,8 @@ export default {
     getProductInfo,
     getProductOfStore,
     getSuggestProduct,
-    getSellingProduct
+    getSellingProduct,
+    getStoreOfProduct,
+    getProductOfItem
 };
 

@@ -15,6 +15,7 @@ import dataProductStore from './ProductStoreReducer';
 import dataStoreFollow from './StoreFollowReducer';
 import dataStoreSuggest from './StoreSuggest';
 import cartReducer from './CartReducer';
+import dataStoreFromProduct from './StoreFromProduct';
 
 export default combineReducers({
     nav: navReducer,
@@ -31,5 +32,6 @@ export default combineReducers({
     dataProductStore,
     dataStoreSuggest,
     dataStoreFollow,
-    cartReducer
+    cartReducer,
+    dataStoreFromProduct
 });

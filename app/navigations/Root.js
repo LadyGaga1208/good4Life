@@ -4,10 +4,11 @@ import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 import StackHome from './StackHome';
 import Cart from '../screens/cart/Cart';
 import Notifications from '../screens/Notification';
-import Profile from '../screens/Profile';
+import StackProfile from './StackProfile';
 import SplashScreen from '../screens/SplashScreen';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
 import TabStore from './TabStore';
+import IconCart from '../screens/cart/IconCart';
 
 const iconHomeAct = require('../images/icons/homeAct.png');
 const iconStoreAct = require('../images/icons/storeAct.png');
@@ -47,7 +48,7 @@ const App = TabNavigator(
             navigationOptions: {
                 tabBarIcon: ({ focused }) => {
                     const iconName = focused ? iconCartAct : iconCartInAct;
-                    return <Image source={iconName} />;
+                    return <IconCart source={iconName} />;
                 }
             }
         },
@@ -61,7 +62,7 @@ const App = TabNavigator(
             }
         },
         Profile: {
-            screen: Profile,
+            screen: StackProfile,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => {
                     const iconName = focused ? iconProfileAct : iconProfileInAct;

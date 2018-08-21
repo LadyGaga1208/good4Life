@@ -4,24 +4,16 @@ import {
     StyleSheet,
     FlatList,
     ActivityIndicator,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import {
-    MenuContext,
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
-
-import { BasicExampleComponent } from '../Notification';
 
 import { getDataNewProduct } from '../../redux/action/getDataTabProduct';
 import ItemProduct from '../../components/ItemProduct';
 import Fillter from '../../components/Fillter';
-
+import ModalFilter from '../../components/ModalFilter';
 import { url } from '../../api/ApiService';
 
 class NewProduct extends PureComponent {
@@ -30,17 +22,20 @@ class NewProduct extends PureComponent {
         super(props);
         this.state = {
             value: 0,
+            modalVisible: false,
+            nameItem: '',
+            productType: 0
         };
     }
 
     componentDidMount() {
-        this.props.getDataNewProduct(this.state.value);
+        this.props.getDataNewProduct(this.state.value, this.state.productType);
     }
 
     handleEnd() {
         this.setState((previousState) => ({
             value: previousState.value + 1
-        }), () => this.props.getDataNewProduct(this.state.value));
+        }), () => this.props.getDataNewProduct(this.state.value, this.state.productType));
     }
 
     goToProductDetail(item) {
@@ -51,8 +46,34 @@ class NewProduct extends PureComponent {
         this.props.navigation.dispatch(navigateProductDetail);
     }
 
-    showPopUp() {
+    showModalFilter() {
+        this.setState({
+            modalVisible: true
+        });
+    }
 
+    hideModal() {
+        this.setState({
+            modalVisible: false
+        });
+    }
+
+    async selectProductItem(item) {
+        await this.setState({
+            modalVisible: false,
+            nameItem: item.itemName,
+            productType: item.itemId,
+            value: 0
+        });
+        await this.props.getDataNewProduct(this.state.value, this.state.productType);
+    }
+
+    renderProductItem({ item }) {
+        return (
+            <TouchableOpacity style={styles.itemProduct} onPress={this.selectProductItem.bind(this, item)}>
+                <Text style={styles.text}>{item.itemName}</Text>
+            </TouchableOpacity>
+        );
     }
 
     renderItemNewProduct({ item }) {
@@ -74,23 +95,36 @@ class NewProduct extends PureComponent {
         return (
             <View style={styles.wrap}>
                 <Fillter
-                    show={this.showPopUp.bind(this)}
+                    show={this.showModalFilter.bind(this)}
+                    totalProduct={this.props.dataNewProduct.length > 0 ? this.props.dataNewProduct.length : 0}
+                    nameItem={this.state.nameItem}
                 />
-                <View style={styles.container}>
-                    {
-                        isLoading ? <ActivityIndicator size='large' color='#008296' animating /> : (
-                            <FlatList
-                                data={dataNewProduct}
-                                keyExtractor={(item) => item.productId.toString()}
-                                showsVerticalScrollIndicator={false}
-                                numColumns={2}
-                                renderItem={this.renderItemNewProduct.bind(this)}
-                                onEndReached={() => this.handleEnd()}
-                                onEndReachedThreshold={0.2}
-                            />
-                        )
-                    }
-                </View>
+                {
+                    isLoading ? <ActivityIndicator size='large' color='#008296' animating /> : (
+                        <FlatList
+                            data={dataNewProduct}
+                            keyExtractor={(item) => item.productId.toString()}
+                            showsVerticalScrollIndicator={false}
+                            numColumns={2}
+                            renderItem={this.renderItemNewProduct.bind(this)}
+                            onEndReached={() => this.handleEnd()}
+                            onEndReachedThreshold={0.2}
+                        />
+                    )
+                }
+                <ModalFilter
+                    modalVisible={this.state.modalVisible}
+                    hideModal={this.hideModal.bind(this)}
+                >
+                    <TouchableOpacity style={styles.itemProduct} onPress={this.selectProductItem.bind(this, { itemId: 0, itemName: 'Tất cả' })}>
+                        <Text style={styles.text}>Tất cả</Text>
+                    </TouchableOpacity>
+                    <FlatList
+                        data={this.props.dataProductItems}
+                        renderItem={this.renderProductItem.bind(this)}
+                        keyExtractor={(item) => item.itemId.toString()}
+                    />
+                </ModalFilter>
             </View>
         );
     }
@@ -104,17 +138,31 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    itemProduct: {
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#ddd',
+        borderBottomWidth: 1,
+        backgroundColor: '#fff'
+    },
+    text: {
+        fontFamily: 'Roboto-Thin',
+        fontSize: 12,
+        color: '#111'
     }
 });
 
 const mapStateToProps = (state) => ({
     dataNewProduct: state.dataNewProduct.dataNewProduct,
-    isLoading: state.dataNewProduct.loading
+    isLoading: state.dataNewProduct.loading,
+    dataProductItems: state.homeReducer.dataHome.productItems
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getDataNewProduct: (value) => {
-        dispatch(getDataNewProduct(value));
+    getDataNewProduct: (value, productType) => {
+        dispatch(getDataNewProduct(value, productType));
     },
 });
 

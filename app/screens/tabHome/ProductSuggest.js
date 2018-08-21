@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-
+import LinearGradient from 'react-native-linear-gradient';
 import HeaderPart from '../../components/HeaderPart';
 import Loading from '../../components/Loading';
 import ItemProduct from '../../components/ItemProduct';
@@ -41,8 +41,10 @@ class ProductSuggest extends PureComponent {
 
     loadMore() {
         return (
-            <TouchableOpacity style={styles.loadmore} onPress={this.onPressLoadMore.bind(this)}>
-                <Text style={styles.textLoad}>Xem thêm</Text>
+            <TouchableOpacity onPress={this.onPressLoadMore.bind(this)}>
+                <LinearGradient style={styles.loadmore} colors={['#f7dd9f', '#f0c14d']} >
+                    <Text style={styles.textLoad}>Xem thêm</Text>
+                </LinearGradient>
             </TouchableOpacity>
         );
     }
@@ -89,18 +91,18 @@ const styles = StyleSheet.create({
         height: 0.5 * screenHeight,
     },
     loadmore: {
-        backgroundColor: primaryColor,
-        height: 0.08 * screenHeight,
+        height: 0.06 * screenHeight,
+        width: 0.3 * screenWidth,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 5,
+        marginHorizontal: 0.35 * screenWidth,
         marginTop: 5,
-        borderColor: '#ddd',
-        borderRadius: 5
+        borderWidth: 1,
+        borderColor: '#111',
+        borderRadius: 3
     },
     textLoad: {
-        color: '#fff',
-        fontFamily: 'Comfortaa-Regular',
+        color: '#111',
     }
 });
 

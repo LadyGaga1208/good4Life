@@ -82,6 +82,8 @@
 		13FD267DED804C03A86DF2FC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4335AD12ADD4C40B63156BB /* Octicons.ttf */; };
 		52029CDDD2A94753943CA501 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49C6EA02F3B2459CAAFC14EA /* SimpleLineIcons.ttf */; };
 		6976528475BB4416832A298A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C99F4CA2480F4EAB863127EF /* Zocial.ttf */; };
+		CC4D47AA6F4E4FD0949AE8B8 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F82CAAFFE4F21BD1C4131 /* libBVLinearGradient.a */; };
+		927810FC103646968D52811A /* FondyScript_PERSONAL_USE_ONLY.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BCA759AAA934D34BFCBB2BF /* FondyScript_PERSONAL_USE_ONLY.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +358,9 @@
 		B4335AD12ADD4C40B63156BB /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		49C6EA02F3B2459CAAFC14EA /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		C99F4CA2480F4EAB863127EF /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F7DAF45BA5849A8A9A9F7A3 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		3E8F82CAAFFE4F21BD1C4131 /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		9BCA759AAA934D34BFCBB2BF /* FondyScript_PERSONAL_USE_ONLY.ttf */ = {isa = PBXFileReference; name = "FondyScript_PERSONAL_USE_ONLY.ttf"; path = "../fonts/FondyScript_PERSONAL_USE_ONLY.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -385,6 +390,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DE7630A64B4E476F89106F12 /* libRNVectorIcons.a in Frameworks */,
+				CC4D47AA6F4E4FD0949AE8B8 /* libBVLinearGradient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +560,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				6929944BD2464727B3106644 /* RNVectorIcons.xcodeproj */,
+				1F7DAF45BA5849A8A9A9F7A3 /* BVLinearGradient.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -648,6 +655,7 @@
 				B4335AD12ADD4C40B63156BB /* Octicons.ttf */,
 				49C6EA02F3B2459CAAFC14EA /* SimpleLineIcons.ttf */,
 				C99F4CA2480F4EAB863127EF /* Zocial.ttf */,
+				9BCA759AAA934D34BFCBB2BF /* FondyScript_PERSONAL_USE_ONLY.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1067,6 +1075,7 @@
 				13FD267DED804C03A86DF2FC /* Octicons.ttf in Resources */,
 				52029CDDD2A94753943CA501 /* SimpleLineIcons.ttf in Resources */,
 				6976528475BB4416832A298A /* Zocial.ttf in Resources */,
+				927810FC103646968D52811A /* FondyScript_PERSONAL_USE_ONLY.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,10 +1210,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Debug;
@@ -1226,10 +1237,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Release;
@@ -1252,6 +1265,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Debug;
@@ -1273,6 +1287,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Release;
@@ -1303,10 +1318,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Debug;
@@ -1337,10 +1354,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-linear-gradient\BVLinearGradient",
 				);
 			};
 			name = Release;
@@ -1366,6 +1385,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1390,6 +1410,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};

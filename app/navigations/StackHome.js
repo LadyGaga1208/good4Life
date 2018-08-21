@@ -7,7 +7,7 @@ import TabStoreDetail from './TabStoreDetail';
 import ProductDetail from '../screens/productDetail/ProductDetail';
 import Chat from '../screens/Chat';
 import { primaryColor } from '../styles/variables';
-
+import StackCart from '../screens/cart/StackCart';
 
 const StackHome = StackNavigator(
     {
@@ -51,7 +51,13 @@ const StackHome = StackNavigator(
         ProductDetail: {
             screen: ProductDetail,
             navigationOptions: {
-                tabBarVisible: false,
+                tabBarVisible: false
+            }
+        },
+        StackCart: {
+            screen: StackCart,
+            navigationOptions: {
+                tabBarVisible: false
             }
         },
         TabStoreDetail: {
