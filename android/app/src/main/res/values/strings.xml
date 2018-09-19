@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">good4Life</string>
+    <string name="facebook_app_id">331963300872324</string>
+    <string name="fb_login_protocol_scheme">fb331963300872324</string>
 </resources>
