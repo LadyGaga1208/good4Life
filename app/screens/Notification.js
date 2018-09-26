@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import RNAccountKit from 'react-native-facebook-account-kit';
+
 
 export default class Notifications extends Component {
+
+  _smsfb() {
+    RNAccountKit.loginWithPhone()
+  .then((token) => {
+    if (!token) {
+      console.log('Login cancelled')
+    } else {
+      console.log(`Logged with phone. Token: ${token}`)
+    }
+  })
+  }
   
   render() {
     return (
@@ -24,6 +37,10 @@ export default class Notifications extends Component {
             }
           }
           onLogoutFinished={() => console.log("logout.")}/>
+
+          <TouchableOpacity onPress={this._smsfb}>
+            <Text>SMS</Text>
+          </TouchableOpacity>
       </View>
     );
   }
