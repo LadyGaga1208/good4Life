@@ -4,6 +4,7 @@ import {
     View,
     TouchableWithoutFeedback,
     Image,
+    ImageBackground,
     StyleSheet
 } from 'react-native';
 import { Rating } from 'react-native-elements';
@@ -22,12 +23,12 @@ class ItemProductSuggest extends PureComponent {
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
-                    <Image source={{ uri: `${this.props.imgProduct}` }} style={imgProduct}>
+                    <ImageBackground source={{ uri: `${this.props.imgProduct}` }} style={imgProduct}>
                         <View style={wrapPrice}>
                             <Text style={price}>{this.props.price}</Text>
                             <Text style={unit}>đ</Text>
                         </View>
-                    </Image>
+                    </ImageBackground>
                     <View style={wrapName}>
                         <Text style={nameProduct}>{this.props.nameProduct}</Text>
                     </View>

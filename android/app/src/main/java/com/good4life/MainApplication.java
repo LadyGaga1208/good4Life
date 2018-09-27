@@ -3,6 +3,9 @@ package com.good4life;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.underscope.react.fbak.RNAccountKitPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -37,6 +40,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage(),
             new RNGoogleSigninPackage(),
             new RNAccountKitPackage(),
             new FBSDKPackage(mCallbackManager),

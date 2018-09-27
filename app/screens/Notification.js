@@ -3,9 +3,102 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import RNAccountKit from 'react-native-facebook-account-kit';
 import { GoogleSignin, GoogleSigninButton, statusCodes  } from 'react-native-google-signin';
+import firebase, { Notification } from 'react-native-firebase';
 
 
 export default class Notifications extends Component {
+
+  componentDidMount() {
+    firebase.messaging().hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          firebase.messaging().getToken().then(token => {
+            console.log("LOG: ", token);
+          })
+          // user has permissions
+        } else {
+          firebase.messaging().requestPermission()
+            .then(() => {
+              alert("User Now Has Permission")
+            })
+            .catch(error => {
+              alert("Error", error)
+              // User has rejected permissions  
+            });
+        }
+      });
+
+      this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+        // Process your notification as required
+        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+        const {
+          body,
+          data,
+          notificationId,
+          sound,
+          subtitle,
+          title
+        } = notification;
+        console.log("LOG: khi hien thi hihi ", title, body, JSON.stringify(data));
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+        // Process your notification as required
+        const {
+          body,
+          data,
+          notificationId,
+          sound,
+          subtitle,
+          title
+        } = notification;
+        console.log("LOG: khi mo app ra haha ", title, body, JSON.stringify(data));
+        console.log(notification, 'hihihi');
+    });
+
+    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+      // Get the action triggered by the notification being opened
+      const action = notificationOpen.action;
+      console.log(action, 'action gi day');
+      // Get information about the notification that was opened
+      const notification = notificationOpen.notification;
+      console.log(notification, 'day là thông tin notification')
+  });
+
+  firebase.notifications().getInitialNotification()
+  .then((notificationOpen) => {
+    if (notificationOpen) {
+      // App was opened by a notification
+      // Get the action triggered by the notification being opened
+      const action = notificationOpen.action;
+      // Get information about the notification that was opened
+      const notification = notificationOpen.notification;  
+      console.log(notification, 'longdq')
+    }
+  });
+
+  const notification = new firebase.notifications.Notification()
+  .setNotificationId('0:1537263664798006%6018f8e86018f8e8')
+  .setTitle('My notification title')
+  .setBody('My notification body')
+  .setData({
+    key1: 'value1',
+    key2: 'value2',
+  });
+
+  notification
+  .android.setChannelId('channelId')
+  .android.setSmallIcon('ic_launcher');
+
+  firebase.notifications().displayNotification(notification);
+
+  }
+
+  componentWillUnmount() {
+    this.notificationDisplayedListener();
+    this.notificationListener();
+    this.notificationOpenedListener();
+}
+
 
   _smsfb() {
     RNAccountKit.loginWithPhone()

@@ -149,16 +149,19 @@ android {
 }
 
 dependencies {
+    implementation "com.google.firebase:firebase-messaging:17.3.2"
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation project(':react-native-linear-gradient')
     implementation "com.facebook.android:facebook-android-sdk:4.22.1"
     implementation 'com.facebook.android:account-kit-sdk:4.+'
+    implementation project(':react-native-firebase')
     implementation project(':react-native-facebook-account-kit')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:27.0.2"
-    implementation ("com.facebook.react:react-native:0.49.0") { force = true }
     implementation "com.facebook.react:react-native:+"  // From node_modules
      implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important

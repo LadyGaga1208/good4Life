@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, Text, ImageBackground } from 'react-native';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
@@ -9,7 +9,7 @@ export default class Profile extends Component {
         return (
             <View style={container}>
                 <View style={top}>
-                    <Image source={{ uri: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=0&oh=70a679da6a83b4f0798da17212f98878&oe=5C0004B1' }} style={img}>
+                    <ImageBackground source={{ uri: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=0&oh=70a679da6a83b4f0798da17212f98878&oe=5C0004B1' }} style={img}>
                         <View style={wrap}>
                             <View style={wrapImg}>
                                 <Image
@@ -22,7 +22,7 @@ export default class Profile extends Component {
                                 <Text></Text>
                             </View>
                         </View>
-                    </Image>
+                    </ImageBackground>
                 </View>
             </View>
         );

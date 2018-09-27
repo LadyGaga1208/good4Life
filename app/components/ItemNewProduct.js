@@ -5,6 +5,7 @@ import {
     View,
     TouchableWithoutFeedback,
     Image,
+    ImageBackground
 } from 'react-native';
 
 import { screenHeight, screenWidth } from '../styles/variables';
@@ -29,7 +30,7 @@ export default class ItemNewProduct extends PureComponent {
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
-                    <Image source={{ uri: `${this.props.uri}` }} style={img}>
+                    <ImageBackground source={{ uri: `${this.props.uri}` }} style={img}>
                         <View style={wrapTime}>
                             <CountdownTimer
                                 till={this.props.till}
@@ -38,7 +39,7 @@ export default class ItemNewProduct extends PureComponent {
                                 onFinish={this.onFinish.bind(this)}
                             />
                         </View>
-                    </Image>
+                    </ImageBackground>
                     <View style={wrapNamePr}>
                         <Text style={namePr} numberOfLines={2}>{this.props.name}</Text>
                     </View>
