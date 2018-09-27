@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "120639916537",
+    "firebase_url": "https://organic-f0900.firebaseio.com",
+    "project_id": "organic-f0900",
+    "storage_bucket": "organic-f0900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120639916537:android:73a3cd4ef24bf801",
+        "android_client_info": {
+          "package_name": "com.good4life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120639916537-5jm6kr1s8qhog5hsmpr1rapsosl54u6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.good4life",
+            "certificate_hash": "f9473879be653a596abcfc0f371f14a23498b2d9"
+          }
+        },
+        {
+          "client_id": "120639916537-q4iqf394iearhhqckv1nmb5cgitpas46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy2guPBVJ7uW9UVrx07x5DP3wqH-thJZ4"
+        },
+        {
+          "current_key": "AIzaSyAy2guPBVJ7uW9UVrx07x5DP3wqH-thJZ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120639916537-q4iqf394iearhhqckv1nmb5cgitpas46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
