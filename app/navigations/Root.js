@@ -95,7 +95,7 @@ const Root = StackNavigator(
         navigationOptions: {
             header: null
         },
-        initialRouteName: 'App'
+        initialRouteName: 'SplashScreen'
     }
 );
 
