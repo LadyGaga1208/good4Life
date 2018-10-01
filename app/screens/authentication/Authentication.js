@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+
 
 import { screenHeight, screenWidth, primaryColor } from '../../styles/variables';
 import Login from '../../components/Login';
@@ -32,16 +35,90 @@ export default class Authentication extends Component {
         });
         this.props.navigation.dispatch(resetAction);
     }
+    loginGg = async () => {
+        try {
+            await GoogleSignin.hasPlayServices({ autoResolve: true, showPlayServicesUpdateDialog: true });
+            await GoogleSignin.configure({
+                webClientId: '120639916537-q4iqf394iearhhqckv1nmb5cgitpas46.apps.googleusercontent.com',
+                offlineAccess: false,
+            });
+            const userInfo = await GoogleSignin.signIn();
+            console.log(userInfo, 'g+')
+            // this.setState({ userInfo });
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (f.e. sign in) is in progress already
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // play services not available or outdated
+            } else {
+                // some other error happened
+                console.log('hahahahahah');
+                console.log(error);
+            }
+        }
+    }
+    loginFB = () => {
+        let _self = this;
+        LoginManager.logInWithReadPermissions(['email', 'public_profile'])
+            .then(
+                (result) => {
+                    if (result.isCancelled) {
+                        console.log('Login cancelled');
+                    } else {
+                        console.log('Login success with permissions: ' + result.grantedPermissions.toString());
+                        console.log(result, 'kq fb');
+                        AccessToken.getCurrentAccessToken().then((data) => {
+                            console.log(data, 'du lieu facebook');
+                            const { accessToken } = data;
+                            _self.initUser(accessToken);
+                        });
+                    }
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+    initUser(token) {
+        fetch('https://graph.facebook.com/me?fields=email,name,picture.type(large)&access_token=' + token)
+            .then((response) => response.json())
+            .then((json) => {
+                // Some user object has been set up somewhere, build that user here
+                console.log(json, 'hahahaha');
+            })
+            .catch((e) => {
+                console.log(e);
+                throw Error('ERROR GETTING DATA FROM FACEBOOK');
+            });
+    }
     render() {
-        const { container, nav, iconSaladStyle, title } = styles;
+        const { container, nav, iconSaladStyle, title, welcome } = styles;
         return (
-            <View style={container}>
+            <ScrollView style={container}>
                 <View style={nav}>
-                    <Image source={iconSalad} style={iconSaladStyle} tintColor={primaryColor} />
+                    <Image source={iconSalad} style={iconSaladStyle} tintColor='#fff' />
                     <Text style={title}>Organic</Text>
                 </View>
-                {this.state.showLogin ? <Login showCreate={this.showCreate.bind(this)} login={this.login.bind(this)} /> : <CreateAcount showLogin={this.showLogin.bind(this)} />}
-            </View>
+                <View>
+                    <Text style={welcome}>Chào mừng bạn !</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                    {this.state.showLogin ?
+                        <Login
+                            showCreate={this.showCreate.bind(this)}
+                            loginFB={this.loginFB.bind(this)}
+                            loginGg={this.loginGg.bind(this)}
+                        />
+                        :
+                        <CreateAcount
+                            showLogin={this.showLogin.bind(this)}
+                        />}
+                </View>
+            </ScrollView>
         );
     }
 }
@@ -49,28 +126,33 @@ export default class Authentication extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
     },
     nav: {
         flexDirection: 'row',
         height: (0.48 / 6) * screenHeight,
         width: screenWidth,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f4f4f4',
-        borderColor: '#ddd',
-        elevation: 1,
-        borderBottomWidth: 1
+        backgroundColor: primaryColor,
+        elevation: 0.5,
     },
     title: {
         fontSize: 24,
         fontFamily: 'FondyScript_PERSONAL_USE_ONLY',
-        color: primaryColor
+        color: '#fff',
+        marginLeft: 5
     },
     iconSaladStyle: {
         width: 24,
         height: 24,
         resizeMode: 'stretch',
-        marginRight: 5
+        marginLeft: 5
     },
+    welcome: {
+        marginTop: 10,
+        color: '#111',
+        fontSize: 24,
+        // fontWeight: '500',
+        marginLeft: 15,
+        fontFamily: 'Comfortaa-Regular'
+    }
 });

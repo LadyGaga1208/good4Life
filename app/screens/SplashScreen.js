@@ -12,26 +12,26 @@ export default class SplashScreen extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-          opacity: new Animated.Value(0),
+            opacity: new Animated.Value(0),
         };
-      }
+    }
 
-      componentDidMount() {
+    componentDidMount() {
         Animated.timing(this.state.opacity, {
-          toValue: 1,
-          duration: 5000,
+            toValue: 1,
+            duration: 5000,
         }).start();
-      }
+    }
 
-        // componentDidMount() {
-        //     this.animation.play(30, 120);
+    // componentDidMount() {
+    //     this.animation.play(30, 120);
 
-        //     // const resetAction = NavigationActions.reset({
-        //     //     index: 0,
-        //     //     actions: [NavigationActions.navigate({ routeName: 'App' })],
-        //     // });
-        //     // setTimeout(() => this.props.navigation.dispatch(resetAction), 1000);
-        // }
+    //     // const resetAction = NavigationActions.reset({
+    //     //     index: 0,
+    //     //     actions: [NavigationActions.navigate({ routeName: 'App' })],
+    //     // });
+    //     // setTimeout(() => this.props.navigation.dispatch(resetAction), 1000);
+    // }
 
     //     render() {
     //         return (
@@ -46,24 +46,24 @@ export default class SplashScreen extends PureComponent {
 
     render() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Animated.View
-            style={{
-                opacity: this.state.opacity,
-                flex: 1,
-                justifyContent: 'center', alignItems: 'center'
-            }}
-            >
-            <LottieView
-             ref={animation => {
-                this.animation = animation;
-              }}
-                source={require('../animations/funky_chicken.json')}
-                autoPlay
-                loop
-                style={{ width: 200, height: 200}}
-            />
-            </Animated.View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Animated.View
+                    style={{
+                        opacity: this.state.opacity,
+                        flex: 1,
+                        justifyContent: 'center', alignItems: 'center'
+                    }}
+                >
+                    <LottieView
+                        ref={animation => {
+                            this.animation = animation;
+                        }}
+                        source={require('../animations/funky_chicken.json')}
+                        autoPlay
+                        loop
+                        style={{ width: 200, height: 200 }}
+                    />
+                </Animated.View>
             </View>
         );
     }

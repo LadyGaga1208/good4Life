@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 import StackHome from './StackHome';
 import Cart from '../screens/cart/Cart';
-import Notifications from '../screens/Notification';
+import Authentication from '../screens/profile/index';
 import StackProfile from './StackProfile';
 import SplashScreen from '../screens/SplashScreen';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
@@ -53,7 +53,7 @@ const App = TabNavigator(
             }
         },
         Notification: {
-            screen: Notifications,
+            screen: Authentication,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => {
                     const iconName = focused ? iconNotificationAct : iconNotificationInAct;
@@ -95,7 +95,7 @@ const Root = StackNavigator(
         navigationOptions: {
             header: null
         },
-        initialRouteName: 'SplashScreen'
+        initialRouteName: 'App'
     }
 );
 

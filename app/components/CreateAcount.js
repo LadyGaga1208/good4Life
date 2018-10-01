@@ -25,20 +25,10 @@ export default class CreateAcount extends Component {
                         placeholderTextColor='#9b9c9d'
                         placeholder='Số điện thoại'
                     />
-                    <TextInput
-                        style={textInput}
-                        placeholderTextColor='#9b9c9d'
-                        placeholder='Tên tài khoản'
-                    />
-                    <TextInput
-                        style={textInput}
-                        placeholderTextColor='#9b9c9d'
-                        placeholder='Mật khẩu'
-                    />
-                    <View style={showPass}>
+                    {/* <View style={showPass}>
                         <Image source={iconCheck} style={styleCheck} tintColor='blue' />
                         <Text style={{ color: 'blue', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
-                    </View>
+                    </View> */}
                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
                         <Text style={{ color: '#111' }}>Tiếp Tục</Text>
                     </LinearGradient>
@@ -48,10 +38,6 @@ export default class CreateAcount extends Component {
                     <TouchableOpacity style={choose} onPress={this.props.showLogin} />
                     <Text style={text2}>Đăng nhập</Text>
                 </View>
-                <View style={wrapFace}>
-                    <Image source={face} style={{ width: 22, height: 22 }} />
-                    <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với facebook</Text>
-                </View>
             </ScrollView >
         );
     }
@@ -59,9 +45,9 @@ export default class CreateAcount extends Component {
 
 const styles = StyleSheet.create({
     wrap: {
-        height: 0.49 * screenHeight,
+        height: 0.28 * screenHeight,
         width: 0.8 * screenWidth,
-        marginTop: 0.05 * screenHeight,
+        marginTop: 0.03 * screenHeight,
         backgroundColor: '#fff',
         borderColor: '#ddd',
         borderWidth: 1,
@@ -108,7 +94,7 @@ const styles = StyleSheet.create({
         width: 10,
         height: 10,
         resizeMode: 'stretch',
-        marginTop: 2
+        marginTop: 4
     },
     showPass: {
         marginLeft: 15,

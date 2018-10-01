@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
 const arrow = require('../images/icons/arrow.png');
 const face = require('../images/icons/facebook.png');
+const google = require('../images/icons/google.png');
 
 export default class Login extends Component {
     render() {
         const { wrap, create, choose, text1, text2, check, login, textInput1, textInput2,
-            styleArrow, wrapForgetPass, wrapContinue, wrapFace } = styles;
+            styleArrow, wrapForgetPass, wrapContinue, wrapFace, wrapGoogle } = styles;
         return (
-            <View>
+            <ScrollView>
                 <View style={wrap}>
                     <View style={create}>
                         <TouchableOpacity style={choose} onPress={this.props.showCreate} />
@@ -28,27 +29,33 @@ export default class Login extends Component {
                         <TextInput
                             style={textInput1}
                             placeholderTextColor='#9b9c9d'
-                            placeholder='Tên tài khoản(SĐT)'
+                            placeholder='Số điện thoại'
                         />
                         <TextInput
                             style={textInput2}
                             placeholderTextColor='#9b9c9d'
                             placeholder='Mật khẩu'
                         />
-                        <View style={wrapForgetPass}>
+                        <TouchableOpacity style={wrapForgetPass}>
                             <Image source={arrow} style={styleArrow} tintColor='blue' />
                             <Text style={{ color: 'blue', fontSize: 12, marginLeft: 5 }}>Quên mật khẩu</Text>
-                        </View>
+                        </TouchableOpacity>
                         <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
-                            <Text style={{ color: '#111' }}>Tiếp Tục</Text>
+                            <TouchableOpacity onPress={this.props.countine}>
+                                <Text style={{ color: '#111' }}>Tiếp Tục</Text>
+                            </TouchableOpacity>
                         </LinearGradient>
                     </View>
                 </View>
-                <TouchableOpacity style={wrapFace} onPress={this.props.login}>
+                <TouchableOpacity style={wrapFace} onPress={this.props.loginFB}>
                     <Image source={face} style={{ width: 22, height: 22 }} />
                     <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với facebook</Text>
                 </TouchableOpacity>
-            </View>
+                <TouchableOpacity style={wrapGoogle} onPress={this.props.loginGg}>
+                    <Image source={google} style={{ width: 22, height: 22 }} />
+                    <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với google</Text>
+                </TouchableOpacity>
+            </ScrollView>
         );
     }
 }
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     wrap: {
         height: 0.5 * screenHeight,
         width: 0.8 * screenWidth,
-        marginTop: 0.05 * screenHeight,
+        marginTop: 0.03 * screenHeight,
         backgroundColor: '#fff',
         borderColor: '#ddd',
         borderWidth: 1,
@@ -150,6 +157,18 @@ const styles = StyleSheet.create({
         borderColor: '#9b9c9d',
         borderWidth: 1,
         marginTop: 30,
+        flexDirection: 'row'
+    },
+    wrapGoogle: {
+        width: 0.8 * screenWidth,
+        height: (0.45 / 6) * screenHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#e2353d',
+        borderRadius: 5,
+        borderColor: '#9b9c9d',
+        borderWidth: 1,
+        marginTop: 20,
         flexDirection: 'row'
     }
 });

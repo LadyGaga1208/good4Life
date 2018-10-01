@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import RNAccountKit from 'react-native-facebook-account-kit';
-import { GoogleSignin, GoogleSigninButton, statusCodes  } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import firebase, { Notification } from 'react-native-firebase';
 
 
@@ -28,31 +28,31 @@ export default class Notifications extends Component {
         }
       });
 
-      this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
-        // Process your notification as required
-        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-        const {
-          body,
-          data,
-          notificationId,
-          sound,
-          subtitle,
-          title
-        } = notification;
-        console.log("LOG: khi hien thi hihi ", title, body, JSON.stringify(data));
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+      // Process your notification as required
+      // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+      const {
+        body,
+        data,
+        notificationId,
+        sound,
+        subtitle,
+        title
+      } = notification;
+      console.log("LOG: khi hien thi hihi ", title, body, JSON.stringify(data));
     });
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-        // Process your notification as required
-        const {
-          body,
-          data,
-          notificationId,
-          sound,
-          subtitle,
-          title
-        } = notification;
-        console.log("LOG: khi mo app ra haha ", title, body, JSON.stringify(data));
-        console.log(notification, 'hihihi');
+      // Process your notification as required
+      const {
+        body,
+        data,
+        notificationId,
+        sound,
+        subtitle,
+        title
+      } = notification;
+      console.log("LOG: khi mo app ra haha ", title, body, JSON.stringify(data));
+      console.log(notification, 'hihihi');
     });
 
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
@@ -62,34 +62,34 @@ export default class Notifications extends Component {
       // Get information about the notification that was opened
       const notification = notificationOpen.notification;
       console.log(notification, 'day là thông tin notification')
-  });
+    });
 
-  firebase.notifications().getInitialNotification()
-  .then((notificationOpen) => {
-    if (notificationOpen) {
-      // App was opened by a notification
-      // Get the action triggered by the notification being opened
-      const action = notificationOpen.action;
-      // Get information about the notification that was opened
-      const notification = notificationOpen.notification;  
-      console.log(notification, 'longdq')
-    }
-  });
+    firebase.notifications().getInitialNotification()
+      .then((notificationOpen) => {
+        if (notificationOpen) {
+          // App was opened by a notification
+          // Get the action triggered by the notification being opened
+          const action = notificationOpen.action;
+          // Get information about the notification that was opened
+          const notification = notificationOpen.notification;
+          console.log(notification, 'longdq')
+        }
+      });
 
-  const notification = new firebase.notifications.Notification()
-  .setNotificationId('0:1537263664798006%6018f8e86018f8e8')
-  .setTitle('My notification title')
-  .setBody('My notification body')
-  .setData({
-    key1: 'value1',
-    key2: 'value2',
-  });
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('0:1537263664798006%6018f8e86018f8e8')
+      .setTitle('My notification title')
+      .setBody('My notification body')
+      .setData({
+        key1: 'value1',
+        key2: 'value2',
+      });
 
-  notification
-  .android.setChannelId('channelId')
-  .android.setSmallIcon('ic_launcher');
+    notification
+      .android.setChannelId('channelId')
+      .android.setSmallIcon('ic_launcher');
 
-  firebase.notifications().displayNotification(notification);
+    firebase.notifications().displayNotification(notification);
 
   }
 
@@ -97,7 +97,7 @@ export default class Notifications extends Component {
     this.notificationDisplayedListener();
     this.notificationListener();
     this.notificationOpenedListener();
-}
+  }
 
 
   _smsfb() {
@@ -134,42 +134,43 @@ export default class Notifications extends Component {
         console.log(error)
       }
     }
-}
+  }
 
-render() {
-  return (
-    <View>
-      <LoginButton
-        onLoginFinished={
-          (error, result) => {
-            if (error) {
-              console.log("login has error: " + result.error);
-            } else if (result.isCancelled) {
-              console.log("login is cancelled.");
-            } else {
-              AccessToken.getCurrentAccessToken().then(
-                (data) => {
-                  console.log(data.accessToken.toString())
-                }
-              )
+  render() {
+    return (
+      <View>
+        <LoginButton
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    console.log(data.accessToken.toString())
+                  }
+                )
+              }
             }
           }
-        }
-        onLogoutFinished={() => console.log("logout.")} />
+          onLogoutFinished={() => console.log("logout.")} />
 
-      <TouchableOpacity onPress={this._smsfb}>
-        <Text>SMS</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={this._smsfb}>
+          <Text>SMS</Text>
+        </TouchableOpacity>
 
-      <GoogleSigninButton
-        style={{ width: 48, height: 48 }}
-        size={GoogleSigninButton.Size.Icon}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={this._signIn}
-      />
 
-      <TouchableOpacity onPress={this._ggAuth}><Text>G+</Text></TouchableOpacity>
-    </View>
-  );
-}
+        <GoogleSigninButton
+          style={{ width: 48, height: 48 }}
+          size={GoogleSigninButton.Size.Icon}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={this._signIn}
+        />
+
+        <TouchableOpacity onPress={this._ggAuth}><Text>G+</Text></TouchableOpacity>
+      </View>
+    );
+  }
 }
