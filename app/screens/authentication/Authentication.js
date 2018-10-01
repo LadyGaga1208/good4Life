@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
-
+import RNAccountKit from 'react-native-facebook-account-kit';
 
 import { screenHeight, screenWidth, primaryColor } from '../../styles/variables';
 import Login from '../../components/Login';
@@ -34,6 +34,16 @@ export default class Authentication extends Component {
             actions: [NavigationActions.navigate({ routeName: 'Profile' })],
         });
         this.props.navigation.dispatch(resetAction);
+    }
+    createSMS() {
+        RNAccountKit.loginWithPhone()
+        .then((token) => {
+          if (!token) {
+            console.log('Login cancelled')
+          } else {
+            console.log(`Logged with phone. Token: ${token}`)
+          }
+        })
     }
     loginGg = async () => {
         try {
@@ -116,6 +126,7 @@ export default class Authentication extends Component {
                         :
                         <CreateAcount
                             showLogin={this.showLogin.bind(this)}
+                            createSMS={this.createSMS.bind(this)}
                         />}
                 </View>
             </ScrollView>

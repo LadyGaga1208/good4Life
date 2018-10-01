@@ -6,6 +6,7 @@ import { screenHeight, screenWidth } from '../styles/variables';
 
 const iconCheck = require('../images/icons/circle.png');
 const face = require('../images/icons/facebook.png');
+const sms = require('../images/icons/sms.png');
 
 export default class CreateAcount extends Component {
     render() {
@@ -23,21 +24,34 @@ export default class CreateAcount extends Component {
                     <TextInput
                         style={textInput}
                         placeholderTextColor='#9b9c9d'
-                        placeholder='Số điện thoại'
+                        placeholder='Tên tài khoản'
                     />
-                    {/* <View style={showPass}>
+                     <TextInput
+                        style={textInput}
+                        placeholderTextColor='#9b9c9d'
+                        placeholder='Email'
+                    />
+                     <TextInput
+                        style={textInput}
+                        placeholderTextColor='#9b9c9d'
+                        placeholder='Mật khẩu'
+                    />
+                    <View style={showPass}>
                         <Image source={iconCheck} style={styleCheck} tintColor='blue' />
                         <Text style={{ color: 'blue', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
-                    </View> */}
+                    </View>
                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
                         <Text style={{ color: '#111' }}>Tiếp Tục</Text>
                     </LinearGradient>
-
                 </View>
                 <View style={login}>
                     <TouchableOpacity style={choose} onPress={this.props.showLogin} />
                     <Text style={text2}>Đăng nhập</Text>
                 </View>
+                <TouchableOpacity style={wrapFace} onPress={this.props.createSMS}>
+                    <Image source={sms} style={{ width: 22, height: 22 }} />
+                    <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với SMS</Text>
+                </TouchableOpacity>
             </ScrollView >
         );
     }
@@ -45,7 +59,7 @@ export default class CreateAcount extends Component {
 
 const styles = StyleSheet.create({
     wrap: {
-        height: 0.28 * screenHeight,
+        height: 0.48 * screenHeight,
         width: 0.8 * screenWidth,
         marginTop: 0.03 * screenHeight,
         backgroundColor: '#fff',
@@ -135,7 +149,7 @@ const styles = StyleSheet.create({
         height: (0.45 / 6) * screenHeight,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#3b5998',
+        backgroundColor: '#ff7619',
         borderRadius: 5,
         borderColor: '#9b9c9d',
         borderWidth: 1,
