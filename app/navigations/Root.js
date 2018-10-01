@@ -9,6 +9,7 @@ import SplashScreen from '../screens/SplashScreen';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
 import TabStore from './TabStore';
 import IconCart from '../screens/cart/IconCart';
+import Default from '../screens/notification/Default';
 
 const iconHomeAct = require('../images/icons/homeAct.png');
 const iconStoreAct = require('../images/icons/storeAct.png');
@@ -53,7 +54,7 @@ const App = TabNavigator(
             }
         },
         Notification: {
-            screen: Authentication,
+            screen: Default,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => {
                     const iconName = focused ? iconNotificationAct : iconNotificationInAct;
