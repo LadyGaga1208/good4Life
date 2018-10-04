@@ -18,6 +18,12 @@ export default class Authentication extends Component {
             showLogin: true
         };
     }
+    componentDidMount() {
+        RNAccountKit.getCurrentAccessToken()
+            .then((token) => {
+                console.log(`Current access token: ${token}`);
+            });
+    }
     showLogin() {
         this.setState({
             showLogin: true
@@ -37,14 +43,20 @@ export default class Authentication extends Component {
     }
     createSMS() {
         RNAccountKit.loginWithPhone()
-        .then((token) => {
-          if (!token) {
-            console.log('Login cancelled')
-          } else {
-            console.log(`Logged with phone. Token: ${token}`)
-          }
-        })
+            .then((token) => {
+                if (!token) {
+                    console.log('Login cancelled');
+                } else {
+                    console.log(`Logged with phone. Token: ${token}`);
+                }
+            });
+
+        RNAccountKit.getCurrentAccount()
+            .then((account) => {
+                console.log(`Current account: ${account}`);
+            });
     }
+
     loginGg = async () => {
         try {
             await GoogleSignin.hasPlayServices({ autoResolve: true, showPlayServicesUpdateDialog: true });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, Image, StyleSheet } from 'react-native';
+import { Text, View, ImageBackground, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { screenHeight, screenWidth } from '../../styles/variables';
 
@@ -8,7 +8,16 @@ const list = require('../../images/icons/list.png');
 const user = require('../../images/icons/user.png');
 const help = require('../../images/icons/help.png');
 
-export default class Default extends Component {
+export default class DefaultPr extends Component {
+
+    gotoAuthentication() {
+        this.props.navigation.navigate('Authentication');
+    }
+
+    gotoSetting() {
+        this.props.navigation.navigate('Setting');
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -17,6 +26,7 @@ export default class Default extends Component {
                         height: 0.25 * screenHeight,
                         width: screenWidth,
                     }}
+                    resizeMode='stretch'
                     source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=102&oh=5304f06fe1ebf63065c8cbb8a378cf97&oe=5C4F1EB1' }}
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -41,7 +51,7 @@ export default class Default extends Component {
                             Chào mừng bạn đến với Organic !
                         </Text>
                     </View>
-                    <View
+                    <TouchableOpacity
                         style={{
                             flexDirection: 'row',
                             padding: 10,
@@ -53,11 +63,12 @@ export default class Default extends Component {
                             marginTop: 20,
                             marginLeft: 0.25 * screenWidth
                         }}
+                        onPress={this.gotoAuthentication.bind(this)}
                     >
                         <Text style={styles.text}>Đăng kí</Text>
                         <Text style={styles.text}>||</Text>
                         <Text style={styles.text}>Đăng nhập</Text>
-                    </View>
+                    </TouchableOpacity>
                 </ImageBackground>
                 <View
                     style={{
@@ -92,7 +103,7 @@ export default class Default extends Component {
                     </View>
                     <Text style={{ color: '#111', marginLeft: 10 }}>Đơn mua</Text>
                 </View>
-                <View
+                <TouchableOpacity
                     style={{
                         height: 0.08 * screenHeight,
                         backgroundColor: '#ffffff',
@@ -102,6 +113,7 @@ export default class Default extends Component {
                         borderColor: '#ddd',
                         marginTop: 2
                     }}
+                    onPress={this.gotoSetting.bind(this)}
                 >
                     <View
                         style={{
@@ -124,7 +136,7 @@ export default class Default extends Component {
                         />
                     </View>
                     <Text style={{ color: '#111', marginLeft: 10 }}>Tài khoản</Text>
-                </View>
+                </TouchableOpacity>
                 <View
                     style={{
                         height: 0.08 * screenHeight,

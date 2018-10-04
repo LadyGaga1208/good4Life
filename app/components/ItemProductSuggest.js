@@ -23,7 +23,11 @@ class ItemProductSuggest extends PureComponent {
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
-                    <ImageBackground source={{ uri: `${this.props.imgProduct}` }} style={imgProduct}>
+                    <ImageBackground
+                        source={{ uri: `${this.props.imgProduct}` }}
+                        style={imgProduct}
+                        resizeMode='stretch'
+                    >
                         <View style={wrapPrice}>
                             <Text style={price}>{this.props.price}</Text>
                             <Text style={unit}>đ</Text>
@@ -78,7 +82,6 @@ const styles = StyleSheet.create({
     },
     imgProduct: {
         height: (0.65 / 3) * screenHeight,
-        resizeMode: 'stretch',
         justifyContent: 'flex-end'
     },
     wrapPrice: {

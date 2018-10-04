@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Image, Animated } from 'react-native';
+import { StyleSheet, View, Image, Animated, ImageBackground } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import LottieView from 'lottie-react-native';
 

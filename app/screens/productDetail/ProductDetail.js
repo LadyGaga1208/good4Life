@@ -250,6 +250,7 @@ class ProductDetail extends PureComponent {
         return (
             <ItemFood
                 nameEating={item.itemName}
+                clickView={this.clickView.bind(this)}
             />
         );
     }
@@ -278,6 +279,10 @@ class ProductDetail extends PureComponent {
         );
     }
 
+    clickView() {
+
+    }
+
     render() {
         const { wrapHeaderComment, wrapImgProfile, imgProfile, textInputStyle } = styles;
         const { isLoading } = this.props;
@@ -301,8 +306,8 @@ class ProductDetail extends PureComponent {
                                 <ImageSwiper
                                     source1={`${url}/product/${data.productId}/${imageProductList[0].imagePath}.png`}
                                     source2={`${url}/product/${data.productId}/${imageProductList[1].imagePath}.png`}
-                                // source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
-                                // source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
+                                    source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
+                                    source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
                                 />
                             )
                         }

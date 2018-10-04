@@ -9,7 +9,8 @@ export default class Profile extends Component {
         return (
             <View style={container}>
                 <View style={top}>
-                    <ImageBackground source={{ uri: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=0&oh=70a679da6a83b4f0798da17212f98878&oe=5C0004B1' }} style={img}>
+                    <ImageBackground source={{ uri: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=0&oh=70a679da6a83b4f0798da17212f98878&oe=5C0004B1' }} style={img} resizeMode='stretch'
+                    >
                         <View style={wrap}>
                             <View style={wrapImg}>
                                 <Image
@@ -39,7 +40,6 @@ const styles = StyleSheet.create({
     img: {
         width: screenWidth,
         height: 0.3 * screenHeight,
-        resizeMode: 'stretch'
     },
     wrap: {
         marginTop: 0.15 * screenHeight,

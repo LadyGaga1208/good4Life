@@ -30,7 +30,11 @@ export default class ItemNewProduct extends PureComponent {
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <View style={container}>
-                    <ImageBackground source={{ uri: `${this.props.uri}` }} style={img}>
+                    <ImageBackground
+                        source={{ uri: `${this.props.uri}` }}
+                        style={img}
+                        resizeMode='stretch'
+                    >
                         <View style={wrapTime}>
                             <CountdownTimer
                                 till={this.props.till}
@@ -89,7 +93,6 @@ const styles = StyleSheet.create({
     img: {
         height: 0.6 * ((1 / 3) * screenHeight),
         width: '100%',
-        resizeMode: 'stretch',
         justifyContent: 'flex-end'
     },
     wrapTime: {

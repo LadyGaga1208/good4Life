@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
@@ -10,6 +10,7 @@ import Store from './tabHome/Store';
 import Catalogues from './tabHome/Catalogues';
 import ProductSuggest from './tabHome/ProductSuggest';
 import ScrollToTop from '../components/ScrollToTop';
+import OfflineNotice from '../components/OfflineNotice';
 
 class Home extends PureComponent {
 
@@ -68,6 +69,7 @@ class Home extends PureComponent {
         return (
             <View style={{ flex: 1 }}>
                 <Header onPress={this.goToChat.bind(this)} />
+                <OfflineNotice />
                 <ScrollView
                     ref='scrollViewMain'
                     onScroll={this.handleScroll.bind(this)}

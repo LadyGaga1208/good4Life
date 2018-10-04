@@ -50,6 +50,8 @@ export default class Default extends Component {
                 <TouchableOpacity >
                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.countinue}>
                         <Text style={styles.textCountinue}>Đăng nhập</Text>
+                        <Text style={styles.textCountinue}>||</Text>
+                        <Text style={styles.textCountinue}>Đăng kí</Text>
                     </LinearGradient>
                 </TouchableOpacity>
             </View>
@@ -60,13 +62,15 @@ export default class Default extends Component {
 const styles = StyleSheet.create({
     countinue: {
         height: 40,
-        width: 0.3 * screenWidth,
-        justifyContent: 'center',
+        width: 0.5 * screenWidth,
+        justifyContent: 'space-around',
         alignItems: 'center',
         borderColor: '#111',
         borderWidth: 1,
-        borderRadius: 2,
-        marginTop: 15
+        borderRadius: 5,
+        flexDirection: 'row',
+        marginLeft: 0.25 * screenWidth,
+        marginTop: 10
     },
     textCountinue: {
         color: '#111',

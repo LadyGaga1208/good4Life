@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 
 class ItemFood extends PureComponent {
@@ -12,7 +13,9 @@ class ItemFood extends PureComponent {
             <View style={wrapTextEating}>
                 <View style={headLine} />
                 <Text style={nameEating}>{this.props.nameEating}</Text>
-                <Text style={moreEating}>Xem tại đây</Text>
+                <TouchableOpacity onPress={this.props.clickView}>
+                    <Text style={moreEating}>Xem tại đây</Text>
+                </TouchableOpacity>
             </View>
         );
     }
