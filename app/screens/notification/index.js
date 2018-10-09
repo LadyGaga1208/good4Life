@@ -27,7 +27,7 @@ export default class Notification extends Component {
                     >
                         Thông báo</Text>
                 </View>
-                <View style={{ height: 10, backgroundColor: '#ddd' }} />
+                <View style={{ height: 5, backgroundColor: '#ddd' }} />
                 <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderColor: '#ddd' }}>
                     <View
                         style={{

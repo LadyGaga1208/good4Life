@@ -18,7 +18,7 @@ export default class ItemCart extends Component {
             <View style={container}>
                 <TouchableOpacity style={wrapCheckbox} onPress={this.props.changeMarkedProduct}>
                     <Image
-                        tintColor={this.props.checked ? '#e77600' : '#111'}
+                        tintColor={this.props.checked ? primaryColor : '#111'}
                         source={this.props.checked ? checked : check}
                         style={iconCheckStyle}
                     />

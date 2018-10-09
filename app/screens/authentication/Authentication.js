@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
@@ -47,13 +47,16 @@ export default class Authentication extends Component {
                 if (!token) {
                     console.log('Login cancelled');
                 } else {
-                    console.log(`Logged with phone. Token: ${token}`);
+                    const tokenID = JSON.stringify(token);
+                    console.log(`Logged with phone. Token: ${tokenID}`);
+                    Alert.alert('sms', tokenID);
                 }
             });
 
         RNAccountKit.getCurrentAccount()
             .then((account) => {
-                console.log(`Current account: ${account}`);
+                console.log(`Current account: ${JSON.stringify(account)}`);
+                Alert.alert('Sms', JSON.stringify(account));
             });
     }
 
@@ -65,19 +68,26 @@ export default class Authentication extends Component {
                 offlineAccess: false,
             });
             const userInfo = await GoogleSignin.signIn();
-            console.log(userInfo, 'g+')
+            console.log(userInfo, 'g+');
+            Alert.alert('hehe', userInfo.accessToken);
+
             // this.setState({ userInfo });
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
+                Alert.alert('hehe', error.code);
             } else if (error.code === statusCodes.IN_PROGRESS) {
                 // operation (f.e. sign in) is in progress already
+                Alert.alert('hehe', error.code);
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 // play services not available or outdated
+                Alert.alert('hehe', error.code);
+
             } else {
                 // some other error happened
                 console.log('hahahahahah');
                 console.log(error);
+                Alert.alert('haha', error);
             }
         }
     }
@@ -95,6 +105,7 @@ export default class Authentication extends Component {
                             console.log(data, 'du lieu facebook');
                             const { accessToken } = data;
                             _self.initUser(accessToken);
+                            Alert.alert('fb', accessToken);
                         });
                     }
                 }

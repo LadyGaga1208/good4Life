@@ -51,7 +51,8 @@ export default class SplashScreen extends PureComponent {
                     style={{
                         opacity: this.state.opacity,
                         flex: 1,
-                        justifyContent: 'center', alignItems: 'center'
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}
                 >
                     <LottieView

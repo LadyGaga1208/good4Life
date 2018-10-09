@@ -16,7 +16,7 @@ import { screenHeight, screenWidth, primaryColor } from '../../styles/variables'
 import { getCart, changeMarkedStore, changeMarkedProduct, removeProduct, removeStore, increQuantity, decreQuantity, inputQuantity } from '../../redux/action/cart';
 import ItemCart from '../../components/ItemCart';
 import { url } from '../../api/ApiService';
-import Header from '../tabHome/Header';
+import NavigationBar from '../../components/NavigationBar';
 
 const check = require('../../images/icons/circle.png');
 const checked = require('../../images/icons/checked.png');
@@ -77,6 +77,15 @@ class Cart extends Component {
             params: { data: item.product }
         });
         this.props.navigation.dispatch(navigateProductDetail);
+    }
+
+    gotoOrderDetail() {
+        const { cart } = this.props;
+        const navigateOrderDetail = NavigationActions.navigate({
+            routeName: 'OrderDetail',
+            params: { data: cart }
+        });
+        this.props.navigation.dispatch(navigateOrderDetail);
     }
 
     renderItemProduct({ item }) {
@@ -153,7 +162,7 @@ class Cart extends Component {
             }
             return (
                 <View style={styles.container}>
-                    <Header />
+                    <NavigationBar name="Giỏ hàng của bạn" />
                     <View style={styles.content}>
                         {this.props.isLoading ? <ActivityIndicator size='large' animating /> : (
                             <View style={{ flex: 1 }}>
@@ -171,9 +180,13 @@ class Cart extends Component {
                                             <Text style={{ color: '#111', fontSize: 17, fontFamily: 'Neon', textDecorationLine: 'underline', marginLeft: 2 }}>đ</Text>
                                         </View>
                                     </View>
+
                                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.wrapBuy}>
-                                        <Text style={styles.buy}>Mua hàng</Text>
+                                        <TouchableOpacity onPress={this.gotoOrderDetail.bind(this)}>
+                                            <Text style={styles.buy}>Mua hàng</Text>
+                                        </TouchableOpacity>
                                     </LinearGradient>
+
                                 </View>
                             </View>
                         )
@@ -184,13 +197,12 @@ class Cart extends Component {
         }
         return (
             <View style={styles.container} >
-                <Header />
+                <NavigationBar name="Giỏ hàng của bạn" />
                 <View style={styles.content}>
                     {this.props.isLoading ? <ActivityIndicator size='large' animating /> : (
                         <View style={styles.content}>
                             <Text style={{ fontSize: 18, color: '#111' }}>Giỏ hàng trống</Text>
                             <Text style={styles.text}>Mời bạn quay trở lại tiếp tục mua hàng !!!</Text>
-                            <Text style={styles.text}>ありがとう</Text>
                             <TouchableOpacity onPress={this.goToHome.bind(this)}>
                                 <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.countinue}>
                                     <Text style={styles.textCountinue}>Tiếp Tục</Text>

@@ -56,7 +56,7 @@ const StackStoreSuggest = StackNavigator({
 
 const TabStore = TabNavigator(
     {
-        'Cửa hàng': { screen: StackStore },
+        'Tất cả': { screen: StackStore },
         'Theo dõi': { screen: StackStoreFollow },
         'Gợi ý': { screen: StackStoreSuggest }
     },

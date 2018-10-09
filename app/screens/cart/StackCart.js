@@ -189,7 +189,6 @@ class StackCart extends Component {
                         <View style={styles.content}>
                             <Text style={{ fontSize: 18, color: '#111' }}>Giỏ hàng trống</Text>
                             <Text style={styles.text}>Mời bạn quay trở lại tiếp tục mua hàng !!!</Text>
-                            <Text style={styles.text}>ありがとう</Text>
                             <TouchableOpacity onPress={this.goToHome.bind(this)}>
                                 <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.countinue}>
                                     <Text style={styles.textCountinue}>Tiếp Tục</Text>

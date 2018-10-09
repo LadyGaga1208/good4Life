@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { ScrollView, View, NetInfo } from 'react-native';
+import { ScrollView, View, NetInfo, BackHandler, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 

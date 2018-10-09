@@ -250,7 +250,7 @@ class ProductDetail extends PureComponent {
         return (
             <ItemFood
                 nameEating={item.itemName}
-                clickView={this.clickView.bind(this)}
+                clickView={this.clickView.bind(this, item)}
             />
         );
     }
@@ -279,8 +279,12 @@ class ProductDetail extends PureComponent {
         );
     }
 
-    clickView() {
-
+    clickView(item) {
+        const navigateWebView = NavigationActions.navigate({
+            routeName: 'WebViewProduct',
+            params: { data: item }
+        });
+        this.props.navigation.dispatch(navigateWebView);
     }
 
     render() {
@@ -306,8 +310,8 @@ class ProductDetail extends PureComponent {
                                 <ImageSwiper
                                     source1={`${url}/product/${data.productId}/${imageProductList[0].imagePath}.png`}
                                     source2={`${url}/product/${data.productId}/${imageProductList[1].imagePath}.png`}
-                                    source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
-                                    source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
+                                // source3={`${url}/product/${data.productId}/${imageProductList[2].imagePath}.png`}
+                                // source4={`${url}/product/${data.productId}/${imageProductList[3].imagePath}.png`}
                                 />
                             )
                         }

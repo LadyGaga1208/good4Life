@@ -8,6 +8,8 @@ import ProductDetail from '../screens/productDetail/ProductDetail';
 import Chat from '../screens/Chat';
 import { primaryColor } from '../styles/variables';
 import StackCart from '../screens/cart/StackCart';
+import WebViewProduct from '../screens/productDetail/WebViewProduct';
+import OrderDetail from '../screens/order/OrderDetail';
 
 const StackHome = StackNavigator(
     {
@@ -62,6 +64,18 @@ const StackHome = StackNavigator(
         },
         TabStoreDetail: {
             screen: TabStoreDetail,
+            navigationOptions: {
+                tabBarVisible: false,
+            }
+        },
+        WebViewProduct: {
+            screen: WebViewProduct,
+            navigationOptions: {
+                tabBarVisible: false,
+            }
+        },
+        OrderDetail: {
+            screen: OrderDetail,
             navigationOptions: {
                 tabBarVisible: false,
             }

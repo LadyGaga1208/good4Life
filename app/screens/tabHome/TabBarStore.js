@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { TabBarTop } from 'react-navigation';
-
-import Header from './Header';
+import NavigationBar from '../../components/NavigationBar';
 
 export default class TabBarStore extends PureComponent {
     render() {
         return (
             <View>
-                <Header />
+                <NavigationBar name="Danh sách cửa hàng" />
                 <TabBarTop {...this.props} />
             </View>
         );
