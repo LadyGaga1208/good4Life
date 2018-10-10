@@ -8,6 +8,7 @@ import RNAccountKit from 'react-native-facebook-account-kit';
 import { screenHeight, screenWidth, primaryColor } from '../../styles/variables';
 import Login from '../../components/Login';
 import CreateAcount from '../../components/CreateAcount';
+import Register from './Register';
 
 const iconSalad = require('../../images/icons/salad.png');
 
@@ -147,9 +148,10 @@ export default class Authentication extends Component {
                             loginGg={this.loginGg.bind(this)}
                         />
                         :
-                        <CreateAcount
+                        <Register
                             showLogin={this.showLogin.bind(this)}
-                            createSMS={this.createSMS.bind(this)}
+                            navigation={this.props.navigation}
+                        // createSMS={this.createSMS.bind(this)}
                         />}
                 </View>
             </ScrollView>
