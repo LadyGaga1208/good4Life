@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+    Text, View, StyleSheet, ScrollView, TextInput,
+    Image, TouchableOpacity, ActivityIndicator, Alert
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import { NavigationActions } from 'react-navigation';
+import RNAccountKit from 'react-native-facebook-account-kit';
+
 
 import { screenHeight, screenWidth } from '../../styles/variables';
 
 const iconCheck = require('../../images/icons/circle.png');
 const sms = require('../../images/icons/sms.png');
+const iconChecked = require('../../images/icons/checked.png');
 
 export default class CreateAcount extends Component {
 
@@ -18,6 +24,7 @@ export default class CreateAcount extends Component {
             email: '',
             name: '',
             pass: '',
+            hidePassword: true
         };
     }
 
@@ -47,21 +54,9 @@ export default class CreateAcount extends Component {
     }
 
     _regis = async () => {
-        // if (!this.checkRequire()) {
-        //     return;
-        // }
-        const params = {
-            name: this.state.name,
-            password: this.state.pass,
-            email: this.state.email
-        };
-        // await this.props.register(params, (response) => {
-        //     this.setState({
-        //         loading: false
-        //     }, () => {
-        //         console.log('REGISSCREEN', response);
-        //     });
-        // });
+        if (!this.checkRequire()) {
+            return;
+        }
         const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
         ws.onopen = () => {
             // connection opened
@@ -76,24 +71,40 @@ export default class CreateAcount extends Component {
             this.setState({
                 loading: false
             });
-            console.log(this.props.navigation);
-            const navigateAction = NavigationActions.navigate({
-                routeName: 'Home',
-
-                params: {},
-
-                action: NavigationActions.reset({
-                    index: 0,
-                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                })
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Profile' })],
             });
-            this.props.navigation.dispatch(navigateAction);
+            if (e.data.code === 200) {
+                this.props.navigation.dispatch(resetAction);
+            }
         };
         ws.onerror = (e) => {
             // an error occurred
+            this.setState({
+                loading: false
+            });
             console.log(e.message, 'hahahaha');
         };
+    }
 
+    createSMS() {
+        RNAccountKit.loginWithPhone()
+            .then((token) => {
+                if (!token) {
+                    console.log('Login cancelled');
+                } else {
+                    const tokenID = JSON.stringify(token);
+                    console.log(`Logged with phone. Token: ${tokenID}`);
+                    Alert.alert('sms', tokenID);
+                }
+            });
+
+        RNAccountKit.getCurrentAccount()
+            .then((account) => {
+                console.log(`Current account: ${JSON.stringify(account)}`);
+                Alert.alert('Sms', JSON.stringify(account));
+            });
     }
 
     render() {
@@ -157,14 +168,25 @@ export default class CreateAcount extends Component {
                         placeholderTextColor='#9b9c9d'
                         placeholder='Mật khẩu'
                         value={this.state.pass}
-                        secureTextEntry
+                        secureTextEntry={this.state.hidePassword}
                         onChangeText={(text) => {
                             this.setState({ pass: text });
                         }}
                     />
                     <View style={showPass}>
-                        <Image source={iconCheck} style={styleCheck} tintColor='blue' />
-                        <Text style={{ color: 'blue', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({
+                                    hidePassword: !this.state.hidePassword
+                                });
+                            }
+                            }
+                        >
+                            {this.state.hidePassword ?
+                                <Image source={iconCheck} style={styleCheck} tintColor='#006BFF' /> : <Image source={iconChecked} style={styleCheck} tintColor='#006BFF' />
+                            }
+                        </TouchableOpacity>
+                        <Text style={{ color: '#006BFF', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
                     </View>
                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
                         <TouchableOpacity onPress={this._regis.bind(this)}>
@@ -176,7 +198,7 @@ export default class CreateAcount extends Component {
                     <TouchableOpacity style={choose} onPress={this.props.showLogin} />
                     <Text style={text2}>Đăng nhập</Text>
                 </View>
-                <TouchableOpacity style={wrapFace} onPress={this.props.createSMS}>
+                <TouchableOpacity style={wrapFace} onPress={this.createSMS.bind(this)}>
                     <Image source={sms} style={{ width: 22, height: 22 }} />
                     <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với SMS</Text>
                 </TouchableOpacity>
@@ -243,10 +265,10 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     styleCheck: {
-        width: 10,
-        height: 10,
+        width: 12,
+        height: 12,
         resizeMode: 'stretch',
-        marginTop: 4
+        marginTop: 3
     },
     showPass: {
         marginLeft: 15,
