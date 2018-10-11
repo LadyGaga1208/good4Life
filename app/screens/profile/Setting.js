@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 
 import { screenHeight, screenWidth, primaryColor } from '../../styles/variables';
 
@@ -15,15 +16,24 @@ export default class Setting extends Component {
             fontWeight: 'bold',
         },
     };
+    logout = async () => {
+        try {
+            await AsyncStorage.clear();
+            this.props.navigation.navigate('SplashScreen');
+        } catch (error) {
+            console.log(error);
+        }
+    }
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <TouchableOpacity>
-                    <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.wrapContinue}>
+
+                <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.wrapContinue}>
+                    <TouchableOpacity onPress={this.logout.bind(this)}>
                         <Text style={{ color: '#111' }}>Đăng xuất</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-            </View>
+                    </TouchableOpacity>
+                </LinearGradient>
+            </View >
         );
     }
 }

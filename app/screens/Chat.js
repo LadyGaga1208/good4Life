@@ -20,6 +20,10 @@ class Chat extends PureComponent {
         },
     }
 
+    goToAuthentication() {
+        this.props.navigation.navigate('Authentication');
+    }
+
     render() {
         return (
             <View>
@@ -33,7 +37,7 @@ class Chat extends PureComponent {
                     <Image source={message} />
                     <Text style={{ marginTop: 10 }}>Đăng nhập để xem tin nhắn bị bỏ lỡ của bạn</Text>
                 </View>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={this.goToAuthentication.bind(this)}>
                     <LinearGradient colors={['#44ec1e', '#3cbd1f']} style={styles.countinue}>
                         <Text style={styles.textCountinue}>Đăng nhập</Text>
                         <Text style={styles.textCountinue}>||</Text>

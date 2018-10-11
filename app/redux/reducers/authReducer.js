@@ -1,20 +1,20 @@
 import {
-    USER_REGISTER_FAILED,
-    USER_REGISTER_SUCCEEDED
+    GET_TOKEN_FAILED,
+    GET_TOKEN_SUCCEEDED
 } from '../action/types';
 
 const initState = {
-    userdata: null
+    token: null
 };
 
 export default (state = initState, action) => {
     switch (action.type) {
-        case USER_REGISTER_SUCCEEDED:
+        case GET_TOKEN_SUCCEEDED:
             return {
                 ...state,
-                userdata: action.response
+                token: action.token
             };
-        case USER_REGISTER_FAILED:
+        case GET_TOKEN_FAILED:
             return {
                 ...state
             };

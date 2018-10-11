@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {
     Text, View, Image, StyleSheet, TextInput, TouchableOpacity,
-    ScrollView, Alert, ActivityIndicator
+    ScrollView, Alert, ActivityIndicator, AsyncStorage
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import Toast from 'react-native-easy-toast';
 import { NavigationActions } from 'react-navigation';
+
 
 import { screenHeight, screenWidth } from '../../styles/variables';
 
@@ -58,8 +59,46 @@ export default class Login extends Component {
             const userInfo = await GoogleSignin.signIn();
             console.log(userInfo, 'g+');
             Alert.alert('hehe', userInfo.accessToken);
-
+            console.log(userInfo.user, 'user google');
             // this.setState({ userInfo });
+            const name = JSON.stringify(userInfo.user.name);
+            const email = JSON.stringify(userInfo.user.email);
+            const photo = JSON.stringify(userInfo.user.photo);
+
+            const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
+            ws.onopen = () => {
+                this.setState({
+                    loading: true
+                });
+                ws.send(`{"data":{"accountId": 0,"imagePath":${photo},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email},"typeSignIn":4}}`);
+                ws.onmessage = async (e) => {
+                    // a message was received
+                    console.log(e.data);
+                    const response = JSON.parse(e.data);
+                    console.log(response, 'ket qua tra ve');
+                    this.setState({
+                        loading: false
+                    });
+                    const resetAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
+                    });
+                    if (response.code === 200) {
+                        await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
+                        this.props.navigation.dispatch(resetAction);
+                    }
+                };
+
+                ws.onerror = (e) => {
+                    // an error occurred
+                    console.log(e.message);
+                };
+
+                ws.onclose = (e) => {
+                    // connection closed
+                    console.log(e.code, e.reason);
+                };
+            };
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
@@ -70,7 +109,6 @@ export default class Login extends Component {
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 // play services not available or outdated
                 Alert.alert('hehe', error.code);
-
             } else {
                 // some other error happened
                 console.log('hahahahahah');
@@ -110,6 +148,45 @@ export default class Login extends Component {
             .then((json) => {
                 // Some user object has been set up somewhere, build that user here
                 console.log(json, 'hahahaha');
+                const email = JSON.stringify(json.email);
+                const name = JSON.stringify(json.name);
+                const picture = JSON.stringify(json.picture.data.url);
+                const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
+                ws.onopen = () => {
+                    this.setState({
+                        loading: true
+                    });
+                    ws.send(`{"data":{"accountId": 0,"imagePath":${picture},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email},"typeSignIn":5}}`);
+                    ws.onmessage = async (e) => {
+                        // a message was received
+                        console.log(e.data);
+                        const response = JSON.parse(e.data);
+                        console.log(response, 'ket qua tra ve');
+                        this.setState({
+                            loading: false
+                        });
+                        const resetAction = NavigationActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
+                        });
+                        console.log(response.code === 200, 'bieu thuc');
+                        if (response.code === 200) {
+                            await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
+                            this.props.navigation.dispatch(resetAction);
+                        }
+                    };
+
+                    ws.onerror = (e) => {
+                        // an error occurred
+                        console.log(e.message);
+                    };
+
+                    ws.onclose = (e) => {
+                        // connection closed
+                        console.log(e.code, e.reason);
+                    };
+                }
+
             })
             .catch((e) => {
                 console.log(e);
@@ -133,19 +210,27 @@ export default class Login extends Component {
             ws.send(`{"data":{"password":${this.state.pass},"phoneNumber":"","mail":${this.state.email}},"typeSignIn":7}`);
         };
 
-        ws.onmessage = (e) => {
+        ws.onmessage = async (e) => {
             // a message was received
             console.log(e.data);
-            const response = JSON.stringify(e.data);
+            const response = JSON.parse(e.data);
+            console.log(response, 'ket qua tra ve');
             this.setState({
                 loading: false
             });
             const resetAction = NavigationActions.reset({
                 index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Profile' })],
+                actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
             });
             if (response.code === 200) {
-                this.props.navigation.dispatch(resetAction);
+                console.log('hahahahahaha');
+                console.log(response.jwt);
+                try {
+                    await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
+                    this.props.navigation.dispatch(resetAction);
+                } catch (error) {
+                    console.log(error);
+                }
             }
         };
 

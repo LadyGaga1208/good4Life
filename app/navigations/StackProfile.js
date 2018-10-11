@@ -1,19 +1,11 @@
 import { StackNavigator } from 'react-navigation';
-import Authentication from '../screens/authentication/Authentication';
-import DefaultPr from '../screens/profile/Default';
+import Profile from '../screens/profile/index';
 import Setting from '../screens/profile/Setting';
 
 const StackProfile = StackNavigator(
     {
-        Authentication: {
-            screen: Authentication,
-            navigationOptions: {
-                tabBarVisible: false,
-                header: null
-            }
-        },
         Profile: {
-            screen: DefaultPr,
+            screen: Profile,
             navigationOptions: {
                 header: null
             }

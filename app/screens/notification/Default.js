@@ -7,6 +7,9 @@ import { screenHeight, screenWidth, primaryColor } from '../../styles/variables'
 
 
 export default class Default extends Component {
+    goToAuthentication() {
+        this.props.navigation.navigate('Authentication');
+    }
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -47,7 +50,7 @@ export default class Default extends Component {
                         style={{ width: 200, height: 200 }}
                     />
                 </View>
-                <TouchableOpacity >
+                <TouchableOpacity onPress={this.goToAuthentication.bind(this)}>
                     <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={styles.countinue}>
                         <Text style={styles.textCountinue}>Đăng nhập</Text>
                         <Text style={styles.textCountinue}>||</Text>

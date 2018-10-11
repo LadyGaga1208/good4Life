@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
     Text, View, StyleSheet, ScrollView, TextInput,
-    Image, TouchableOpacity, ActivityIndicator, Alert
+    Image, TouchableOpacity, ActivityIndicator, Alert, AsyncStorage
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-easy-toast';
 import { NavigationActions } from 'react-navigation';
 import RNAccountKit from 'react-native-facebook-account-kit';
-
 
 import { screenHeight, screenWidth } from '../../styles/variables';
 
@@ -22,15 +21,19 @@ export default class CreateAcount extends Component {
         this.state = {
             loading: false,
             email: '',
-            name: '',
-            pass: '',
-            hidePassword: true
+            name1: '',
+            pass1: '',
+            name2: '',
+            pass2: '',
+            hidePassword: true,
+            createSMS: false,
+            phone: ''
         };
     }
 
-    checkRequire() {
-        if (this.state.name.length === 0) {
-            this.txtName.focus();
+    checkRequireMail() {
+        if (this.state.name1.length === 0) {
+            this.txtName1.focus();
             this.refs.toast.show('Tên không được để trống', 3000);
             return false;
         }
@@ -45,16 +48,30 @@ export default class CreateAcount extends Component {
             this.refs.toast.show('Email không đúng định dạng', 3000);
             return false;
         }
-        if (this.state.pass.length < 6) {
-            this.txtPass.focus();
+        if (this.state.pass1.length < 6) {
+            this.txtPass1.focus();
             this.refs.toast.show('Mật khẩu ít nhất 6 kí tự', 3000);
             return false;
         }
         return true;
     }
 
-    _regis = async () => {
-        if (!this.checkRequire()) {
+    checkRequirePhone() {
+        if (this.state.name2.length === 0) {
+            this.txtName2.focus();
+            this.refs.toast.show('Tên không được để trống', 3000);
+            return false;
+        }
+        if (this.state.pass2.length < 6) {
+            this.txtPass2.focus();
+            this.refs.toast.show('Mật khẩu ít nhất 6 kí tự', 3000);
+            return false;
+        }
+        return true;
+    }
+
+    _regisMail = async () => {
+        if (!this.checkRequireMail()) {
             return;
         }
         const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
@@ -63,19 +80,58 @@ export default class CreateAcount extends Component {
             this.setState({
                 loading: true
             });
-            ws.send(`{"data":{"accountId":0,"imagePath":"","userName":${this.state.name},"password":${this.state.pass},"address":"","phoneNumber":"","mail":${this.state.email}}}`); // send a message
+            ws.send(`{"data":{"accountId":0,"imagePath":"","userName":${this.state.name1},"password":${this.state.pass1},"address":"","phoneNumber":"","mail":${this.state.email}}}`); // send a message
         };
-        ws.onmessage = (e) => {
+        ws.onmessage = async (e) => {
             // a message was received
             console.log(e.data, 'hihihihi');
+            const response = JSON.parse(e.data);
             this.setState({
                 loading: false
             });
             const resetAction = NavigationActions.reset({
                 index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Profile' })],
+                actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
             });
-            if (e.data.code === 200) {
+            if (response.code === 200) {
+                await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
+                this.props.navigation.dispatch(resetAction);
+            }
+        };
+        ws.onerror = (e) => {
+            // an error occurred
+            this.setState({
+                loading: false
+            });
+            console.log(e.message, 'hahahaha');
+        };
+    }
+
+    _regisPhone = async () => {
+        if (!this.checkRequirePhone()) {
+            return;
+        }
+        const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
+        ws.onopen = () => {
+            // connection opened
+            this.setState({
+                loading: true
+            });
+            ws.send(`{"data":{"accountId":0,"imagePath":"","userName":${this.state.name2},"password":${this.state.pass2},"address":"","phoneNumber":${this.state.phone},"mail":""}}`); // send a message
+        };
+        ws.onmessage = async (e) => {
+            // a message was received
+            console.log(e.data, 'hihihihi');
+            const response = JSON.parse(e.data);
+            this.setState({
+                loading: false
+            });
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
+            });
+            if (response.code === 200) {
+                await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
                 this.props.navigation.dispatch(resetAction);
             }
         };
@@ -89,6 +145,7 @@ export default class CreateAcount extends Component {
     }
 
     createSMS() {
+        const _self = this;
         RNAccountKit.loginWithPhone()
             .then((token) => {
                 if (!token) {
@@ -102,8 +159,15 @@ export default class CreateAcount extends Component {
 
         RNAccountKit.getCurrentAccount()
             .then((account) => {
-                console.log(`Current account: ${JSON.stringify(account)}`);
+                console.log(`Current account: ${account}`);
                 Alert.alert('Sms', JSON.stringify(account));
+                console.log(account.phoneNumber.number);
+                if (account.phoneNumber.number) {
+                    _self.setState({
+                        createSMS: true,
+                        phone: `0${account.phoneNumber.number}`
+                    });
+                }
             });
     }
 
@@ -112,105 +176,212 @@ export default class CreateAcount extends Component {
             wrapFace } = styles;
         return (
             <ScrollView>
-                <View style={wrap}>
-                    {this.state.loading ?
-                        (<View
-                            style={{
-                                position: 'absolute',
-                                top: 110,
-                                width: 60,
-                                height: 60,
-                                borderRadius: 30,
-                                marginLeft: (0.4 * screenWidth) - 30,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: 'rgba(0,0,0,0.65)'
-                            }}
-                        >
-                            <ActivityIndicator size="large" color="#ffffff" />
-                        </View>) : null
-                    }
+                {
+                    this.state.createSMS ?
+                        (
+                            <View>
+                                <View style={wrap}>
+                                    {this.state.loading ?
+                                        (<View
+                                            style={{
+                                                position: 'absolute',
+                                                top: 110,
+                                                width: 60,
+                                                height: 60,
+                                                borderRadius: 30,
+                                                marginLeft: (0.4 * screenWidth) - 30,
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                backgroundColor: 'rgba(0,0,0,0.65)'
+                                            }}
+                                        >
+                                            <ActivityIndicator size="large" color="#ffffff" />
+                                        </View>) : null
+                                    }
 
-                    <View style={create}>
-                        <TouchableOpacity style={choose} >
-                            <View style={check} />
-                        </TouchableOpacity>
-                        <Text style={text1}>Tạo tài khoản mới</Text>
-                    </View>
-                    <TextInput
-                        style={textInput}
-                        placeholderTextColor='#9b9c9d'
-                        placeholder='Tên tài khoản'
-                        ref={comp => (this.txtName = comp)}
-                        autoCapitalize='none'
-                        value={this.state.name}
-                        onChangeText={(text) => {
-                            this.setState({ name: text });
-                        }}
-                    />
-                    <TextInput
-                        style={textInput}
-                        placeholderTextColor='#9b9c9d'
-                        placeholder='Email'
-                        ref={comp => (this.txtEmail = comp)}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        textContentType='emailAddress'
-                        keyboardType='email-address'
-                        value={this.state.email}
-                        onChangeText={(text) => {
-                            this.setState({ email: text });
-                        }}
-                    />
-                    <TextInput
-                        ref={comp => (this.txtPass = comp)}
-                        style={textInput}
-                        placeholderTextColor='#9b9c9d'
-                        placeholder='Mật khẩu'
-                        value={this.state.pass}
-                        secureTextEntry={this.state.hidePassword}
-                        onChangeText={(text) => {
-                            this.setState({ pass: text });
-                        }}
-                    />
-                    <View style={showPass}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.setState({
-                                    hidePassword: !this.state.hidePassword
-                                });
-                            }
-                            }
-                        >
-                            {this.state.hidePassword ?
-                                <Image source={iconCheck} style={styleCheck} tintColor='#006BFF' /> : <Image source={iconChecked} style={styleCheck} tintColor='#006BFF' />
-                            }
-                        </TouchableOpacity>
-                        <Text style={{ color: '#006BFF', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
-                    </View>
-                    <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
-                        <TouchableOpacity onPress={this._regis.bind(this)}>
-                            <Text style={{ color: '#111' }}>Tiếp Tục</Text>
-                        </TouchableOpacity>
-                    </LinearGradient>
-                </View>
-                <View style={login}>
-                    <TouchableOpacity style={choose} onPress={this.props.showLogin} />
-                    <Text style={text2}>Đăng nhập</Text>
-                </View>
-                <TouchableOpacity style={wrapFace} onPress={this.createSMS.bind(this)}>
-                    <Image source={sms} style={{ width: 22, height: 22 }} />
-                    <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với SMS</Text>
-                </TouchableOpacity>
-                <Toast
-                    ref="toast"
-                    style={{ backgroundColor: '#F3553C', borderRadius: 5 }}
-                    position='top'
-                    positionValue={0}
-                    fadeInDuration={150}
-                    fadeOutDuration={150}
-                    textStyle={{ color: '#ffffff' }}
-                />
+                                    <View style={create}>
+                                        <TouchableOpacity style={choose} >
+                                            <View style={check} />
+                                        </TouchableOpacity>
+                                        <Text style={text1}>Tạo tài khoản mới</Text>
+                                    </View>
+                                    <TextInput
+                                        style={textInput}
+                                        placeholderTextColor='#9b9c9d'
+                                        placeholder='Tên tài khoản'
+                                        ref={comp => (this.txtName2 = comp)}
+                                        autoCapitalize='none'
+                                        value={this.state.name2}
+                                        onChangeText={(text) => {
+                                            this.setState({ name2: text });
+                                        }}
+                                    />
+                                    <TextInput
+                                        style={textInput}
+                                        placeholderTextColor='#9b9c9d'
+                                        placeholder='Email'
+                                        ref={comp => (this.txtPhone = comp)}
+                                        autoCapitalize='none'
+                                        autoCorrect={false}
+                                        textContentType='emailAddress'
+                                        keyboardType='email-address'
+                                        value={this.state.phone}
+                                        onChangeText={(text) => {
+                                            this.setState({ phone: text });
+                                        }}
+                                    />
+                                    <TextInput
+                                        ref={comp => (this.txtPass2 = comp)}
+                                        style={textInput}
+                                        placeholderTextColor='#9b9c9d'
+                                        placeholder='Mật khẩu'
+                                        value={this.state.pass2}
+                                        secureTextEntry={this.state.hidePassword}
+                                        onChangeText={(text) => {
+                                            this.setState({ pass2: text });
+                                        }}
+                                    />
+                                    <View style={showPass}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({
+                                                    hidePassword: !this.state.hidePassword
+                                                });
+                                            }
+                                            }
+                                        >
+                                            {this.state.hidePassword ?
+                                                <Image source={iconCheck} style={styleCheck} tintColor='#006BFF' /> : <Image source={iconChecked} style={styleCheck} tintColor='#006BFF' />
+                                            }
+                                        </TouchableOpacity>
+                                        <Text style={{ color: '#006BFF', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
+                                    </View>
+                                    <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
+                                        <TouchableOpacity onPress={this._regisPhone.bind(this)}>
+                                            <Text style={{ color: '#111' }}>Tiếp Tục</Text>
+                                        </TouchableOpacity>
+                                    </LinearGradient>
+                                </View>
+                                <View style={login}>
+                                    <TouchableOpacity style={choose} onPress={this.props.showLogin} />
+                                    <Text style={text2}>Đăng nhập</Text>
+                                </View>
+                                <Toast
+                                    ref="toast"
+                                    style={{ backgroundColor: '#F3553C', borderRadius: 5 }}
+                                    position='top'
+                                    positionValue={0}
+                                    fadeInDuration={150}
+                                    fadeOutDuration={150}
+                                    textStyle={{ color: '#ffffff' }}
+                                />
+                            </View>
+                        )
+                        :
+                        (<View>
+                            <View style={wrap}>
+                                {this.state.loading ?
+                                    (<View
+                                        style={{
+                                            position: 'absolute',
+                                            top: 110,
+                                            width: 60,
+                                            height: 60,
+                                            borderRadius: 30,
+                                            marginLeft: (0.4 * screenWidth) - 30,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            backgroundColor: 'rgba(0,0,0,0.65)'
+                                        }}
+                                    >
+                                        <ActivityIndicator size="large" color="#ffffff" />
+                                    </View>) : null
+                                }
+
+                                <View style={create}>
+                                    <TouchableOpacity style={choose} >
+                                        <View style={check} />
+                                    </TouchableOpacity>
+                                    <Text style={text1}>Tạo tài khoản mới</Text>
+                                </View>
+                                <TextInput
+                                    style={textInput}
+                                    placeholderTextColor='#9b9c9d'
+                                    placeholder='Tên tài khoản'
+                                    ref={comp => (this.txtName1 = comp)}
+                                    autoCapitalize='none'
+                                    value={this.state.name1}
+                                    onChangeText={(text) => {
+                                        this.setState({ name1: text });
+                                    }}
+                                />
+                                <TextInput
+                                    style={textInput}
+                                    placeholderTextColor='#9b9c9d'
+                                    placeholder='Email'
+                                    ref={comp => (this.txtEmail = comp)}
+                                    autoCapitalize='none'
+                                    autoCorrect={false}
+                                    textContentType='emailAddress'
+                                    keyboardType='email-address'
+                                    value={this.state.email}
+                                    onChangeText={(text) => {
+                                        this.setState({ email: text });
+                                    }}
+                                />
+                                <TextInput
+                                    ref={comp => (this.txtPass1 = comp)}
+                                    style={textInput}
+                                    placeholderTextColor='#9b9c9d'
+                                    placeholder='Mật khẩu'
+                                    value={this.state.pass1}
+                                    secureTextEntry={this.state.hidePassword}
+                                    onChangeText={(text) => {
+                                        this.setState({ pass1: text });
+                                    }}
+                                />
+                                <View style={showPass}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setState({
+                                                hidePassword: !this.state.hidePassword
+                                            });
+                                        }
+                                        }
+                                    >
+                                        {this.state.hidePassword ?
+                                            <Image source={iconCheck} style={styleCheck} tintColor='#006BFF' /> : <Image source={iconChecked} style={styleCheck} tintColor='#006BFF' />
+                                        }
+                                    </TouchableOpacity>
+                                    <Text style={{ color: '#006BFF', fontSize: 12, marginLeft: 5 }}>Show Password</Text>
+                                </View>
+                                <LinearGradient colors={['#f7dd9f', '#f0c14d']} style={wrapContinue}>
+                                    <TouchableOpacity onPress={this._regisMail.bind(this)}>
+                                        <Text style={{ color: '#111' }}>Tiếp Tục</Text>
+                                    </TouchableOpacity>
+                                </LinearGradient>
+                            </View>
+                            <View style={login}>
+                                <TouchableOpacity style={choose} onPress={this.props.showLogin} />
+                                <Text style={text2}>Đăng nhập</Text>
+                            </View>
+                            <TouchableOpacity style={wrapFace} onPress={this.createSMS.bind(this)}>
+                                <Image source={sms} style={{ width: 22, height: 22 }} />
+                                <Text style={{ color: '#fff', marginLeft: 10 }}>Tiếp tục với SMS</Text>
+                            </TouchableOpacity>
+                            <Toast
+                                ref="toast"
+                                style={{ backgroundColor: '#F3553C', borderRadius: 5 }}
+                                position='top'
+                                positionValue={0}
+                                fadeInDuration={150}
+                                fadeOutDuration={150}
+                                textStyle={{ color: '#ffffff' }}
+                            />
+                        </View>
+                        )
+                }
+
             </ScrollView >
         );
     }

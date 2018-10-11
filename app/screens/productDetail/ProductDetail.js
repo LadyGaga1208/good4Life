@@ -359,7 +359,7 @@ class ProductDetail extends PureComponent {
                         <Text style={styles.textSuggest}>Bình luận</Text>
                         <View style={wrapHeaderComment}>
                             <View style={wrapImgProfile}>
-                                <Image source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/19554954_830684580418444_953522966191010168_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGg5YVHBStoai9L7gO4WCc4OdHel9-mohN3vKQJ8LPG7jGCKK5OFBDqzVh85pR_GUB6_0zEzvkorA-mVncSaieBvt6OGUGHQa13t1eabRS1RQ&oh=f2f753355217450bd77f7285c92fb0d1&oe=5B6C0071' }} style={imgProfile} />
+                                <Image source={{ uri: 'http://media.tinthethao.com.vn/resize/455x341/files/nam.van/2016/10/15/yui-aragaki-31938-1620.jpeg' }} style={imgProfile} />
                             </View>
                             <TextInput
                                 ref={(component) => (this.textInput = component)}
@@ -450,12 +450,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 10
     },
-    imgProfile: {
+    wrapImgProfile: {
         width: 46,
         height: 46,
         borderRadius: 23,
         borderColor: '#111',
         borderWidth: 1,
+        overflow: 'hidden',
+    },
+    imgProfile: {
+        width: 46,
+        height: 46,
     },
     textInputStyle: {
         width: '75%',

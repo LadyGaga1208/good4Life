@@ -1,37 +1,27 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Image, Animated, ImageBackground } from 'react-native';
+import { View, Image, AsyncStorage } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import LottieView from 'lottie-react-native';
+import { connect } from 'react-redux';
 
 import { screenHeight, screenWidth } from '../styles/variables';
 
-const img = require('../images/imgSplash.png');
+class SplashScreen extends PureComponent {
 
-export default class SplashScreen extends PureComponent {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            opacity: new Animated.Value(0),
-        };
+    async componentDidMount() {
+        try {
+            console.log('hihihihi');
+            const response = await AsyncStorage.getItem('@token');
+            this.props.getTokenSucceeded(JSON.parse(response));
+        } catch (error) {
+            console.log(error, 'hahaha');
+            this.props.getTokenFail();
+        }
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'App' })],
+        });
+        setTimeout(() => this.props.navigation.dispatch(resetAction), 3000);
     }
-
-    componentDidMount() {
-        Animated.timing(this.state.opacity, {
-            toValue: 1,
-            duration: 5000,
-        }).start();
-    }
-
-    // componentDidMount() {
-    //     this.animation.play(30, 120);
-
-    //     // const resetAction = NavigationActions.reset({
-    //     //     index: 0,
-    //     //     actions: [NavigationActions.navigate({ routeName: 'App' })],
-    //     // });
-    //     // setTimeout(() => this.props.navigation.dispatch(resetAction), 1000);
-    // }
 
     //     render() {
     //         return (
@@ -47,39 +37,32 @@ export default class SplashScreen extends PureComponent {
     render() {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Animated.View
+                <Image
+                    source={{ uri: 'https://st2.depositphotos.com/5668896/8269/v/950/depositphotos_82691820-stock-illustration-vegetables-background-with-text.jpg' }}
                     style={{
-                        opacity: this.state.opacity,
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        width: screenWidth,
+                        height: screenHeight,
+                        resizeMode: 'stretch'
                     }}
-                >
-                    <LottieView
-                        ref={animation => {
-                            this.animation = animation;
-                        }}
-                        source={require('../animations/funky_chicken.json')}
-                        autoPlay
-                        loop
-                        style={{ width: 200, height: 200 }}
-                    />
-                </Animated.View>
+                />
             </View>
         );
     }
 }
 
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//     },
-//     img: {
-//         height: screenHeight,
-//         width: screenWidth,
-//         resizeMode: 'stretch'
-//     },
-// });
+const mapDispatchToProps = (dispatch) => ({
+    getTokenSucceeded: (token) => {
+        dispatch({
+            type: 'GET_TOKEN_SUCCEEDED',
+            token
+        });
+    },
+    getTokenFail: () => {
+        dispatch({
+            type: 'GET_TOKEN_FAILED'
+        });
+    }
+});
+
+export default connect(null, mapDispatchToProps)(SplashScreen);
 

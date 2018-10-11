@@ -3,14 +3,13 @@ import { Image } from 'react-native';
 import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 import StackHome from './StackHome';
 import Cart from '../screens/cart/Cart';
-import Authentication from '../screens/profile/index';
+import Authentication from '../screens/authentication/Authentication';
 import StackProfile from './StackProfile';
 import SplashScreen from '../screens/SplashScreen';
 import { primaryColor, backgroundColorWhite } from '../styles/variables';
 import TabStore from './TabStore';
 import IconCart from '../screens/cart/IconCart';
 import Notification from '../screens/notification/index';
-import DefaultPr from '../screens/profile/Default';
 
 const iconHomeAct = require('../images/icons/homeAct.png');
 const iconStoreAct = require('../images/icons/storeAct.png');
@@ -91,13 +90,16 @@ const App = TabNavigator(
 const Root = StackNavigator(
     {
         App: { screen: App },
-        SplashScreen: { screen: SplashScreen }
+        SplashScreen: { screen: SplashScreen },
+        Authentication: {
+            screen: Authentication
+        }
     },
     {
         navigationOptions: {
             header: null
         },
-        initialRouteName: 'App'
+        initialRouteName: 'SplashScreen'
     }
 );
 

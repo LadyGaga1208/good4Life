@@ -3,15 +3,14 @@ import { Text, View, ImageBackground, Image, StyleSheet, TouchableOpacity } from
 
 import { screenHeight, screenWidth } from '../../styles/variables';
 
-const avatar = require('../../images/icons/avatar.png');
 const list = require('../../images/icons/list.png');
 const user = require('../../images/icons/user.png');
 const help = require('../../images/icons/help.png');
 
-export default class DefaultPr extends Component {
+export default class ProfileLogin extends Component {
 
-    gotoAuthentication() {
-        this.props.navigation.navigate('Authentication');
+    gotoSetting() {
+        this.props.navigation.navigate('Setting');
     }
 
     render() {
@@ -21,51 +20,49 @@ export default class DefaultPr extends Component {
                     style={{
                         height: 0.25 * screenHeight,
                         width: screenWidth,
-                        backgroundColor: 'white'
                     }}
                     resizeMode='stretch'
                     source={{ uri: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/248680_146029758883933_1656016426_n.jpg?_nc_cat=102&oh=5304f06fe1ebf63065c8cbb8a378cf97&oe=5C4F1EB1' }}
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image
-                            source={avatar}
+                        <View
                             style={{
-                                width: 45,
-                                height: 45,
+                                width: 50,
+                                height: 50,
+                                borderRadius: 25,
+                                overflow: 'hidden',
                                 marginTop: 20,
-                                marginLeft: 10
+                                marginLeft: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
                             }}
-                        />
+                        >
+                            <Image
+                                source={{ uri: 'https://znews-photo-td.zadn.vn/w1024/Uploaded/ofh_fdmzsofw/2018_02_15/201710100400051.jpg' }}
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    resizeMode: 'stretch',
+                                }}
+                            />
+                        </View>
                         <Text
                             style={{
                                 fontFamily: 'Comfortaa-Regular',
-                                fontSize: 12,
+                                fontSize: 14,
                                 color: '#ffffff',
                                 marginLeft: 5,
                                 marginTop: 5,
                             }}
                         >
-                            Chào mừng bạn đến với Organic !
+                            Long Đoàn
                         </Text>
                     </View>
-                    <TouchableOpacity
-                        style={{
-                            flexDirection: 'row',
-                            padding: 10,
-                            borderColor: '#ffffff',
-                            borderRadius: 5,
-                            borderWidth: 2,
-                            justifyContent: 'space-around',
-                            width: 0.5 * screenWidth,
-                            marginTop: 20,
-                            marginLeft: 0.25 * screenWidth
-                        }}
-                        onPress={this.gotoAuthentication.bind(this)}
-                    >
-                        <Text style={styles.text}>Đăng kí</Text>
-                        <Text style={styles.text}>||</Text>
-                        <Text style={styles.text}>Đăng nhập</Text>
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 5 }}>
+                        <Text style={styles.text1}>hust@gmail.com</Text>
+                        <Text style={[styles.text1, { marginHorizontal: 2 }]}>||</Text>
+                        <Text style={styles.text1}> 0974539894</Text>
+                    </View>
                 </ImageBackground>
                 <View
                     style={{
@@ -100,7 +97,7 @@ export default class DefaultPr extends Component {
                     </View>
                     <Text style={{ color: '#111', marginLeft: 10 }}>Đơn mua</Text>
                 </View>
-                <View
+                <TouchableOpacity
                     style={{
                         height: 0.08 * screenHeight,
                         backgroundColor: '#ffffff',
@@ -110,6 +107,7 @@ export default class DefaultPr extends Component {
                         borderColor: '#ddd',
                         marginTop: 2
                     }}
+                    onPress={this.gotoSetting.bind(this)}
                 >
                     <View
                         style={{
@@ -132,7 +130,7 @@ export default class DefaultPr extends Component {
                         />
                     </View>
                     <Text style={{ color: '#111', marginLeft: 10 }}>Tài khoản</Text>
-                </View>
+                </TouchableOpacity>
                 <View
                     style={{
                         height: 0.08 * screenHeight,
@@ -176,6 +174,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Comfortaa-Regular',
         fontSize: 12,
         color: '#ffffff',
+    },
+    text1: {
+        fontSize: 12,
+        color: '#ffffff',
+        fontWeight: 'bold',
     }
 });
 
