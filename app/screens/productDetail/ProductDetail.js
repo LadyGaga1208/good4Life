@@ -151,7 +151,7 @@ class ProductDetail extends PureComponent {
     }
 
     onSubmitEditing(data) {
-        console.log(this.state.number, '1111111111111111111111111111111');
+        // console.log(this.state.number, '1111111111111111111111111111111');
         if (this.state.number >= 1 && this.state.number <= data.total) {
             this.setState((prevState) => ({
                 number: prevState.number

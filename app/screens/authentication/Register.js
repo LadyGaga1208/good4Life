@@ -84,7 +84,7 @@ export default class CreateAcount extends Component {
         };
         ws.onmessage = async (e) => {
             // a message was received
-            console.log(e.data, 'hihihihi');
+            // console.log(e.data, 'hihihihi');
             const response = JSON.parse(e.data);
             this.setState({
                 loading: false
@@ -103,7 +103,7 @@ export default class CreateAcount extends Component {
             this.setState({
                 loading: false
             });
-            console.log(e.message, 'hahahaha');
+            // console.log(e.message, 'hahahaha');
         };
     }
 
@@ -121,7 +121,7 @@ export default class CreateAcount extends Component {
         };
         ws.onmessage = async (e) => {
             // a message was received
-            console.log(e.data, 'hihihihi');
+            // console.log(e.data, 'hihihihi');
             const response = JSON.parse(e.data);
             this.setState({
                 loading: false
@@ -140,7 +140,7 @@ export default class CreateAcount extends Component {
             this.setState({
                 loading: false
             });
-            console.log(e.message, 'hahahaha');
+            // console.log(e.message, 'hahahaha');
         };
     }
 
@@ -149,19 +149,19 @@ export default class CreateAcount extends Component {
         RNAccountKit.loginWithPhone()
             .then((token) => {
                 if (!token) {
-                    console.log('Login cancelled');
+                    // console.log('Login cancelled');
                 } else {
                     const tokenID = JSON.stringify(token);
-                    console.log(`Logged with phone. Token: ${tokenID}`);
+                    // console.log(`Logged with phone. Token: ${tokenID}`);
                     Alert.alert('sms', tokenID);
                 }
             });
 
         RNAccountKit.getCurrentAccount()
             .then((account) => {
-                console.log(`Current account: ${account}`);
+                // console.log(`Current account: ${account}`);
                 Alert.alert('Sms', JSON.stringify(account));
-                console.log(account.phoneNumber.number);
+                // console.log(account.phoneNumber.number);
                 if (account.phoneNumber.number) {
                     _self.setState({
                         createSMS: true,

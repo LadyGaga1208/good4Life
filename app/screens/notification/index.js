@@ -14,7 +14,7 @@ export default class Notification extends Component {
 
     componentDidMount() {
         const token = store.getState().authReducer.token ? store.getState().authReducer.token : null;
-        console.log(token, 'hehehehe');
+        // console.log(token, 'hehehehe');
         if (token) {
             this.setState({
                 temp: true

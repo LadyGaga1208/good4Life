@@ -26,7 +26,7 @@ class Home extends PureComponent {
         this.a = [];
     }
     componentDidMount() {
-        console.log('home render kkkkkkkkkkkkk');
+        // console.log('home render kkkkkkkkkkkkk');
         this.props.getDataHome();
         // const resetAction = NavigationActions.reset({
         //     index: 0,

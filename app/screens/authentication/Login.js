@@ -34,7 +34,7 @@ export default class Login extends Component {
             return false;
         }
         const phoneno = /^\d{10}$/;
-        console.log(phoneno.test(this.state.email));
+        // console.log(phoneno.test(this.state.email));
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(this.state.email) && !phoneno.test(this.state.email)) {
             this.txtEmail.focus();
@@ -57,25 +57,25 @@ export default class Login extends Component {
                 offlineAccess: false,
             });
             const userInfo = await GoogleSignin.signIn();
-            console.log(userInfo, 'g+');
+            // console.log(userInfo, 'g+');
             Alert.alert('hehe', userInfo.accessToken);
-            console.log(userInfo.user, 'user google');
+            // console.log(userInfo.user, 'user google');
             // this.setState({ userInfo });
             const name = JSON.stringify(userInfo.user.name);
             const email = JSON.stringify(userInfo.user.email);
             const photo = JSON.stringify(userInfo.user.photo);
 
-            const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
+            const ws = new WebSocket('ws://202.191.56.103:5588/local-server/SignIn');
             ws.onopen = () => {
                 this.setState({
                     loading: true
                 });
-                ws.send(`{"data":{"accountId": 0,"imagePath":${photo},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email},"typeSignIn":4}}`);
+                ws.send(`{"data":{"accountId": 0,"imagePath":${photo},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email}},"typeSignIn":4}`);
                 ws.onmessage = async (e) => {
                     // a message was received
-                    console.log(e.data);
+                    // console.log(e.data);
                     const response = JSON.parse(e.data);
-                    console.log(response, 'ket qua tra ve');
+                    // console.log(response, 'ket qua tra ve');
                     this.setState({
                         loading: false
                     });
@@ -91,12 +91,12 @@ export default class Login extends Component {
 
                 ws.onerror = (e) => {
                     // an error occurred
-                    console.log(e.message);
+                    // console.log(e.message);
                 };
 
                 ws.onclose = (e) => {
                     // connection closed
-                    console.log(e.code, e.reason);
+                    // console.log(e.code, e.reason);
                 };
             };
         } catch (error) {
@@ -111,8 +111,8 @@ export default class Login extends Component {
                 Alert.alert('hehe', error.code);
             } else {
                 // some other error happened
-                console.log('hahahahahah');
-                console.log(error);
+                // console.log('hahahahahah');
+                // console.log(error);
                 Alert.alert('haha', error);
             }
         }
@@ -123,12 +123,12 @@ export default class Login extends Component {
             .then(
                 (result) => {
                     if (result.isCancelled) {
-                        console.log('Login cancelled');
+                        // console.log('Login cancelled');
                     } else {
-                        console.log('Login success with permissions: ' + result.grantedPermissions.toString());
-                        console.log(result, 'kq fb');
+                        // console.log('Login success with permissions: ' + result.grantedPermissions.toString());
+                        // console.log(result, 'kq fb');
                         AccessToken.getCurrentAccessToken().then((data) => {
-                            console.log(data, 'du lieu facebook');
+                            // console.log(data, 'du lieu facebook');
                             const { accessToken } = data;
                             _self.initUser(accessToken);
                             Alert.alert('fb', accessToken);
@@ -138,7 +138,7 @@ export default class Login extends Component {
             )
             .catch(
                 (error) => {
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }
@@ -147,21 +147,21 @@ export default class Login extends Component {
             .then((response) => response.json())
             .then((json) => {
                 // Some user object has been set up somewhere, build that user here
-                console.log(json, 'hahahaha');
+                // console.log(json, 'hahahaha');
                 const email = JSON.stringify(json.email);
                 const name = JSON.stringify(json.name);
                 const picture = JSON.stringify(json.picture.data.url);
-                const ws = new WebSocket('ws://202.191.56.103:5588/local-server/CreateAccount');
+                const ws = new WebSocket('ws://202.191.56.103:5588/local-server/SignIn');
                 ws.onopen = () => {
                     this.setState({
                         loading: true
                     });
-                    ws.send(`{"data":{"accountId": 0,"imagePath":${picture},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email},"typeSignIn":5}}`);
+                    ws.send(`{"data":{"accountId":0,"imagePath":${picture},"userName":${name},"password":"","address":"","phoneNumber":"","mail":${email}},"typeSignIn":5}`);
                     ws.onmessage = async (e) => {
                         // a message was received
-                        console.log(e.data);
+                        // console.log(e.data);
                         const response = JSON.parse(e.data);
-                        console.log(response, 'ket qua tra ve');
+                        // console.log(response, 'ket qua tra ve');
                         this.setState({
                             loading: false
                         });
@@ -169,7 +169,7 @@ export default class Login extends Component {
                             index: 0,
                             actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
                         });
-                        console.log(response.code === 200, 'bieu thuc');
+                        // console.log(response.code === 200, 'bieu thuc');
                         if (response.code === 200) {
                             await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
                             this.props.navigation.dispatch(resetAction);
@@ -178,18 +178,18 @@ export default class Login extends Component {
 
                     ws.onerror = (e) => {
                         // an error occurred
-                        console.log(e.message);
+                        // console.log(e.message);
                     };
 
                     ws.onclose = (e) => {
                         // connection closed
-                        console.log(e.code, e.reason);
+                        // console.log(e.code, e.reason);
                     };
                 }
 
             })
             .catch((e) => {
-                console.log(e);
+                // console.log(e);
                 throw Error('ERROR GETTING DATA FROM FACEBOOK');
             });
     }
@@ -212,9 +212,9 @@ export default class Login extends Component {
 
         ws.onmessage = async (e) => {
             // a message was received
-            console.log(e.data);
+            // console.log(e.data);
             const response = JSON.parse(e.data);
-            console.log(response, 'ket qua tra ve');
+            // console.log(response, 'ket qua tra ve');
             this.setState({
                 loading: false
             });
@@ -223,25 +223,25 @@ export default class Login extends Component {
                 actions: [NavigationActions.navigate({ routeName: 'SplashScreen' })],
             });
             if (response.code === 200) {
-                console.log('hahahahahaha');
-                console.log(response.jwt);
+                // console.log('hahahahahaha');
+                // console.log(response.jwt);
                 try {
                     await AsyncStorage.setItem('@token', JSON.stringify(response.jwt));
                     this.props.navigation.dispatch(resetAction);
                 } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             }
         };
 
         ws.onerror = (e) => {
             // an error occurred
-            console.log(e.message);
+            // console.log(e.message);
         };
 
         ws.onclose = (e) => {
             // connection closed
-            console.log(e.code, e.reason);
+            // console.log(e.code, e.reason);
         };
     }
     render() {

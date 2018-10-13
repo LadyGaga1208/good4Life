@@ -21,7 +21,7 @@ export default class Setting extends Component {
             await AsyncStorage.clear();
             this.props.navigation.navigate('SplashScreen');
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
     render() {

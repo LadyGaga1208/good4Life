@@ -149,7 +149,7 @@ class Cart extends Component {
     }
     render() {
         const { cart } = this.props;
-        console.log(cart, 'hjjhjhj');
+        // console.log(cart, 'hjjhjhj');
         if (cart.length > 0) {
             let total = 0;
             for (let i = 0; i < cart.length; i++) {

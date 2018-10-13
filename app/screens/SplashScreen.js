@@ -9,11 +9,11 @@ class SplashScreen extends PureComponent {
 
     async componentDidMount() {
         try {
-            console.log('hihihihi');
+            // console.log('hihihihi');
             const response = await AsyncStorage.getItem('@token');
             this.props.getTokenSucceeded(JSON.parse(response));
         } catch (error) {
-            console.log(error, 'hahaha');
+            // console.log(error, 'hahaha');
             this.props.getTokenFail();
         }
         const resetAction = NavigationActions.reset({

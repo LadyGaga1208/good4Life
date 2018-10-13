@@ -62,9 +62,9 @@ const removeProduct = async (storeId, productId) => {
     const cart = await fetch();
     const indexStore = cart.findIndex(item => item.itemsStore.store.storeId === storeId);
     const newItemsProduct = cart[indexStore].itemsProduct.filter(e => e.product.productId !== productId);
-    console.log(newItemsProduct);
+    // console.log(newItemsProduct);
     const checkEmpty = newItemsProduct.findIndex(e => e.quantity >= 1);
-    console.log(checkEmpty);
+    // console.log(checkEmpty);
     if (checkEmpty === -1) {
         const newCart = cart.filter(e => e.itemsStore.store.storeId !== storeId);
         saveCart(newCart);

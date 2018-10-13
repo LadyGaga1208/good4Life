@@ -7,7 +7,7 @@ export default class WebViewProduct extends Component {
 
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
-        console.log(params);
+        // console.log(params);
         return {
             title: `${params.data.itemName}`,
             headerStyle: {
